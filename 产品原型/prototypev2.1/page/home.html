@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>首页 - 约旅产品原型 v2.1</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+        .prototype-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        nav {
+            background: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            padding: 8px 16px;
+            background: #f0f0f0;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+        nav ul li a:hover {
+            background: #333;
+            color: #fff;
+        }
+        .screen-container {
+            display: flex;
+            margin-bottom: 40px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        /* iPhone 16尺寸规格：393px × 852px */
+        .iphone {
+            width: 393px; /* iPhone 16宽度 */
+            height: 852px; /* iPhone 16高度 */
+            background: white;
+            border: 12px solid #1a1a1a;
+            border-radius: 50px; /* iPhone 16圆角 */
+            position: relative;
+            overflow: hidden;
+        }
+        .notch {
+            position: absolute;
+            width: 150px;
+            height: 35px;
+            background: #1a1a1a;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+        }
+        .screen {
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            overflow-y: auto;
+            padding-top: env(safe-area-inset-top, 44px);
+            padding-bottom: env(safe-area-inset-bottom, 34px);
+            padding-left: env(safe-area-inset-left);
+            padding-right: env(safe-area-inset-right);
+        }
+        .feature-list {
+            flex: 1;
+            margin-left: 40px;
+            padding: 20px;
+        }
+        .feature-list h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .feature-list ul {
+            list-style-type: none;
+        }
+        .feature-list li {
+            margin-bottom: 10px;
+            padding: 10px;
+            background: #f8f8f8;
+            border-radius: 5px;
+        }
+        .language-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .language-btn {
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            border: 1px solid #ddd;
+            background: white;
+        }
+        .language-btn.active {
+            background: #007AFF;
+            color: white;
+            border-color: #007AFF;
+        }
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            background: #FF6B00;
+            color: white;
+            border-radius: 10px;
+            font-size: 12px;
+            margin-left: 5px;
+        }
+        footer {
+            text-align: center;
+            margin: 40px 0;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="prototype-container">
+        <h1 style="text-align: center; margin-bottom: 30px;">约旅产品原型 v2.1</h1>
+        <nav>
+            <ul>
+                <li><a href="startup.html">启动页</a></li>
+                <li><a href="login.html">登录/注册</a></li>
+                <li><a href="home.html" style="background: #333; color: #fff;">首页</a></li>
+                <li><a href="trip-detail.html">行程详情</a></li>
+                <li><a href="booking.html">预订页</a></li>
+                <li><a href="payment.html">支付页面</a></li>
+                <li><a href="payment-success.html">支付成功</a></li>
+                <li><a href="profile.html">个人中心</a></li>
+                <li><a href="orders.html">订单列表</a></li>
+                <li><a href="live.html">直播页面</a></li>
+                <li><a href="vr-tour.html">VR导览</a></li>
+                <li><a href="influencer-entry.html">网红入驻</a></li>
+                <li><a href="guide-entry.html">导游入驻</a></li>
+                <li><a href="emergency.html">紧急事件处理</a></li>
+                <li><a href="index.html">返回首页</a></li>
+            </ul>
+        </nav>
+        
+        <!-- 首页 -->
+        <h2 style="text-align: center; margin: 40px 0 20px; color: #333; font-size: 24px;">首页</h2>
+        <div class="screen-container">
+            <div class="iphone">
+                <div class="notch"></div>
+                <div class="screen" style="background: #f5f5f5;">
+                    <!-- 顶部搜索栏 -->
+                    <div style="padding: 15px; background: white;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                            <div style="display: flex; align-items: center;">
+                                <img src="../images/placeholder-logo.png" alt="App Logo" style="width: 30px; height: 30px; margin-right: 10px;">
+                                <span style="font-size: 18px; font-weight: bold;">约旅</span>
+                            </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                            <div class="language-selector">
+                                <button class="language-btn active">简</button>
+                                <button class="language-btn">繁</button>
+                                <button class="language-btn">EN</button>
+                            </div>
+                    
+                    
+                        </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                        <div style="position: relative; margin-bottom: 15px;">
+                            <input type="text" placeholder="搜索目的地、网红或行程" style="width: 100%; padding: 12px 40px 12px 15px; border: 1px solid #ddd; border-radius: 25px; background: #f5f5f5;">
+                            <span style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: #999;">🔍</span>
+                        </div>
+                    
+                    
+                    </div>
+                    
+                   
+                    <!-- 网红推荐 -->
+                    <div style="background: white; padding: 15px; margin-bottom: 15px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                            <h3 style="font-size: 16px;">网红推荐</h3>
+                            <span style="font-size: 12px; color: #999;">查看全部 ></span>
+                        </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                        <div style="display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px;">
+                            <div style="width: 100px; flex-shrink: 0;">
+                                <div style="width: 80px; height: 80px; background: #e0e0e0; border-radius: 40px; margin: 0 auto 5px;"></div>
+                                <p style="font-size: 12px; text-align: center;">美食博主小明</p>
+                                <p style="font-size: 10px; color: #999; text-align: center;">粉丝 100万+</p>
+                            </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                            <div style="width: 100px; flex-shrink: 0;">
+                                <div style="width: 80px; height: 80px; background: #e0e0e0; border-radius: 40px; margin: 0 auto 5px;"></div>
+                                <p style="font-size: 12px; text-align: center;">旅行达人小红</p>
+                                <p style="font-size: 10px; color: #999; text-align: center;">粉丝 80万+</p>
+                            </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                            <div style="width: 100px; flex-shrink: 0;">
+                                <div style="width: 80px; height: 80px; background: #e0e0e0; border-radius: 40px; margin: 0 auto 5px;"></div>
+                                <p style="font-size: 12px; text-align: center;">摄影师阿杰</p>
+                                <p style="font-size: 10px; color: #999; text-align: center;">粉丝 50万+</p>
+                            </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                            <div style="width: 100px; flex-shrink: 0;">
+                                <div style="width: 80px; height: 80px; background: #e0e0e0; border-radius: 40px; margin: 0 auto 5px;"></div>
+                                <p style="font-size: 12px; text-align: center;">探险家老王</p>
+                                <p style="font-size: 10px; color: #999; text-align: center;">粉丝 60万+</p>
+                            </div>
+                    
+                   
+                        </div>
+                    
+                   
+                    </div>
+                    
+                    <!-- 热门目的地 -->
+                    <div style="background: white; padding: 15px; margin-bottom: 15px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                            <h3 style="font-size: 16px;">热门目的地</h3>
+                            <span style="font-size: 12px; color: #999;">查看全部 ></span>
+                        </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                        <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                            <div style="width: calc(50% - 5px); height: 100px; background: #e0e0e0; border-radius: 8px; position: relative;">
+                                <div style="position: absolute; bottom: 10px; left: 10px;">
+                                    <p style="color: white; font-size: 14px;">日本东京</p>
+                                </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                            </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                            <div style="width: calc(50% - 5px); height: 100px; background: #e0e0e0; border-radius: 8px; position: relative;">
+                                <div style="position: absolute; bottom: 10px; left: 10px;">
+                                    <p style="color: white; font-size: 14px;">泰国曼谷</p>
+                                </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                            </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                            <div style="width: calc(50% - 5px); height: 100px; background: #e0e0e0; border-radius: 8px; position: relative;">
+                                <div style="position: absolute; bottom: 10px; left: 10px;">
+                                    <p style="color: white; font-size: 14px;">韩国首尔</p>
+                                </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                            </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                            <div style="width: calc(50% - 5px); height: 100px; background: #e0e0e0; border-radius: 8px; position: relative;">
+                                <div style="position: absolute; bottom: 10px; left: 10px;">
+                                    <p style="color: white; font-size: 14px;">中国香港</p>
+                                </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                            </div>
+                    
+                   
+                        </div>
+                    
+                   
+                    </div>
+                    
+                    
+                    
+                    <!-- 热门行程 -->
+                    <div style="background: white; padding: 15px; margin-bottom: 15px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                            <h3 style="font-size: 16px;">热门行程</h3>
+                            <span style="font-size: 12px; color: #999;">查看全部 ></span>
+                        </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                        <div style="margin-bottom: 15px;">
+                            <div style="height: 150px; background: #e0e0e0; border-radius: 8px; margin-bottom: 10px; position: relative;">
+                                <div style="position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.5); color: white; padding: 3px 8px; border-radius: 4px; font-size: 12px;">直播中</div>
+                                <div style="position: absolute; bottom: 10px; left: 10px; right: 10px;">
+                                    <p style="color: white; font-size: 16px; margin-bottom: 5px;">香港尖沙咀美食之旅</p>
+                                    <div style="display: flex; align-items: center;">
+                                        <div style="width: 20px; height: 20px; background: #f0f0f0; border-radius: 10px; margin-right: 5px;"></div>
+                                        <span style="color: white; font-size: 12px;">美食博主小明</span>
+                                    </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                                </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                            </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div>
+                                    <p style="font-size: 14px; color: #FF6B00; font-weight: bold;">¥1,299 <span style="font-size: 12px; color: #999; font-weight: normal;">起/人</span></p>
+                                    <p style="font-size: 12px; color: #999;">已售 1,234</p>
+                                </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                                <button style="background: #007AFF; color: white; border: none; padding: 8px 15px; border-radius: 20px; font-size: 14px;">立即预订</button>
+                            </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                        </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                        
+                        <div style="margin-bottom: 15px;">
+                            <div style="height: 150px; background: #e0e0e0; border-radius: 8px; margin-bottom: 10px; position: relative;">
+                                <div style="position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.5); color: white; padding: 3px 8px; border-radius: 4px; font-size: 12px;">VR体验</div>
+                                <div style="position: absolute; bottom: 10px; left: 10px; right: 10px;">
+                                    <p style="color: white; font-size: 16px; margin-bottom: 5px;">东京樱花季深度游</p>
+                                    <div style="display: flex; align-items: center;">
+                                        <div style="width: 20px; height: 20px; background: #f0f0f0; border-radius: 10px; margin-right: 5px;"></div>
+                                        <span style="color: white; font-size: 12px;">旅行达人小红</span>
+                                    </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                                </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                            </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div>
+                                    <p style="font-size: 14px; color: #FF6B00; font-weight: bold;">¥2,599 <span style="font-size: 12px; color: #999; font-weight: normal;">起/人</span></p>
+                                    <p style="font-size: 12px; color: #999;">已售 876</p>
+                                </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                                <button style="background: #007AFF; color: white; border: none; padding: 8px 15px; border-radius: 20px; font-size: 14px;">立即预订</button>
+                            </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                        </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                    </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                    
+                    <!-- 轮播图 -->
+                    <div style="height: 200px; background: #e0e0e0; position: relative; margin-bottom: 15px;">
+                        <div style="position: absolute; bottom: 15px; left: 0; right: 0; display: flex; justify-content: center; gap: 5px;">
+                            <div style="width: 8px; height: 8px; background: #007AFF; border-radius: 50%;"></div>
+                            <div style="width: 8px; height: 8px; background: white; border-radius: 50%;"></div>
+                            <div style="width: 8px; height: 8px; background: white; border-radius: 50%;"></div>
+                        </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                    </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                    
+                    <!-- 网红推荐 -->
+                    <div style="background: white; padding: 15px; margin-bottom: 15px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                            <h3 style="font-size: 16px;">网红推荐</h3>
+                            <span style="font-size: 12px; color: #999;">查看全部 ></span>
+                        </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                        <div style="display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px;">
+                            <div style="width: 100px; flex-shrink: 0;">
+                                <div style="width: 80px; height: 80px; background: #e0e0e0; border-radius: 40px; margin: 0 auto 5px;"></div>
+                                <p style="font-size: 12px; text-align: center;">美食博主小明</p>
+                                <p style="font-size: 10px; color: #999; text-align: center;">粉丝 100万+</p>
+                            </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                            <div style="width: 100px; flex-shrink: 0;">
+                                <div style="width: 80px; height: 80px; background: #e0e0e0; border-radius: 40px; margin: 0 auto 5px;"></div>
+                                <p style="font-size: 12px; text-align: center;">旅行达人小红</p>
+                                <p style="font-size: 10px; color: #999; text-align: center;">粉丝 80万+</p>
+                            </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                            <div style="width: 100px; flex-shrink: 0;">
+                                <div style="width: 80px; height: 80px; background: #e0e0e0; border-radius: 40px; margin: 0 auto 5px;"></div>
+                                <p style="font-size: 12px; text-align: center;">摄影师阿杰</p>
+                                <p style="font-size: 10px; color: #999; text-align: center;">粉丝 50万+</p>
+                            </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                            <div style="width: 100px; flex-shrink: 0;">
+                                <div style="width: 80px; height: 80px; background: #e0e0e0; border-radius: 40px; margin: 0 auto 5px;"></div>
+                                <p style="font-size: 12px; text-align: center;">探险家老王</p>
+                                <p style="font-size: 10px; color: #999; text-align: center;">粉丝 60万+</p>
+                            </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                        </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                    </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                    
+                    <!-- 热门目的地 -->
+                    <div style="background: white; padding: 15px; margin-bottom: 15px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                            <h3 style="font-size: 16px;">热门目的地</h3>
+                            <span style="font-size: 12px; color: #999;">查看全部 ></span>
+                        </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                        <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                            <div style="width: calc(50% - 5px); height: 100px; background: #e0e0e0; border-radius: 8px; position: relative;">
+                                <div style="position: absolute; bottom: 10px; left: 10px;">
+                                    <p style="color: white; font-size: 14px;">日本东京</p>
+                                </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                            </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                            <div style="width: calc(50% - 5px); height: 100px; background: #e0e0e0; border-radius: 8px; position: relative;">
+                                <div style="position: absolute; bottom: 10px; left: 10px;">
+                                    <p style="color: white; font-size: 14px;">泰国曼谷</p>
+                                </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                            </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                            <div style="width: calc(50% - 5px); height: 100px; background: #e0e0e0; border-radius: 8px; position: relative;">
+                                <div style="position: absolute; bottom: 10px; left: 10px;">
+                                    <p style="color: white; font-size: 14px;">韩国首尔</p>
+                                </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                            </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                            <div style="width: calc(50% - 5px); height: 100px; background: #e0e0e0; border-radius: 8px; position: relative;">
+                                <div style="position: absolute; bottom: 10px; left: 10px;">
+                                    <p style="color: white; font-size: 14px;">中国香港</p>
+                                </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                            </div>
+                    
+                   
+                        </div>
+                    
+                   
+                    </div>
+                    
+                    
+                    
+                    <!-- 热门行程 -->
+                    <div style="background: white; padding: 15px; margin-bottom: 15px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                            <h3 style="font-size: 16px;">热门行程</h3>
+                            <span style="font-size: 12px; color: #999;">查看全部 ></span>
+                        </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                        <div style="margin-bottom: 15px;">
+                            <div style="height: 150px; background: #e0e0e0; border-radius: 8px; margin-bottom: 10px; position: relative;">
+                                <div style="position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.5); color: white; padding: 3px 8px; border-radius: 4px; font-size: 12px;">直播中</div>
+                                <div style="position: absolute; bottom: 10px; left: 10px; right: 10px;">
+                                    <p style="color: white; font-size: 16px; margin-bottom: 5px;">香港尖沙咀美食之旅</p>
+                                    <div style="display: flex; align-items: center;">
+                                        <div style="width: 20px; height: 20px; background: #f0f0f0; border-radius: 10px; margin-right: 5px;"></div>
+                                        <span style="color: white; font-size: 12px;">美食博主小明</span>
+                                    </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                                </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                            </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div>
+                                    <p style="font-size: 14px; color: #FF6B00; font-weight: bold;">¥1,299 <span style="font-size: 12px; color: #999; font-weight: normal;">起/人</span></p>
+                                    <p style="font-size: 12px; color: #999;">已售 1,234</p>
+                                </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                                <button style="background: #007AFF; color: white; border: none; padding: 8px 15px; border-radius: 20px; font-size: 14px;">立即预订</button>
+                            </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                        </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                        
+                        <div style="margin-bottom: 15px;">
+                            <div style="height: 150px; background: #e0e0e0; border-radius: 8px; margin-bottom: 10px; position: relative;">
+                                <div style="position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.5); color: white; padding: 3px 8px; border-radius: 4px; font-size: 12px;">VR体验</div>
+                                <div style="position: absolute; bottom: 10px; left: 10px; right: 10px;">
+                                    <p style="color: white; font-size: 16px; margin-bottom: 5px;">东京樱花季深度游</p>
+                                    <div style="display: flex; align-items: center;">
+                                        <div style="width: 20px; height: 20px; background: #f0f0f0; border-radius: 10px; margin-right: 5px;"></div>
+                                        <span style="color: white; font-size: 12px;">旅行达人小红</span>
+                                    </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                                </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                            </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div>
+                                    <p style="font-size: 14px; color: #FF6B00; font-weight: bold;">¥2,599 <span style="font-size: 12px; color: #999; font-weight: normal;">起/人</span></p>
+                                    <p style="font-size: 12px; color: #999;">已售 876</p>
+                                </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                                <button style="background: #007AFF; color: white; border: none; padding: 8px 15px; border-radius: 20px; font-size: 14px;">立即预订</button>
+                            </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                        </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                    </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                    
+                    <!-- 分类导航 -->
+                    <div style="background: white; padding: 15px; margin-bottom: 15px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+                            <div style="text-align: center;">
+                                <div style="width: 50px; height: 50px; background: #f0f0f0; border-radius: 25px; margin: 0 auto 5px; display: flex; align-items: center; justify-content: center;">🏝️</div>
+                                <p style="font-size: 12px;">热门目的地</p>
+                            </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                            <div style="text-align: center;">
+                                <div style="width: 50px; height: 50px; background: #f0f0f0; border-radius: 25px; margin: 0 auto 5px; display: flex; align-items: center; justify-content: center;">🌟</div>
+                                <p style="font-size: 12px;">网红推荐</p>
+                            </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                            <div style="text-align: center;">
+                                <div style="width: 50px; height: 50px; background: #f0f0f0; border-radius: 25px; margin: 0 auto 5px; display: flex; align-items: center; justify-content: center;">📅</div>
+                                <p style="font-size: 12px;">特色行程</p>
+                            </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                            <div style="text-align: center;">
+                                <div style="width: 50px; height: 50px; background: #f0f0f0; border-radius: 25px; margin: 0 auto 5px; display: flex; align-items: center; justify-content: center;">🎬</div>
+                                <p style="font-size: 12px;">直播预告</p>
+                            </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                        </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                        <div style="display: flex; justify-content: space-between;">
+                            <div style="text-align: center;">
+                                <div style="width: 50px; height: 50px; background: #f0f0f0; border-radius: 25px; margin: 0 auto 5px; display: flex; align-items: center; justify-content: center;">🍜</div>
+                                <p style="font-size: 12px;">美食体验</p>
+                            </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                            <div style="text-align: center;">
+                                <div style="width: 50px; height: 50px; background: #f0f0f0; border-radius: 25px; margin: 0 auto 5px; display: flex; align-items: center; justify-content: center;">🛍️</div>
+                                <p style="font-size: 12px;">购物天堂</p>
+                            </div>
+                    
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                            <div style="text-align: center;">
+                                <div style="width: 50px; height: 50px; background: #f0f0f0; border-radius: 25px; margin: 0 auto 5px; display: flex; align-items: center; justify-content: center;">🏨</div>
+                                <p style="font-size: 12px;">特色住宿</p>
+                            </div>
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                            <div style="text-align: center;">
+                                <div style="width: 50px; height: 50px; background: #f0f0f0; border-radius: 25px; margin: 0 auto 5px; display: flex; align-items: center; justify-content: center;">🔍</div>
+                                <p style="font-size: 12px;">全部分类</p>
+                            </div>
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                        </div>
+                    <!-- 底部导航栏的占位符，实际导航栏在页面底部固定位置显示 -->
+                    </div>
+            </div>
+        </div>
+
+        <!-- 底部导航栏 -->
+        <div style="position: fixed; bottom: 0; left: 0; width: 100%; background: white; border-top: 1px solid #eee; display: flex; justify-content: space-around; padding: 10px; z-index: 1000;">
+            <div style="text-align: center;" onclick="window.location.href='home.html'">
+                <div style="width: 24px; height: 24px; background: #007AFF; border-radius: 6px; margin: 0 auto 4px;"></div>
+                <span style="font-size: 12px; color: #007AFF;">首页</span>
+            </div>
+            <div style="text-align: center;" onclick="window.location.href='trip-detail.html'">
+                <div style="width: 24px; height: 24px; background: #e0e0e0; border-radius: 6px; margin: 0 auto 4px;"></div>
+                <span style="font-size: 12px; color: #999;">行程</span>
+            </div>
+            <div style="text-align: center;" onclick="window.location.href='live.html'">
+                <div style="width: 24px; height: 24px; background: #e0e0e0; border-radius: 6px; margin: 0 auto 4px;"></div>
+                <span style="font-size: 12px; color: #999;">直播</span>
+            </div>
+            <div style="text-align: center;" onclick="window.location.href='profile.html'">
+                <div style="width: 24px; height: 24px; background: #e0e0e0; border-radius: 6px; margin: 0 auto 4px;"></div>
+                <span style="font-size: 12px; color: #999;">我的</span>
+            </div>
+        </div>
+
+        <footer>
+            <div class="feature-list">
+                <h2>首页功能说明</h2>
+                <ul>
+                    <li>多语言界面切换，支持简体中文、繁体中文和英文</li>
+                    <li>搜索框，方便用户快速查找目的地或网红行程</li>
+                    <li>轮播图展示热门活动和促销信息</li>
+                    <li>热门目的地横向滚动展示，突出香港、澳门等特色目的地</li>
+                    <li>推荐网红行程卡片式布局，展示关键信息</li>
+                    <li>底部导航栏，提供快速访问核心功能的入口</li>
+                </ul>
+            </div>
+            <p>© 2025 约旅 版权所有</p>
+        </footer>
+    </div>
+</body>
+</html>

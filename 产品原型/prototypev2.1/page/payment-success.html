@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>支付成功 - 约旅产品原型 v2.1</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+        .prototype-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        nav {
+            background: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            padding: 8px 16px;
+            background: #f0f0f0;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+        nav ul li a:hover {
+            background: #333;
+            color: #fff;
+        }
+        .screen-container {
+            display: flex;
+            margin-bottom: 40px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .iphone {
+            width: 393px;
+            height: 852px;
+            background: white;
+            border: 12px solid #1a1a1a;
+            border-radius: 50px;
+            position: relative;
+            overflow: hidden;
+        }
+        .notch {
+            position: absolute;
+            width: 150px;
+            height: 35px;
+            background: #1a1a1a;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+        }
+        .screen {
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            overflow-y: auto;
+        }
+        .feature-list {
+            flex: 1;
+            margin-left: 40px;
+            padding: 20px;
+        }
+        .feature-list h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .feature-list ul {
+            list-style-type: none;
+        }
+        .feature-list li {
+            margin-bottom: 10px;
+            padding: 10px;
+            background: #f8f8f8;
+            border-radius: 5px;
+        }
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: #4CD964;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+        .success-icon:after {
+            content: '';
+            display: block;
+            width: 30px;
+            height: 15px;
+            border-bottom: 4px solid white;
+            border-left: 4px solid white;
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+        .order-info {
+            background: #f8f8f8;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .btn-primary {
+            background: #007AFF;
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            width: 100%;
+            cursor: pointer;
+            margin-bottom: 15px;
+        }
+        .btn-secondary {
+            background: white;
+            color: #007AFF;
+            border: 1px solid #007AFF;
+            padding: 15px 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            width: 100%;
+            cursor: pointer;
+        }
+        .next-steps {
+            margin: 30px 0;
+        }
+        .next-step-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 15px;
+            background: #f8f8f8;
+            border-radius: 8px;
+        }
+        .next-step-icon {
+            width: 40px;
+            height: 40px;
+            background: #007AFF;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        footer {
+            text-align: center;
+            margin: 40px 0;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="prototype-container">
+        <h1 style="text-align: center; margin-bottom: 30px;">约旅产品原型 v2.1</h1>
+        <nav>
+            <ul>
+                <li><a href="startup.html">启动页</a></li>
+                <li><a href="login.html">登录/注册</a></li>
+                <li><a href="home.html">首页</a></li>
+                <li><a href="trip-detail.html">行程详情</a></li>
+                <li><a href="booking.html">预订页</a></li>
+                <li><a href="payment.html">支付页面</a></li>
+                <li><a href="payment-success.html" style="background: #333; color: #fff;">支付成功</a></li>
+                <li><a href="profile.html">个人中心</a></li>
+                <li><a href="orders.html">订单列表</a></li>
+                <li><a href="live.html">直播页面</a></li>
+                <li><a href="vr-tour.html">VR导览</a></li>
+                <li><a href="influencer-entry.html">网红入驻</a></li>
+                <li><a href="guide-entry.html">导游入驻</a></li>
+                <li><a href="emergency.html">紧急事件处理</a></li>
+                <li><a href="index.html">返回首页</a></li>
+            </ul>
+        </nav>
+        
+        <!-- 支付成功页面 -->
+        <h2 style="text-align: center; margin: 40px 0 20px; color: #333; font-size: 24px;">支付成功</h2>
+        <div class="screen-container">
+            <div class="iphone">
+                <div class="notch"></div>
+                <div class="screen" style="padding: 20px;">
+                    <div style="text-align: center; padding: 30px 0;">
+                        <div class="success-icon"></div>
+                        <h2 style="margin-bottom: 10px; color: #333;">支付成功</h2>
+                        <p style="color: #666; margin-bottom: 20px;">您的订单已支付成功，感谢您的预订！</p>
+                    </div>
+                    
+                    <div class="order-info">
+                        <h3 style="margin-bottom: 15px;">订单信息</h3>
+                        <p style="font-weight: 500; margin-bottom: 5px;">香港尖沙咀美食探索之旅</p>
+                        <p style="font-size: 14px; color: #666;">2025年3月20日 - 2025年3月22日 (3天2晚)</p>
+                        <p style="font-size: 14px; color: #666; margin-top: 5px;">预订人数: 2人</p>
+                        <p style="font-size: 14px; color: #666; margin-top: 5px;">订单号: 202503200001</p>
+                        <p style="font-size: 14px; color: #666; margin-top: 5px;">支付金额: <span style="color: #FF6B00; font-weight: 500;">¥7,400</span></p>
+                    </div>
+                    
+                    <div class="next-steps">
+                        <h3 style="margin-bottom: 15px;">接下来您可以</h3>
+                        
+                        <div class="next-step-item">
+                            <div class="next-step-icon">1</div>
+                            <div>
+                                <p style="font-weight: 500; margin-bottom: 5px;">查看行程详情</p>
+                                <p style="font-size: 14px; color: #666;">了解详细的行程安排和注意事项</p>
+                            </div>
+                        </div>
+                        
+                        <div class="next-step-item">
+                            <div class="next-step-icon">2</div>
+                            <div>
+                                <p style="font-weight: 500; margin-bottom: 5px;">加入网红专属群聊</p>
+                                <p style="font-size: 14px; color: #666;">与网红和其他游客互动交流</p>
+                            </div>
+                        </div>
+                        
+                        <div class="next-step-item">
+                            <div class="next-step-icon">3</div>
+                            <div>
+                                <p style="font-weight: 500; margin-bottom: 5px;">预约VR导览体验</p>
+                                <p style="font-size: 14px; color: #666;">提前体验目的地景点的VR导览</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <a href="orders.html" style="text-decoration: none;">
+                        <button class="btn-primary">查看我的订单</button>
+                    </a>
+                    
+                    <a href="home.html" style="text-decoration: none;">
+                        <button class="btn-secondary">返回首页</button>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="feature-list">
+                <h2>支付成功页面功能说明</h2>
+                <ul>
+                    <li>显示支付成功的视觉反馈和确认信息</li>
+                    <li>展示订单详情，包括行程信息、订单号和支付金额</li>
+                    <li>提供后续步骤指引，引导用户进行下一步操作</li>
+                    <li>提供查看订单详情的入口</li>
+                    <li>支持加入网红专属群聊功能</li>
+                    <li>提供预约VR导览体验的入口</li>
+                    <li>支持返回首页或查看订单列表</li>
+                    <li>自动发送订单确认邮件和短信通知</li>
+                </ul>
+            </div>
+        </div>
+
+        <footer>
+            <p>© 2025 约旅 版权所有</p>
+        </footer>
+    </div>
+</body>
+</html>

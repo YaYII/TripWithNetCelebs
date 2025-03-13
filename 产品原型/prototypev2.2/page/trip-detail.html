@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>行程详情 - 约旅产品原型 v2.1</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+        .prototype-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        nav {
+            background: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            padding: 8px 16px;
+            background: #f0f0f0;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+        nav ul li a:hover {
+            background: #333;
+            color: #fff;
+        }
+        .screen-container {
+            display: flex;
+            margin-bottom: 40px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        /* iPhone 16尺寸规格：393px × 852px */
+        .iphone {
+            width: 393px; /* iPhone 16宽度 */
+            height: 852px; /* iPhone 16高度 */
+            background: white;
+            border: 12px solid #1a1a1a;
+            border-radius: 50px; /* iPhone 16圆角 */
+            position: relative;
+            overflow: hidden;
+        }
+        .notch {
+            position: absolute;
+            width: 150px;
+            height: 35px;
+            background: #1a1a1a;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+        }
+        .screen {
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            overflow-y: auto;
+        }
+        .feature-list {
+            flex: 1;
+            margin-left: 40px;
+            padding: 20px;
+        }
+        .feature-list h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .feature-list ul {
+            list-style-type: none;
+        }
+        .feature-list li {
+            margin-bottom: 10px;
+            padding: 10px;
+            background: #f8f8f8;
+            border-radius: 5px;
+        }
+        .tab-container {
+            display: flex;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 20px;
+        }
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 15px;
+            font-size: 14px;
+            color: #666;
+        }
+        .tab.active {
+            color: #007AFF;
+            border-bottom: 2px solid #007AFF;
+        }
+        footer {
+            text-align: center;
+            margin: 40px 0;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="prototype-container">
+        <h1 style="text-align: center; margin-bottom: 30px;">约旅产品原型 v2.1</h1>
+        <nav>
+            <ul>
+                <li><a href="startup.html">启动页</a></li>
+                <li><a href="login.html">登录/注册</a></li>
+                <li><a href="home.html">首页</a></li>
+                <li><a href="trip-detail.html" style="background: #333; color: #fff;">行程详情</a></li>
+                <li><a href="booking.html">预订页</a></li>
+                <li><a href="payment.html">支付页面</a></li>
+                <li><a href="payment-success.html">支付成功</a></li>
+                <li><a href="profile.html">个人中心</a></li>
+                <li><a href="orders.html">订单列表</a></li>
+                <li><a href="live.html">直播页面</a></li>
+                <li><a href="vr-tour.html">VR导览</a></li>
+                <li><a href="influencer-entry.html">网红入驻</a></li>
+                <li><a href="guide-entry.html">导游入驻</a></li>
+                <li><a href="emergency.html">紧急事件处理</a></li>
+                <li><a href="index.html">返回首页</a></li>
+            </ul>
+        </nav>
+        
+        <!-- 行程详情 -->
+        <h2 style="text-align: center; margin: 40px 0 20px; color: #333; font-size: 24px;">行程详情</h2>
+        <div class="screen-container">
+            <div class="iphone">
+                <div class="notch"></div>
+                <div class="screen" style="background: #f5f5f5;">
+                    <!-- 顶部导航 -->
+                    <div style="padding: 15px; background: white;">
+                        <div style="margin-bottom: 15px;" onclick="window.location.href='home.html'">
+                            <span style="font-size: 24px;">←</span>
+                            <span style="font-size: 18px; margin-left: 15px;">行程详情</span>
+                        </div>
+                    </div>
+                    
+                    <!-- 行程封面 -->
+                    <div style="height: 200px; background: #e0e0e0; position: relative;">
+                        <div style="position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.5); color: white; padding: 5px 10px; border-radius: 20px; font-size: 12px;">
+                            <span>收藏</span>
+                        </div>
+                        <div style="position: absolute; bottom: 10px; left: 10px; right: 10px;">
+                            <p style="color: white; font-size: 18px; font-weight: bold; margin-bottom: 5px;">香港尖沙咀美食之旅</p>
+                            <div style="display: flex; align-items: center;">
+                                <div style="width: 24px; height: 24px; background: #f0f0f0; border-radius: 12px; margin-right: 8px;"></div>
+                                <span style="color: white; font-size: 14px;">美食博主小明</span>
+                                <span style="color: white; font-size: 12px; margin-left: 10px;">粉丝 100万+</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 价格信息 -->
+                    <div style="background: white; padding: 15px; margin-bottom: 10px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <p style="font-size: 18px; color: #FF6B00; font-weight: bold;">¥1,299 <span style="font-size: 14px; color: #999; font-weight: normal;">起/人</span></p>
+                                <p style="font-size: 12px; color: #999;">已售 1,234 | 评分 4.9</p>
+                            </div>
+                            <button style="background: #007AFF; color: white; border: none; padding: 8px 20px; border-radius: 20px; font-size: 14px;" onclick="window.location.href='booking.html'">立即预订</button>
+                        </div>
+                    </div>
+                    
+                    <!-- 标签页导航 -->
+                    <div style="background: white; margin-bottom: 10px;">
+                        <div class="tab-container">
+                            <div class="tab active">行程介绍</div>
+                            <div class="tab">网红推荐</div>
+                            <div class="tab">用户评价</div>
+                            <div class="tab">预订须知</div>
+                        </div>
+                    </div>
+                    
+                    <!-- 行程介绍内容 -->
+                    <div style="background: white; padding: 15px; margin-bottom: 10px;">
+                        <h3 style="font-size: 16px; margin-bottom: 10px;">行程亮点</h3>
+                        <div style="margin-bottom: 15px;">
+                            <div style="display: flex; align-items: center; margin-bottom: 8px;">
+                                <div style="width: 20px; height: 20px; background: #007AFF; color: white; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-right: 8px; font-size: 12px;">1</div>
+                                <p style="font-size: 14px;">跟随网红博主探索香港地道美食</p>
+                            </div>
+                            <div style="display: flex; align-items: center; margin-bottom: 8px;">
+                                <div style="width: 20px; height: 20px; background: #007AFF; color: white; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-right: 8px; font-size: 12px;">2</div>
+                                <p style="font-size: 14px;">打卡5个网红餐厅，品尝10+特色美食</p>
+                            </div>
+                            <div style="display: flex; align-items: center;">
+                                <div style="width: 20px; height: 20px; background: #007AFF; color: white; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-right: 8px; font-size: 12px;">3</div>
+                                <p style="font-size: 14px;">专业导游全程陪同，无语言障碍</p>
+                            </div>
+                        </div>
+                        
+                        <h3 style="font-size: 16px; margin-bottom: 10px;">行程安排</h3>
+                        <div style="margin-bottom: 15px;">
+                            <div style="margin-bottom: 10px;">
+                                <p style="font-size: 14px; font-weight: bold; margin-bottom: 5px;">Day 1: 尖沙咀美食探索</p>
+                                <p style="font-size: 13px; color: #666; line-height: 1.5;">上午10:00在尖沙咀地铁站集合，前往米其林推荐的点心餐厅品尝正宗粤式点心。午餐后前往网红奶茶店打卡，随后参观海港城，品尝特色甜品。晚餐在网红餐厅享用海鲜大餐。</p>
+                            </div>
+                            <div>
+                                <p style="font-size: 14px; font-weight: bold; margin-bottom: 5px;">Day 2: 中环美食之旅</p>
+                                <p style="font-size: 13px; color: #666; line-height: 1.5;">上午9:00在中环集合，前往地道茶餐厅享用港式早餐。随后参观兰桂坊，品尝国际美食。下午前往网红咖啡店打卡，晚餐在米其林星级餐厅享用晚餐。</p>
+                            </div>
+                        </div>
+                        
+                        <h3 style="font-size: 16px; margin-bottom: 10px;">美食展示</h3>
+                        <div style="display: flex; gap: 10px; margin-bottom: 15px; overflow-x: auto; padding-bottom: 5px;">
+                            <div style="width: 120px; height: 120px; background: #e0e0e0; border-radius: 8px; flex-shrink: 0;"></div>
+                            <div style="width: 120px; height: 120px; background: #e0e0e0; border-radius: 8px; flex-shrink: 0;"></div>
+                            <div style="width: 120px; height: 120px; background: #e0e0e0; border-radius: 8px; flex-shrink: 0;"></div>
+                            <div style="width: 120px; height: 120px; background: #e0e0e0; border-radius: 8px; flex-shrink: 0;"></div>
+                        </div>
+                        
+                        <h3 style="font-size: 16px; margin-bottom: 10px;">包含服务</h3>
+                        <div style="margin-bottom: 15px;">
+                            <div style="display: flex; align-items: center; margin-bottom: 8px;">
+                                <span style="color: #007AFF; margin-right: 8px;">✓</span>
+                                <p style="font-size: 14px;">专业导游全程陪同</p>
+                            </div>
+                            <div style="display: flex; align-items: center; margin-bottom: 8px;">
+                                <span style="color: #007AFF; margin-right: 8px;">✓</span>
+                                <p style="font-size: 14px;">网红博主美食讲解</p>
+                            </div>
+                            <div style="display: flex; align-items: center; margin-bottom: 8px;">
+                                <span style="color: #007AFF; margin-right: 8px;">✓</span>
+                                <p style="font-size: 14px;">所有餐厅预订服务</p>
+                            </div>
+                            <div style="display: flex; align-items: center; margin-bottom: 8px;">
+                                <span style="color: #007AFF; margin-right: 8px;">✓</span>
+                                <p style="font-size: 14px;">行程中交通接送</p>
+                            </div>
+                            <div style="display: flex; align-items: center;">
+                                <span style="color: #007AFF; margin-right: 8px;">✓</span>
+                                <p style="font-size: 14px;">旅行保险</p>
+                            </div>
+                        </div>
+                        
+                        <h3 style="font-size: 16px; margin-bottom: 10px;">不包含服务</h3>
+                        <div style="margin-bottom: 15px;">
+                            <div style="display: flex; align-items: center; margin-bottom: 8px;">
+                                <span style="color: #FF3B30; margin-right: 8px;">✗</span>
+                                <p style="font-size: 14px;">往返机票</p>
+                            </div>
+                            <div style="display: flex; align-items: center; margin-bottom: 8px;">
+                                <span style="color: #FF3B30; margin-right: 8px;">✗</span>
+                                <p style="font-size: 14px;">酒店住宿</p>
+                            </div>
+                            <div style="display: flex; align-items: center;">
+                                <span style="color: #FF3B30; margin-right: 8px;">✗</span>
+                                <p style="font-size: 14px;">个人消费</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 底部预订按钮 -->
+                    <div style="padding: 15px; position: sticky; bottom: 0; background: white; box-shadow: 0 -2px 10px rgba(0,0,0,0.1);">
+                        <button style="background: #007AFF; color: white; border: none; padding: 15px; border-radius: 8px; font-size: 16px; width: 100%;" onclick="window.location.href='booking.html'">立即预订</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="feature-list">
+                <h2>行程详情页功能说明</h2>
+                <ul>
+                    <li>展示行程的详细信息，包括行程亮点、安排、美食展示等</li>
+                    <li>显示网红博主信息，增加用户信任感</li>
+                    <li>提供价格信息和预订入口</li>
+                    <li>通过标签页分类展示不同类型的信息</li>
+                    <li>展示包含和不包含的服务，明确用户预期</li>
+                    <li>提供用户评价，帮助用户做出决策</li>
+                    <li>底部固定预订按钮，方便用户随时预订</li>
+                    <li>支持收藏功能，方便用户后续查看</li>
+                    <li>与预订页面无缝衔接，提升转化率</li>
+                </ul>
+            </div>
+        </div>
+
+        <footer>
+            <p>© 2025 约旅 版权所有</p>
+        </footer>
+    </div>
+</body>
+</html>

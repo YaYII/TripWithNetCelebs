@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录/注册 - 约旅产品原型 v2.1</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+        .prototype-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        nav {
+            background: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            padding: 8px 16px;
+            background: #f0f0f0;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+        nav ul li a:hover {
+            background: #333;
+            color: #fff;
+        }
+        .screen-container {
+            display: flex;
+            margin-bottom: 40px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        /* iPhone 16尺寸规格：393px × 852px */
+        .iphone {
+            width: 393px; /* iPhone 16宽度 */
+            height: 852px; /* iPhone 16高度 */
+            background: white;
+            border: 12px solid #1a1a1a;
+            border-radius: 50px; /* iPhone 16圆角 */
+            position: relative;
+            overflow: hidden;
+        }
+        .notch {
+            position: absolute;
+            width: 150px;
+            height: 35px;
+            background: #1a1a1a;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+        }
+        .screen {
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            overflow-y: auto;
+        }
+        .feature-list {
+            flex: 1;
+            margin-left: 40px;
+            padding: 20px;
+        }
+        .feature-list h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .feature-list ul {
+            list-style-type: none;
+        }
+        .feature-list li {
+            margin-bottom: 10px;
+            padding: 10px;
+            background: #f8f8f8;
+            border-radius: 5px;
+        }
+        .language-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .language-btn {
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            border: 1px solid #ddd;
+            background: white;
+        }
+        .language-btn.active {
+            background: #007AFF;
+            color: white;
+            border-color: #007AFF;
+        }
+        .tab-container {
+            display: flex;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 20px;
+        }
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 15px;
+            font-size: 16px;
+            color: #666;
+            cursor: pointer;
+        }
+        .tab.active {
+            color: #007AFF;
+            border-bottom: 2px solid #007AFF;
+        }
+        footer {
+            text-align: center;
+            margin: 40px 0;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div id="app" class="prototype-container">
+        <h1 style="text-align: center; margin-bottom: 30px;">约旅产品原型 v2.1</h1>
+        <nav>
+            <ul>
+                <li><a href="startup.html">启动页</a></li>
+                <li><a href="login.html" style="background: #333; color: #fff;">登录/注册</a></li>
+                <li><a href="home.html">首页</a></li>
+                <li><a href="trip-detail.html">行程详情</a></li>
+                <li><a href="booking.html">预订页</a></li>
+                <li><a href="payment.html">支付页面</a></li>
+                <li><a href="payment-success.html">支付成功</a></li>
+                <li><a href="profile.html">个人中心</a></li>
+                <li><a href="orders.html">订单列表</a></li>
+                <li><a href="live.html">直播页面</a></li>
+                <li><a href="vr-tour.html">VR导览</a></li>
+                <li><a href="influencer-entry.html">网红入驻</a></li>
+                <li><a href="guide-entry.html">导游入驻</a></li>
+                <li><a href="emergency.html">紧急事件处理</a></li>
+                <li><a href="index.html">返回首页</a></li>
+            </ul>
+        </nav>
+        
+        <!-- 登录/注册页 -->
+        <h2 style="text-align: center; margin: 40px 0 20px; color: #333; font-size: 24px;">登录/注册</h2>
+        <div class="screen-container">
+            <div class="iphone">
+                <div class="notch"></div>
+                <div class="screen" style="padding: 20px;">
+                    <div style="margin-top: 50px; text-align: center;">
+                        <img src="../images/placeholder-logo.png" alt="App Logo" style="width: 80px; height: 80px; margin-bottom: 20px;">
+                        <p style="font-size: 18px; color: #666; margin-bottom: 30px;">遇见美好，约你同行，探索世界</p>
+                    </div>
+                    
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <h3 style="color: #333; font-size: 20px;">{{ isQuickLogin ? '手机号快捷登录' : '手机号登录' }}</h3>
+                        <p style="color: #666; font-size: 14px; margin-top: 5px;">未注册的用户将自动创建账号</p>
+                    </div>
+                    <template v-if="isQuickLogin">
+                        <div style="margin-bottom: 20px; text-align: center;">
+                            <p style="font-size: 16px; color: #333; margin-bottom: 10px;">已获取到您的手机号</p>
+                            <p style="font-size: 20px; color: #007AFF; font-weight: bold;">{{ maskPhoneNumber(phone) }}</p>
+                            <p style="font-size: 12px; color: #666; margin-top: 5px;">使用其他手机号？<a href="#" @click.prevent="isQuickLogin = false" style="color: #007AFF;">点击切换</a></p>
+                        </div>
+                        <button @click="handleLogin" style="width: 100%; background: #007AFF; color: white; border: none; padding: 15px; border-radius: 25px; font-size: 16px; margin-bottom: 20px;">确认登录</button>
+                    </template>
+                    <template v-else>
+                        <div style="margin-bottom: 20px;">
+                            <p style="font-size: 14px; color: #666; margin-bottom: 5px;">手机号</p>
+                            <input type="tel" v-model="phone" placeholder="请输入手机号" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px;">
+                            <p v-if="phoneError" style="color: red; font-size: 12px; margin-top: 5px;">{{ phoneError }}</p>
+                        </div>
+                        <div style="margin-bottom: 20px;">
+                            <div style="display: flex; gap: 10px;">
+                                <div style="flex: 1;">
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 5px;">验证码</p>
+                                    <input type="text" v-model="verifyCode" placeholder="请输入验证码" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px;">
+                                </div>
+                                <button @click="getVerifyCode" :disabled="countdown > 0" style="width: 120px; background: #f0f0f0; border: none; border-radius: 8px; font-size: 14px; color: #007AFF; margin-top: 25px;">{{ countdown > 0 ? `${countdown}秒后重试` : '获取验证码' }}</button>
+                            </div>
+                            <p v-if="codeError" style="color: red; font-size: 12px; margin-top: 5px;">{{ codeError }}</p>
+                        </div>
+                        <button @click="handleLogin" style="width: 100%; background: #007AFF; color: white; border: none; padding: 15px; border-radius: 25px; font-size: 16px; margin-bottom: 20px;">登录</button>
+                    </template>
+                    <div style="text-align: center; margin-bottom: 30px;">
+                        <p style="font-size: 14px; color: #666; margin-bottom: 15px;">其他登录方式</p>
+                        <div style="display: flex; justify-content: center; gap: 20px;">
+                            <div style="width: 40px; height: 40px; background: #f0f0f0; border-radius: 50%; display: flex; align-items: center; justify-content: center;">微信</div>
+                            <div style="width: 40px; height: 40px; background: #f0f0f0; border-radius: 50%; display: flex; align-items: center; justify-content: center;">QQ</div>
+                            <div style="width: 40px; height: 40px; background: #f0f0f0; border-radius: 50%; display: flex; align-items: center; justify-content: center;">微博</div>
+                            <div @click="startFaceLogin" style="width: 40px; height: 40px; background: #f0f0f0; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer;">人脸</div>
+                        </div>
+                        <!-- 人脸识别弹窗 -->
+                        <div v-if="showFaceLogin" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000;">
+                            <div style="background: white; padding: 20px; border-radius: 10px; width: 300px;">
+                                <h3 style="text-align: center; margin-bottom: 15px;">人脸识别登录</h3>
+                                <div style="width: 260px; height: 260px; background: #f0f0f0; margin: 0 auto 15px; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                                    <div v-if="!isFaceDetected" style="text-align: center;">
+                                        <p style="color: #666;">请将脸部置于框内</p>
+                                        <div style="width: 200px; height: 200px; border: 2px dashed #999; border-radius: 5px; margin: 10px auto;"></div>
+                                    </div>
+                                    <div v-else style="text-align: center;">
+                                        <p style="color: #007AFF;">人脸识别成功</p>
+                                        <div style="width: 200px; height: 200px; border: 2px solid #007AFF; border-radius: 5px; margin: 10px auto;"></div>
+                                    </div>
+                                </div>
+                                <div style="text-align: center;">
+                                    <button @click="closeFaceLogin" style="background: #f0f0f0; border: none; padding: 8px 20px; border-radius: 15px; margin-right: 10px;">取消</button>
+                                    <button @click="confirmFaceLogin" :disabled="!isFaceDetected" style="background: #007AFF; color: white; border: none; padding: 8px 20px; border-radius: 15px;" :style="!isFaceDetected ? {opacity: 0.5} : {}">确认登录</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 30px; text-align: center;">
+                        <p style="font-size: 12px; color: #999;">
+                            登录即表示您同意<span style="color: #007AFF;">《用户协议》</span>和<span style="color: #007AFF;">《隐私政策》</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="feature-list">
+                <h2>功能说明</h2>
+                <ul>
+                    <li>智能手机号快捷登录：系统自动检测已授权手机号，支持一键登录，无需重复输入</li>
+                    <li>灵活的登录方式切换：支持在快捷登录和验证码登录之间自由切换，适应不同场景需求</li>
+                    <li>多样化的第三方登录：集成微信、QQ、微博等主流社交平台的快捷登录功能</li>
+                    <li>先进的人脸识别登录：实时人脸检测和识别，提供清晰的状态反馈和操作指引</li>
+                    <li>完善的验证码机制：获取后60秒倒计时，防止频繁请求，确保安全性</li>
+                    <li>智能表单验证：实时手机号格式检查，及时错误提示，提升用户体验</li>
+                    <li>便捷的新用户注册：未注册用户首次登录自动创建账号，简化注册流程</li>
+                    <li>友好的登录反馈：登录成功后显示提示，1.5秒后智能跳转至首页</li>
+                    <li>安全的用户协议：清晰展示用户协议和隐私政策，支持详细内容查看</li>
+                    <li>持久的登录状态：登录信息安全存储，支持自动登录功能</li>
+                    <li>多语言支持：界面支持多语言切换，自动记忆用户语言偏好</li>
+                    <li>优化的加载体验：登录过程状态实时展示，提供流畅的操作体验</li>
+                    <li>完整的错误处理：包括手机号格式、验证码错误等多场景错误提示</li>
+                    <li>便捷的身份切换：支持多账号管理，快速切换不同登录方式</li>
+                    <li>安全的登录保障：多重验证机制，保护用户账号安全</li>
+                </ul>
+            </div>
+        </div>
+
+        <footer>
+            <p>© 2025 约旅 版权所有</p>
+        </footer>
+    </div>
+    <script>
+        const { createApp, ref } = Vue
+
+        createApp({
+            setup() {
+                const phone = ref('')
+                const verifyCode = ref('')
+                const phoneError = ref('')
+                const codeError = ref('')
+                const countdown = ref(0)
+                const showFaceLogin = ref(false)
+                const isFaceDetected = ref(false)
+                const hasStoredPhone = ref(false)
+                const isQuickLogin = ref(true)
+                // 模拟检测是否有已授权的手机号
+                const maskPhoneNumber = (phoneNum) => {
+                    return phoneNum.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2')
+                }
+
+                const checkStoredPhone = () => {
+                    // 这里模拟从系统获取已授权的手机号
+                    const storedPhone = '13888888888' // 模拟获取到的手机号
+                    phone.value = storedPhone
+                    hasStoredPhone.value = true
+                }
+                
+                // 页面加载时检查是否有存储的手机号
+                checkStoredPhone()
+
+                const validatePhone = () => {
+                    if (!phone.value) {
+                        phoneError.value = '请输入手机号'
+                        return false
+                    }
+                    if (!/^1[3-9]\d{9}$/.test(phone.value)) {
+                        phoneError.value = '请输入正确的手机号'
+                        return false
+                    }
+                    phoneError.value = ''
+                    return true
+                }
+
+                const getVerifyCode = () => {
+                    if (!validatePhone()) return
+                    
+                    countdown.value = 60
+                    const timer = setInterval(() => {
+                        countdown.value--
+                        if (countdown.value <= 0) {
+                            clearInterval(timer)
+                        }
+                    }, 1000)
+                }
+
+                // 登录成功提示组件
+                const showSuccessToast = () => {
+                    const toast = document.createElement('div')
+                    toast.style.cssText = `
+                        position: fixed;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        background: rgba(0, 0, 0, 0.8);
+                        color: white;
+                        padding: 15px 30px;
+                        border-radius: 25px;
+                        z-index: 1000;
+                    `
+                    toast.textContent = '登录成功'
+                    document.body.appendChild(toast)
+                    setTimeout(() => {
+                        document.body.removeChild(toast)
+                        window.location.href = 'home.html'
+                    }, 1500)
+                }
+
+                const handleLogin = () => {
+                    if (isQuickLogin.value) {
+                        // 快捷登录直接成功
+                        showSuccessToast()
+                        return
+                    }
+                    
+                    // 验证码登录需要验证
+                    if (!validatePhone()) return
+                    
+                    if (!verifyCode.value) {
+                        codeError.value = '请输入验证码'
+                        return
+                    }
+                    if (verifyCode.value.length !== 6) {
+                        codeError.value = '验证码格式不正确'
+                        return
+                    }
+                    codeError.value = ''
+                    
+                    // 验证码登录成功
+                    showSuccessToast()
+                }
+
+                const startFaceLogin = () => {
+                    showFaceLogin.value = true
+                    // 模拟人脸检测过程
+                    setTimeout(() => {
+                        isFaceDetected.value = true
+                    }, 2000)
+                }
+
+                const closeFaceLogin = () => {
+                    showFaceLogin.value = false
+                    isFaceDetected.value = false
+                }
+
+                const confirmFaceLogin = () => {
+                    if (isFaceDetected.value) {
+                        // 模拟人脸识别登录成功
+                        window.location.href = 'home.html'
+                    }
+                }
+
+                return {
+                    phone,
+                    verifyCode,
+                    phoneError,
+                    codeError,
+                    countdown,
+                    showFaceLogin,
+                    isFaceDetected,
+                    isQuickLogin,
+                    maskPhoneNumber,
+                    getVerifyCode,
+                    handleLogin,
+                    startFaceLogin,
+                    closeFaceLogin,
+                    confirmFaceLogin
+                }
+            }
+        }).mount('#app')
+    </script>
+</body>
+</html>

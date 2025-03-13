@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>直播页面 - 约旅产品原型 v2.1</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+        .prototype-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        nav {
+            background: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            padding: 8px 16px;
+            background: #f0f0f0;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+        nav ul li a:hover {
+            background: #333;
+            color: #fff;
+        }
+        .screen-container {
+            display: flex;
+            margin-bottom: 40px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        /* iPhone 16尺寸规格：393px × 852px */
+        .iphone {
+            width: 393px; /* iPhone 16宽度 */
+            height: 852px; /* iPhone 16高度 */
+            background: white;
+            border: 12px solid #1a1a1a;
+            border-radius: 50px; /* iPhone 16圆角 */
+            position: relative;
+            overflow: hidden;
+        }
+        .notch {
+            position: absolute;
+            width: 150px;
+            height: 35px;
+            background: #1a1a1a;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+        }
+        .screen {
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            overflow-y: auto;
+        }
+        .feature-list {
+            flex: 1;
+            margin-left: 40px;
+            padding: 20px;
+        }
+        .feature-list h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .feature-list ul {
+            list-style-type: none;
+        }
+        .feature-list li {
+            margin-bottom: 10px;
+            padding: 10px;
+            background: #f8f8f8;
+            border-radius: 5px;
+        }
+        .live-video {
+            width: 100%;
+            height: 250px;
+            background: #000;
+            position: relative;
+            overflow: hidden;
+        }
+        .live-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: #FF3B30;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+        }
+        .live-badge:before {
+            content: '';
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            background: white;
+            border-radius: 50%;
+            margin-right: 5px;
+            animation: blink 1s infinite;
+        }
+        @keyframes blink {
+            0% { opacity: 0.4; }
+            50% { opacity: 1; }
+            100% { opacity: 0.4; }
+        }
+        .live-info {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        .live-stats {
+            display: flex;
+            margin-top: 10px;
+        }
+        .live-stat-item {
+            display: flex;
+            align-items: center;
+            margin-right: 15px;
+            font-size: 12px;
+            color: #666;
+        }
+        .comment-section {
+            height: 300px;
+            overflow-y: auto;
+            padding: 15px;
+            background: #f9f9f9;
+        }
+        .comment {
+            display: flex;
+            margin-bottom: 15px;
+        }
+        .comment-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #f0f0f0;
+            margin-right: 10px;
+            overflow: hidden;
+        }
+        .comment-content {
+            flex: 1;
+            background: white;
+            padding: 8px 12px;
+            border-radius: 15px;
+            font-size: 14px;
+        }
+        .comment-input {
+            display: flex;
+            padding: 10px 15px;
+            border-top: 1px solid #eee;
+            align-items: center;
+        }
+        .comment-input input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            margin-right: 10px;
+            font-size: 14px;
+        }
+        .comment-input button {
+            background: #007AFF;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+        .gift-section {
+            padding: 15px;
+            border-top: 1px solid #eee;
+        }
+        .gift-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .gift-item {
+            text-align: center;
+        }
+        .gift-icon {
+            width: 40px;
+            height: 40px;
+            background: #f0f0f0;
+            border-radius: 10px;
+            margin: 0 auto 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        footer {
+            text-align: center;
+            margin: 40px 0;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="prototype-container">
+        <h1 style="text-align: center; margin-bottom: 30px;">约旅产品原型 v2.1</h1>
+        <nav>
+            <ul>
+                <li><a href="startup.html">启动页</a></li>
+                <li><a href="login.html">登录/注册</a></li>
+                <li><a href="home.html">首页</a></li>
+                <li><a href="trip-detail.html">行程详情</a></li>
+                <li><a href="booking.html">预订页</a></li>
+                <li><a href="payment.html">支付页面</a></li>
+                <li><a href="payment-success.html">支付成功</a></li>
+                <li><a href="profile.html">个人中心</a></li>
+                <li><a href="orders.html">订单列表</a></li>
+                <li><a href="live.html" style="background: #333; color: #fff;">直播页面</a></li>
+                <li><a href="vr-tour.html">VR导览</a></li>
+                <li><a href="influencer-entry.html">网红入驻</a></li>
+                <li><a href="guide-entry.html">导游入驻</a></li>
+                <li><a href="emergency.html">紧急事件处理</a></li>
+                <li><a href="index.html">返回首页</a></li>
+            </ul>
+        </nav>
+        
+        <!-- 直播页面 -->
+        <h2 style="text-align: center; margin: 40px 0 20px; color: #333; font-size: 24px;">直播页面</h2>
+        <div class="screen-container">
+            <div class="iphone">
+                <div class="notch"></div>
+                <div class="screen">
+                    <div class="live-video">
+                        <img src="../images/placeholder-logo.png" alt="直播画面" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.7;">
+                        <div class="live-badge">直播中</div>
+                    </div>
+                    
+                    <div class="live-info">
+                        <h3 style="font-size: 16px; margin-bottom: 5px;">阿May的尖沙咀美食直播</h3>
+                        <div style="display: flex; align-items: center;">
+                            <img src="../images/placeholder-logo.png" alt="网红头像" style="width: 30px; height: 30px; border-radius: 50%; margin-right: 10px;">
+                            <div>
+                                <p style="font-weight: 500;">阿May <span style="background: #FF6B00; color: white; padding: 2px 6px; border-radius: 10px; font-size: 12px; margin-left: 5px;">网红</span></p>
+                                <p style="font-size: 12px; color: #666;">粉丝: 200万+</p>
+                            </div>
+                            <button style="margin-left: auto; background: #FF6B00; color: white; border: none; padding: 8px 15px; border-radius: 20px; font-size: 14px;">关注</button>
+                        </div>
+                        <div class="live-stats">
+                            <div class="live-stat-item">👁️ 观看人数: 3,678</div>
+                            <div class="live-stat-item">👍 点赞数: 25,890</div>
+                            <div class="live-stat-item">🎁 礼物数: 2,345</div>
+                        </div>
+                    </div>
+                    
+                    <div class="comment-section">
+                        <div class="comment">
+                            <div class="comment-avatar">
+                                <img src="../images/placeholder-logo.png" alt="用户头像" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <div>
+                                <p style="font-size: 12px; color: #666; margin-bottom: 3px;">美食达人</p>
+                                <div class="comment-content">澳洲牛腩真的好香啊！请问这家店在尖沙咀哪个位置？</div>
+                            </div>
+                        </div>
+                        
+                        <div class="comment">
+                            <div class="comment-avatar">
+                                <img src="../images/placeholder-logo.png" alt="用户头像" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <div>
+                                <p style="font-size: 12px; color: #666; margin-bottom: 3px;">港式茶餐厅控</p>
+                                <div class="comment-content">等下会去其他茶餐厅吗？想看菠萝油和奶茶！</div>
+                            </div>
+                        </div>
+                        
+                        <div class="comment">
+                            <div class="comment-avatar">
+                                <img src="../images/placeholder-logo.png" alt="网红头像" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <div>
+                                <p style="font-size: 12px; color: #FF6B00; margin-bottom: 3px;">阿May <span style="background: #FF6B00; color: white; padding: 1px 4px; border-radius: 8px; font-size: 10px; margin-left: 3px;">主播</span></p>
+                                <div class="comment-content">这家店在尖沙咀广东道28号，待会带大家去附近的金凤茶餐厅，他们家的菠萝油和丝袜奶茶都超正！</div>
+                            </div>
+                        </div>
+                        
+                        <div class="comment">
+                            <div class="comment-avatar">
+                                <img src="../images/placeholder-logo.png" alt="用户头像" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <div>
+                                <p style="font-size: 12px; color: #666; margin-bottom: 3px;">吃货小王</p>
+                                <div class="comment-content">这个美食团价格是多少？包含几顿饭？</div>
+                            </div>
+                        </div>
+                        
+                        <div class="comment">
+                            <div class="comment-avatar">
+                                <img src="../images/placeholder-logo.png" alt="用户头像" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <div>
+                                <p style="font-size: 12px; color: #666; margin-bottom: 3px;">香港美食家</p>
+                                <div class="comment-content">发送了一个 <span style="color: #FF6B00;">¥100</span> 的礼物 🎁</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="comment-input">
+                        <input type

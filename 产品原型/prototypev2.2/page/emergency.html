@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>紧急事件处理 - 约旅产品原型 v2.1</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+        .prototype-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        nav {
+            background: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            padding: 8px 16px;
+            background: #f0f0f0;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+        nav ul li a:hover {
+            background: #333;
+            color: #fff;
+        }
+        .screen-container {
+            display: flex;
+            margin-bottom: 40px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        /* iPhone 16尺寸规格：393px × 852px */
+        .iphone {
+            width: 393px; /* iPhone 16宽度 */
+            height: 852px; /* iPhone 16高度 */
+            background: white;
+            border: 12px solid #1a1a1a;
+            border-radius: 50px; /* iPhone 16圆角 */
+            position: relative;
+            overflow: hidden;
+        }
+        .notch {
+            position: absolute;
+            width: 150px;
+            height: 35px;
+            background: #1a1a1a;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+        }
+        .screen {
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            overflow-y: auto;
+        }
+        .feature-list {
+            flex: 1;
+            margin-left: 40px;
+            padding: 20px;
+        }
+        .feature-list h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .feature-list ul {
+            list-style-type: none;
+        }
+        .feature-list li {
+            margin-bottom: 10px;
+            padding: 10px;
+            background: #f8f8f8;
+            border-radius: 5px;
+        }
+        .emergency-header {
+            background: #FF3B30;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .emergency-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+        .emergency-card-header {
+            padding: 15px;
+            background: #f8f8f8;
+            font-weight: 500;
+            color: #333;
+            border-bottom: 1px solid #eee;
+        }
+        .emergency-card-content {
+            padding: 15px;
+        }
+        .contact-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        .contact-icon {
+            width: 40px;
+            height: 40px;
+            background: #f0f0f0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 20px;
+        }
+        .btn-emergency {
+            background: #FF3B30;
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            width: 100%;
+            cursor: pointer;
+            margin-bottom: 15px;
+        }
+        .btn-secondary {
+            background: white;
+            color: #007AFF;
+            border: 1px solid #007AFF;
+            padding: 15px 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            width: 100%;
+            cursor: pointer;
+        }
+        .tab-container {
+            display: flex;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 20px;
+        }
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 15px;
+            font-size: 14px;
+            color: #666;
+        }
+        .tab.active {
+            color: #FF3B30;
+            border-bottom: 2px solid #FF3B30;
+        }
+        footer {
+            text-align: center;
+            margin: 40px 0;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="prototype-container">
+        <h1 style="text-align: center; margin-bottom: 30px;">约旅产品原型 v2.1</h1>
+        <nav>
+            <ul>
+                <li><a href="startup.html">启动页</a></li>
+                <li><a href="login.html">登录/注册</a></li>
+                <li><a href="home.html">首页</a></li>
+                <li><a href="trip-detail.html">行程详情</a></li>
+                <li><a href="booking.html">预订页</a></li>
+                <li><a href="payment.html">支付页面</a></li>
+                <li><a href="payment-success.html">支付成功</a></li>
+                <li><a href="profile.html">个人中心</a></li>
+                <li><a href="orders.html">订单列表</a></li>
+                <li><a href="live.html">直播页面</a></li>
+                <li><a href="vr-tour.html">VR导览</a></li>
+                <li><a href="influencer-entry.html">网红入驻</a></li>
+                <li><a href="guide-entry.html">导游入驻</a></li>
+                <li><a href="emergency.html" style="background: #333; color: #fff;">紧急事件处理</a></li>
+                <li><a href="index.html">返回首页</a></li>
+            </ul>
+        </nav>
+        
+        <!-- 紧急事件处理页面 -->
+        <h2 style="text-align: center; margin: 40px 0 20px; color: #333; font-size: 24px;">紧急事件处理</h2>
+        <div class="screen-container">
+            <div class="iphone">
+                <div class="notch"></div>
+                <div class="screen">
+                    <div class="emergency-header">
+                        <h2 style="margin-bottom: 10px;">紧急事件处理中心</h2>
+                        <p>遇到紧急情况，我们随时为您提供帮助</p>
+                    </div>
+                    
+                    <div style="padding: 20px;">
+                        <button class="btn-emergency">一键紧急求助</button>
+                        
+                        <div class="tab-container">
+                            <div class="tab active">紧急联系</div>
+                            <div class="tab">常见问题</div>
+                            <div class="tab">安全指南</div>
+                        </div>
+                        
+                        <div class="emergency-card">
+                            <div class="emergency-card-header">24小时紧急联系方式</div>
+                            <div class="emergency-card-content">
+                                <div class="contact-item">
+                                    <div class="contact-icon">📞</div>
+                                    <div>
+                                        <p style="font-weight: 500;">紧急热线</p>
+                                        <p style="font-size: 14px; color: #666;">+86 400-888-8888</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="contact-item">
+                                    <div class="contact-icon">💬</div>
+                                    <div>
+                                        <p style="font-weight: 500;">在线客服</p>
+                                        <p style="font-size: 14px; color: #666;">点击立即联系在线客服</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="contact-item">
+                                    <div class="contact-icon">📱</div>
+                                    <div>
+                                        <p style="font-weight: 500;">网红/导游直接联系</p>
+                                        <p style="font-size: 14px; color: #666;">联系您的行程负责人</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="emergency-card">
+                            <div class="emergency-card-header">当地紧急联系方式</div>
+                            <div class="emergency-card-content">
+                                <div class="contact-item">
+                                    <div class="contact-icon">🚨</div>
+                                    <div>
+                                        <p style="font-weight: 500;">当地报警电话</p>
+                                        <p style="font-size: 14px; color: #666;">110 (中国) / 911 (美国) / 112 (欧盟)</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="contact-item">
+                                    <div class="contact-icon">🚑</div>
+                                    <div>
+                                        <p style="font-weight: 500;">医疗急救</p>
+                                        <p style="font-size: 14px; color: #666;">120 (中国) / 911 (美国) / 112 (欧盟)</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="contact-item">
+                                    <div class="contact-icon">🏛️</div>
+                                    <div>
+                                        <p style="font-weight: 500;">中国驻外使领馆</p>
+                                        <p style="font-size: 14px; color: #666;">+86-10-12308 (外交部全球领保与服务应急呼叫中心)</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="emergency-card">
+                            <div class="emergency-card-header">紧急情况处理流程</div>
+                            <div class="emergency-card-content">
+                                <div style="margin-bottom: 15px;">
+                                    <h4 style="margin-bottom: 5px;">1. 确保人身安全</h4>
+                                    <p style="font-size: 14px; color: #666;">首先确保自己和同行人员的安全，远离危险区域。</p>
+                                </div>
+                                
+                                <div style="margin-bottom: 15px;">
+                                    <h4 style="margin-bottom: 5px;">2. 联系紧急救援</h4>
+                                    <p style="font-size: 14px; color: #666;">根据情况拨打当地紧急电话或平台紧急热线。</p>
+                                </div>
+                                
+                                <div style="margin-bottom: 15px;">
+                                    <h4 style="margin-bottom: 5px;">3. 联系网红/导游</h4>
+                                    <p style="font-size: 14px; color: #666;">通知您的行程负责人，获取现场支持。</p>
+                                </div>
+                                
+                                <div>
+                                    <h4 style="margin-bottom: 5px;">4. 保持通讯畅通</h4>
+                                    <p style="font-size: 14px; color: #666;">确保手机电量充足，保持与平台和救援人员的联系。</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="btn-secondary" style="margin-top: 20px;">查看更多安全指南</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="feature-list">
+                <h2>紧急事件处理功能说明</h2>
+                <ul>
+                    <li>提供一键紧急求助功能，快速获取帮助</li>
+                    <li>显示24小时紧急联系方式，包括热线电话和在线客服</li>
+                    <li>提供当地紧急联系方式，如报警电话、医疗急救等</li>
+                    <li>显示中国驻外使领馆联系方式</li>
+                    <li>提供紧急情况处理流程指南</li>
+                    <li>支持直接联系行程负责人（网红/导游）</li>
+                    <li>提供

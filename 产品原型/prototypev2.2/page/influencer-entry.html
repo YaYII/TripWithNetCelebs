@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网红入驻 - 约旅产品原型 v2.1</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+        .prototype-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        nav {
+            background: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            padding: 8px 16px;
+            background: #f0f0f0;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+        nav ul li a:hover {
+            background: #333;
+            color: #fff;
+        }
+        .screen-container {
+            display: flex;
+            margin-bottom: 40px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        /* iPhone 16尺寸规格：393px × 852px */
+        .iphone {
+            width: 393px; /* iPhone 16宽度 */
+            height: 852px; /* iPhone 16高度 */
+            background: white;
+            border: 12px solid #1a1a1a;
+            border-radius: 50px; /* iPhone 16圆角 */
+            position: relative;
+            overflow: hidden;
+        }
+        .notch {
+            position: absolute;
+            width: 150px;
+            height: 35px;
+            background: #1a1a1a;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+        }
+        .screen {
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            overflow-y: auto;
+        }
+        .feature-list {
+            flex: 1;
+            margin-left: 40px;
+            padding: 20px;
+        }
+        .feature-list h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .feature-list ul {
+            list-style-type: none;
+        }
+        .feature-list li {
+            margin-bottom: 10px;
+            padding: 10px;
+            background: #f8f8f8;
+            border-radius: 5px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+        }
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        .btn-primary {
+            background: #007AFF;
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            width: 100%;
+            cursor: pointer;
+        }
+        .step-container {
+            margin-bottom: 30px;
+        }
+        .step-header {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        .step-number {
+            width: 30px;
+            height: 30px;
+            background: #FF6B00;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .step-title {
+            font-size: 18px;
+            font-weight: 500;
+            color: #333;
+        }
+        .benefit-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 15px;
+            background: #f8f8f8;
+            border-radius: 8px;
+        }
+        .benefit-icon {
+            width: 40px;
+            height: 40px;
+            background: #007AFF;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        .tab-container {
+            display: flex;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 20px;
+        }
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 15px;
+            font-size: 14px;
+            color: #666;
+        }
+        .tab.active {
+            color: #007AFF;
+            border-bottom: 2px solid #007AFF;
+        }
+        footer {
+            text-align: center;
+            margin: 40px 0;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="prototype-container">
+        <h1 style="text-align: center; margin-bottom: 30px;">约旅产品原型 v2.1</h1>
+        <nav>
+            <ul>
+                <li><a href="startup.html">启动页</a></li>
+                <li><a href="login.html">登录/注册</a></li>
+                <li><a href="home.html">首页</a></li>
+                <li><a href="trip-detail.html">行程详情</a></li>
+                <li><a href="booking.html">预订页</a></li>
+                <li><a href="payment.html">支付页面</a></li>
+                <li><a href="payment-success.html">支付成功</a></li>
+                <li><a href="profile.html">个人中心</a></li>
+                <li><a href="orders.html">订单列表</a></li>
+                <li><a href="live.html">直播页面</a></li>
+                <li><a href="vr-tour.html">VR导览</a></li>
+                <li><a href="influencer-entry.html" style="background: #333; color: #fff;">网红入驻</a></li>
+                <li><a href="guide-entry.html">导游入驻</a></li>
+                <li><a href="emergency.html">紧急事件处理</a></li>
+                <li><a href="index.html">返回首页</a></li>
+            </ul>
+        </nav>
+        
+        <!-- 网红入驻页面 -->
+        <h2 style="text-align: center; margin: 40px 0 20px; color: #333; font-size: 24px;">网红入驻</h2>
+        <div class="screen-container">
+            <div class="iphone">
+                <div class="notch"></div>
+                <div class="screen">
+                    <div style="padding: 20px;">
+                        <div style="text-align: center; margin-bottom: 30px;">
+                            <h2 style="margin-bottom: 10px; color: #333;">成为旅游网红合作伙伴</h2>
+                            <p style="color: #666;">加入我们，带领粉丝探索世界各地的美景</p>
+                        </div>
+                        
+                        <div class="tab-container">
+                            <div class="tab active">申请流程</div>
+                            <div class="tab">入驻条件</div>
+                            <div class="tab">合作权益</div>
+                        </div>
+                        
+                        <!-- 申请流程 -->
+                        <div class="step-container">
+                            <div class="step-header">
+                                <div class="step-number">1</div>
+                                <div class="step-title">提交基本信息</div>
+                            </div>
+                            <p style="font-size: 14px; color: #666; margin-bottom: 15px;">填写个人资料、社交媒体账号信息和粉丝数据</p>
+                            
+                            <div class="form-group">
+                                <label>姓名</label>
+                                <input type="text" class="form-control" placeholder="请输入真实姓名">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>联系电话</label>
+                                <input type="tel" class="form-control" placeholder="请输入手机号码">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>电子邮箱</label>
+                                <input type="email" class="form-control" placeholder="请输入电子邮箱">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>社交媒体平台</label>
+                                <select class="form-control">
+                                    <option>微博</option>
+                                    <option>抖音</option>
+                                    <option>小红书</option>
+                                    <option>B站</option>
+                                    <option>快手</option>
+                                    <option>其他</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>账号名称/ID</label>
+                                <input type="text" class="form-control" placeholder="请输入您的账号名称或ID">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>粉丝数量</label>
+                                <select class="form-control">
+                                    <option>1万-5万</option>
+                                    <option>5万-10万</option>
+                                    <option>10万-50万</option>
+                                    <option>50万-100万</option>
+                                    <option>100万以上</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="step-container">
+                            <div class="step-header">
+                                <div class="step-number">2</div>
+                                <div class="step-title">选择擅长的旅游领域</div>
+                            </div>
+                            <p style="font-size: 14px; color: #666; margin-bottom: 15px;">选择您擅长的旅游类型和目的地，以便我们为您匹配合适的行程</p>
+                            
+                            <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px;">
+                                <div style="padding: 8px 15px; background: #f0f0f0; border-radius: 20px; font-size: 14px;">美食探索</div>
+                                <div style="padding: 8px 15px; background: #f0f0f0; border-radius: 20px; font-size: 14px;">文化体验</div>
+                                <div style="padding: 8px 15px; background: #007AFF; color: white; border-radius: 20px; font-size: 14px;">自然风光</div>
+                                <div style="padding: 8px 15px; background: #f0f0f0; border-radius: 20px; font-size: 14px;">城市观光</div>
+                                <div style="padding: 8px 15px; background: #f0f0f0; border-radius: 20px; font-size: 14px;">历史古迹</div>
+                                <div style="padding: 8px 15px; background: #007AFF; color: white; border-radius: 20px; font-size: 14px;">冒险活动</div>
+                                <div style="padding: 8px 15px; background: #f0f0f0; border-radius: 20px; font-size: 14px;">购物天堂</div>
+                                <div style="padding: 8px 15px; background: #f0f0f0; border-radius: 20px; font-size: 14px;">度假放松</div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>擅长的目的地区域</label>
+                                <select class="form-control">
+                                    <option>亚洲</option>
+                                    <option>欧洲</option>
+                                    <option>北美洲</option>
+                                    <option>南美洲</option>
+                                    <option>大洋洲</option>
+                                    <option>非洲</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>具体擅长的国家/地区</label>
+                                <input type="text" class="form-control" placeholder="请输入您擅长的国家或地区，多个请用逗号分隔">
+                            </div>
+                        </div>
+                        
+                        <div class="step-container">
+                            <div class="step-header">
+                                <div class="step-number">3</div>
+                                <div class="step-title">上传作品集</div>
+                            </div>
+                            <p style="font-size: 14px; color: #666; margin-bottom: 15px;">上传您的旅游内容作品，展示您的创作风格和质量</p>
+                            
+                            <div class="form-group">
+                                <label>作品类型</label>
+                                <select class="form-control">
+                                    <option>旅游视频</option>
+                                    <option>旅游照片</option>
+                                    <option>旅游博客</option>
+                                    <option>旅游攻略</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>作品链接</label>
+                                <input type="text" class="form-control" placeholder="请输入您的作品链接，如视频链接、博客链接等">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>上传作品封面</label>
+                                <div style="border: 2px dashed #ddd; padding: 30px; text-align: center; border-radius: 8px; margin-bottom: 10px;">
+                                    <div style="margin-bottom: 15px;">
+                                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 16L12 8" stroke="#666" stroke-width="2" stroke-linecap="round"/>
+                                            <path d="M9 11L12 8 15 11" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M8 16H16" stroke="#666" stroke-width="2" stroke-linecap="round"/>
+                                        </svg>
+                                    </div>
+                                    <p style="color: #666; margin-bottom: 5px;">点击或拖拽上传</p>
+                                    <p style="color: #999; font-size: 12px;">支持JPG、PNG格式，大小不超过5MB</p>
+                                </div>
+                                <div style="display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px;">
+                                    <div style="position: relative; width: 80px; height: 80px; flex-shrink: 0; border-radius: 4px; overflow: hidden;">
+                                        <img src="../images/placeholder.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="预览图">
+                                        <div style="position: absolute; top: 2px; right: 2px; width: 20px; height: 20px; background: rgba(0,0,0,0.5); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 12px; cursor: pointer;">×</div>
+                                    </div>
+                                    <div style="position: relative; width: 80px; height: 80px; flex-shrink: 0; border-radius: 4px; overflow: hidden;">
+                                        <img src="../images/placeholder.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="预览图">
+                                        <div style="position: absolute; top: 2px; right: 2px; width: 20px; height: 20px; background: rgba(0,0,0,0.5); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 12px; cursor: pointer;">×</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>作品描述</label>
+                                <textarea class="form-control" rows="4" placeholder="请简要描述您的作品内容和特色"></textarea>
+                            </div>
+                        </div>
+                        
+                        <div class="step-container">
+                            <div class="step-header">
+                                <div class="step-number">4</div>
+                                <div class="step-title">提交申请</div>
+                            </div>
+                            <p style="font-size: 14px; color: #666; margin-bottom: 15px;">提交您的入驻申请，我们将在3个工作日内审核并回复</p>
+                            
+                            <div style="margin-bottom: 20px;">
+                                <label style="display: flex; align-items: center; font-size: 14px; color: #666;">
+                                    <input type="checkbox" style="margin-right: 8px;">
+                                    我已阅读并同意《网红合作协议》和《平台服务条款》
+                                </label>
+                            </div>
+                            
+                            <button class="btn-primary">提交申请</button>
+                        </div>
+                        
+                        <!-- 入驻条件 -->
+                        <div style="display: none;">
+                            <div style="margin-bottom: 30px;">
+                                <h3 style="margin-bottom: 15px; font-size: 18px; color: #333;">基本要求</h3>
+                                <ul style="list-style: none;">
+                                    <li style="display: flex; margin-bottom: 15px;">
+                                        <div style="width: 24px; height: 24px; background: #007AFF; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 10px; flex-shrink: 0;">✓</div>
+                                        <div>
+                                            <p style="font-weight: 500; margin-bottom: 5px; color: #333;">粉丝数量要求</p>
+                                            <p style="font-size: 14px; color: #666;">单平台粉丝数量不低于1万，多平台粉丝总量不低于5万</p>
+                                        </div>
+                                    </li>
+                                    <li style="display: flex; margin-bottom: 15px;">
+                                        <div style="width: 24px; height: 24px; background: #007AFF; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 10px; flex-shrink: 0;">✓</div>
+                                        <div>
+                                            <p style="font-weight: 500; margin-bottom: 5px; color: #333;">内容质量要求</p>
+                                            <p style="font-size: 14px; color: #666;">近3个月内有持续更新的优质旅游相关内容，互动率良好</p>
+                                        </div>
+                                    </li>
+                                    <li style="display: flex; margin-bottom: 15px;">
+                                        <div style="width: 24px; height: 24px; background: #007AFF; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 10px; flex-shrink: 0;">✓</div>
+                                        <div>
+                                            <p style="font-weight: 500; margin-bottom: 5px; color: #333;">个人形象要求</p>
+                                            <p style="font-size: 14px; color: #666;">良好的个人形象和口碑，无不良记录，符合平台价值观</p>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <div style="margin-bottom: 30px;">
+                                <h3 style="margin-bottom: 15px; font-size: 18px; color: #333;">专业要求</h3>
+                                <ul style="list-style: none;">
+                                    <li style="display: flex; margin-bottom: 15px;">
+                                        <div style="width: 24px; height: 24px; background: #FF6B00; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 10px; flex-shrink: 0;">★</div>
+                                        <div>
+                                            <p style="font-weight: 500; margin-bottom: 5px; color: #333;">旅游专业知识</p>
+                                            <p style="font-size: 14px; color: #666;">对目的地有深入了解，能提供专业的旅游建议和体验分享</p>
+                                        </div>
+                                    </li>
+                                    <li style="display: flex; margin-bottom: 15px;">
+                                        <div style="width: 24px; height: 24px; background: #FF6B00; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 10px; flex-shrink: 0;">★</div>
+                                        <div>
+                                            <p style="font-weight: 500; margin-bottom: 5px; color: #333;">内容创作能力</p>
+                                            <p style="font-size: 14px; color: #666;">具备优质的视频/图文创作能力，能生产有吸引力的旅游内容</p>
+                                        </div>
+                                    </li>
+                                    <li style="display: flex; margin-bottom: 15px;">
+                                        <div style="width: 24px; height: 24px; background: #FF6B00; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 10px; flex-shrink: 0;">★</div>
+                                        <div>
+                                            <p style="font-weight: 500; margin-bottom: 5px; color: #333;">沟通协作能力</p>
+                                            <p style="font-size: 14px; color: #666;">良好的沟通能力和团队协作精神，能配合平台活动和推广</p>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <div style="background: #f8f8f8; padding: 20px; border-radius: 8px;">
+                                <h3 style="margin-bottom: 15px; font-size: 18px; color: #333;">审核流程</h3>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+                                    <div style="text-align: center; flex: 1;">
+                                        <div style="width: 40px; height: 40px; background: #007AFF; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px;">1</div>
+                                        <p style="font-size: 14px; color: #666;">提交申请</p>
+                                    </div>
+                                    <div style="text-align: center; flex: 1;">
+                                        <div style="width: 40px; height: 40px; background: #007AFF; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px;">2</div>
+                                        <p style="font-size: 14px; color: #666;">资料审核</p>
+                                    </div>
+                                    <div style="text-align: center; flex: 1;">
+                                        <div style="width: 40px; height: 40px; background: #007AFF; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px;">3</div>
+                                        <p style="font-size: 14px; color: #666;">能力评估</p>
+                                    </div>
+                                    <div style="text-align: center; flex: 1;">
+                                        <div style="width: 40px; height: 40px; background: #007AFF; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px;">4</div>
+                                        <p style="font-size: 14px; color: #666;">签约合作</p>
+                                    </div>
+                                </div>
+                                <p style="font-size: 14px; color: #666; text-align: center;">审核周期：3-5个工作日，请保持电话畅通</p>
+                            </div>
+                        </div>
+                        
+                        <!-- 合作权益 -->
+                        <div style="display: none;">
+                            <div style="margin-bottom: 30px;">
+                                <h3 style="margin-bottom: 20px; font-size: 18px; color: #333; text-align: center;">加入我们，享受多重合作权益</h3>
+                                
+                                <div class="benefit-item">
+                                    <div class="benefit-icon">$</div>
+                                    <div>
+                                        <h4 style="margin-bottom: 5px; font-size: 16px; color: #333;">丰厚收益</h4>
+                                        <p style="font-size: 14px; color: #666;">行程佣金分成、粉丝团购奖励、专属活动额外奖金</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="benefit-item">
+                                    <div class="benefit-icon">★</div>
+                                    <div>
+                                        <h4 style="margin-bottom: 5px; font-size: 16px; color: #333;">品牌曝光</h4>
+                                        <p style="font-size: 14px; color: #666;">平台首页推荐位、专属个人主页、品牌活动优先参与权</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="benefit-item">
+                                    <div class="benefit-icon">✈</div>
+                                    <div>
+                                        <h4 style="margin-bottom: 5px; font-size: 16px; color: #333;">免费体验</h4>
+                                        <p style="font-size: 14px; color: #666;">精选目的地免费体验机会、高端酒店住宿优惠、特色活动优先体验</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="benefit-item">
+                                    <div class="benefit-icon">♥</div>
+                                    <div>
+                                        <h4 style="margin-bottom: 5px; font-size: 16px; color: #333;">粉丝福利</h4>
+                                        <p style="font-size: 14px; color: #666;">为粉丝提供专属优惠券、VIP服务和独家定制行程</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div style="margin-bottom: 30px;">
+                                <h3 style="margin-bottom: 15px; font-size: 18px; color: #333;">合作模式</h3>
+                                
+                                <div style="background: #f8f8f8; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                                    <h4 style="margin-bottom: 10px; font-size: 16px; color: #333;">定制行程带团</h4>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 15px;">根据您的风格和粉丝特点，定制专属旅游行程，带领粉丝一起旅行</p>
+                                    <ul style="list-style: none;">
+                                        <li style="display: flex; align-items: center; margin-bottom: 8px;">
+                                            <span style="width: 6px; height: 6px; background: #007AFF; border-radius: 50%; margin-right: 8px;"></span>
+                                            <span style="font-size: 14px; color: #666;">佣金比例：行程总价的15%-25%</span>
+                                        </li>
+                                        <li style="display: flex; align-items: center; margin-bottom: 8px;">
+                                            <span style="width: 6px; height: 6px; background: #007AFF; border-radius: 50%; margin-right: 8px;"></span>
+                                            <span style="font-size: 14px; color: #666;">额外奖励：每满10人增加1%佣金</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                
+                                <div style="background: #f8f8f8; padding: 20px; border-radius: 8px;">
+                                    <h4 style="margin-bottom: 10px; font-size: 16px; color: #333;">内容创作合作</h4>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 15px;">为平台目的地和行程创作优质内容，获取固定报酬和销售提成</p>
+                                    <ul style="list-style: none;">
+                                        <li style="display: flex; align-items: center; margin-bottom: 8px;">
+                                            <span style="width: 6px; height: 6px; background: #007AFF; border-radius: 50%; margin-right: 8px;"></span>
+                                            <span style="font-size: 14px; color: #666;">内容创作费：根据粉丝量级和内容质量，1000-10000元/篇</span>
+                                        </li>
+                                        <li style="display: flex; align-items: center; margin-bottom: 8px;">
+                                            <span style="width: 6px; height: 6px; background: #007AFF; border-radius: 50%; margin-right: 8px;"></span>
+                                            <span style="font-size: 14px; color: #666;">转化提成：通过您内容产生的订单，享受5%-10%佣金</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div style="text-align: center;">
+                                <button class="btn-primary" style="width: auto; padding: 15px 30px;">立即申请成为网红合作伙伴</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="feature-list">
+                <h2>网红入驻功能说明</h2>
+                <ul>
+                    <li>该页面为网红用户提供入驻申请通道，展示申请流程、入驻条件和合作权益</li>
+                    <li>网红用户可以通过填写基本信息、选择擅长领域、上传作品集等步骤完成入驻申请</li>
+                    <li>平台将根据网红的粉丝数量、内容质量和专业能力进行审核</li>
+                    <li>入驻成功的网红可以享受佣金分成、品牌曝光、免费体验等多重权益</li>
+                    <li>平台提供定制行程带团和内容创作两种主要合作模式</li>
+                    <li>网红可以通过个人主页展示自己的旅游风格和特色，吸引粉丝预订行程</li>
+                </ul>
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 2023 约旅产品原型 v2.1 | 仅用于演示</p>
+        </footer>
+    </div>
+</body>
+</html>

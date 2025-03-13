@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人中心 - 约旅产品原型 v2.1</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+        .prototype-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        nav {
+            background: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            padding: 8px 16px;
+            background: #f0f0f0;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+        nav ul li a:hover {
+            background: #333;
+            color: #fff;
+        }
+        .screen-container {
+            display: flex;
+            margin-bottom: 40px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        /* iPhone 16尺寸规格：393px × 852px */
+        .iphone {
+            width: 393px; /* iPhone 16宽度 */
+            height: 852px; /* iPhone 16高度 */
+            background: white;
+            border: 12px solid #1a1a1a;
+            border-radius: 50px; /* iPhone 16圆角 */
+            position: relative;
+            overflow: hidden;
+        }
+        .notch {
+            position: absolute;
+            width: 150px;
+            height: 35px;
+            background: #1a1a1a;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+        }
+        .screen {
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            overflow-y: auto;
+        }
+        .feature-list {
+            flex: 1;
+            margin-left: 40px;
+            padding: 20px;
+        }
+        .feature-list h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .feature-list ul {
+            list-style-type: none;
+        }
+        .feature-list li {
+            margin-bottom: 10px;
+            padding: 10px;
+            background: #f8f8f8;
+            border-radius: 5px;
+        }
+        .profile-header {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-right: 20px;
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .profile-info h3 {
+            margin-bottom: 5px;
+            color: #333;
+        }
+        .profile-info p {
+            color: #666;
+            font-size: 14px;
+        }
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+        }
+        .menu-item-icon {
+            width: 40px;
+            height: 40px;
+            background: #f0f0f0;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+        }
+        .menu-item-content {
+            flex: 1;
+        }
+        .menu-item-arrow {
+            color: #ccc;
+        }
+        .section-title {
+            padding: 15px 20px;
+            font-size: 16px;
+            color: #666;
+            background: #f8f8f8;
+        }
+        footer {
+            text-align: center;
+            margin: 40px 0;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="prototype-container">
+        <h1 style="text-align: center; margin-bottom: 30px;">约旅产品原型 v2.1</h1>
+        <nav>
+            <ul>
+                <li><a href="startup.html">启动页</a></li>
+                <li><a href="login.html">登录/注册</a></li>
+                <li><a href="home.html">首页</a></li>
+                <li><a href="trip-detail.html">行程详情</a></li>
+                <li><a href="booking.html">预订页</a></li>
+                <li><a href="payment.html">支付页面</a></li>
+                <li><a href="payment-success.html">支付成功</a></li>
+                <li><a href="profile.html" style="background: #333; color: #fff;">个人中心</a></li>
+                <li><a href="orders.html">订单列表</a></li>
+                <li><a href="live.html">直播页面</a></li>
+                <li><a href="vr-tour.html">VR导览</a></li>
+                <li><a href="influencer-entry.html">网红入驻</a></li>
+                <li><a href="guide-entry.html">导游入驻</a></li>
+                <li><a href="emergency.html">紧急事件处理</a></li>
+                <li><a href="index.html">返回首页</a></li>
+            </ul>
+        </nav>
+        
+        <!-- 个人中心页面 -->
+        <h2 style="text-align: center; margin: 40px 0 20px; color: #333; font-size: 24px;">个人中心</h2>
+        <div class="screen-container">
+            <div class="iphone">
+                <div class="notch"></div>
+                <div class="screen">
+                    <div class="profile-header">
+                        <div class="profile-avatar">
+                            <img src="../images/placeholder-logo.png" alt="用户头像" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <div class="profile-info">
+                            <h3>李小明</h3>
+                            <p>手机号: 138****5678</p>
+                            <p style="margin-top: 5px;">会员等级: 黄金会员</p>
+                        </div>
+                    </div>
+                    
+                    <div class="section-title">我的旅行</div>
+                    
+                    <a href="orders.html" style="text-decoration: none; color: inherit;">
+                        <div class="menu-item">
+                            <div class="menu-item-icon">📋</div>
+                            <div class="menu-item-content">
+                                <p style="font-weight: 500;">我的订单</p>
+                                <p style="font-size: 12px; color: #666; margin-top: 3px;">查看所有旅行订单</p>
+                            </div>
+                            <div class="menu-item-arrow">›</div>
+                        </div>
+                    </a>
+                    
+                    <div class="menu-item">
+                        <div class="menu-item-icon">⭐</div>
+                        <div class="menu-item-content">
+                            <p style="font-weight: 500;">我的收藏</p>
+                            <p style="font-size: 12px; color: #666; margin-top: 3px;">查看收藏的行程和网红</p>
+                        </div>
+                        <div class="menu-item-arrow">›</div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="menu-item-icon">🎫</div>
+                        <div class="menu-item-content">
+                            <p style="font-weight: 500;">我的优惠券</p>
+                            <p style="font-size: 12px; color: #666; margin-top: 3px;">2张可用优惠券</p>
+                        </div>
+                        <div class="menu-item-arrow">›</div>
+                    </div>
+                    
+                    <div class="section-title">互动社区</div>
+                    
+                    <div class="menu-item">
+                        <div class="menu-item-icon">👥</div>
+                        <div class="menu-item-content">
+                            <p style="font-weight: 500;">我关注的网红</p>
+                            <p style="font-size: 12px; color: #666; margin-top: 3px;">已关注5位网红</p>
+                        </div>
+                        <div class="menu-item-arrow">›</div>
+                    </div>
+                    
+                    <a href="live.html" style="text-decoration: none; color: inherit;">
+                        <div class="menu-item">
+                            <div class="menu-item-icon">📱</div>
+                            <div class="menu-item-content">
+                                <p style="font-weight: 500;">直播回放</p>
+                                <p style="font-size: 12px; color: #666; margin-top: 3px;">查看已观看的直播回放</p>
+                            </div>
+                            <div class="menu-item-arrow">›</div>
+                        </div>
+                    </a>
+                    
+                    <div class="menu-item">
+                        <div class="menu-item-icon">💬</div>
+                        <div class="menu-item-content">
+                            <p style="font-weight: 500;">我的评论</p>
+                            <p style="font-size: 12px; color: #666; margin-top: 3px;">查看我发表的评论</p>
+                        </div>
+                        <div class="menu-item-arrow">›</div>
+                    </div>
+                    
+                    <div class="section-title">账户设置</div>
+                    
+                    <div class="menu-item">
+                        <div class="menu-item-icon">👤</div>
+                        <div class="menu-item-content">
+                            <p style="font-weight: 500;">个人资料</p>
+                            <p style="font-size: 12px; color: #666; margin-top: 3px;">修改个人信息</p>
+                        </div>
+                        <div class="menu-item-arrow">›</div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="menu-item-icon">🔒</div>
+                        <div class="menu-item-content">
+                            <p style="font-weight: 500;">账户安全</p>
+                            <p style="font-size: 12px; color: #666; margin-top: 3px;">修改密码、绑定手机</p>
+                        </div>
+                        <div class="menu-item-arrow">›</div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="menu-item-icon">⚙️</div>
+                        <div class="menu-item-content">
+                            <p style="font-weight: 500;">通用设置</p>
+                            <p style="font-size: 12px; color: #666; margin-top: 3px;">通知、隐私设置</p>
+                        </div>
+                        <div class="menu-item-arrow">›</div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="menu-item-icon">❓</div>
+                        <div class="menu-item-content">
+                            <p style="font-weight: 500;">帮助与反馈</p>
+                            <p style="font-size: 12px; color: #666; margin-top: 3px;">常见问题、联系客服</p>
+                        </div>
+                        <div class="menu-item-arrow">›</div>
+                    </div>
+                    
+                    <div style="padding: 20px;">
+                        <button style="width: 100%; padding: 15px; background: #f0f0f0; border: none; border-radius: 8px; color: #666; font-size: 16px;">退出登录</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="feature-list">
+                <h2>个人中心功能说明</h2>
+                <ul>
+                    <li>显示用户基本信息（头像、姓名、手机号、会员等级）</li>
+                    <li>提供订单管理功能，查看历史订单和当前订单</li>
+                    <li>收藏管理，查看收藏的行程和网红</li>
+                    <li>优惠券管理，查看可用优惠券</li>
+                    <li>关注的网红列表，查看和管理关注的网红</li>
+                    <li>直播回放功能，查看已观看的直播</li>
+                    <li>评论管理，查看发表的评论</li>
