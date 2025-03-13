@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>约旅 - 网红导游旅行平台</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+<body>
+    <div id="app" class="container">
+        <div class="sidebar">
+            <div class="logo">
+                <img src="img/placeholder-logo.png" alt="约旅 Logo">
+            </div>
+            <nav class="menu">
+                <ul>
+                    <li v-for="item in menuItems" :key="item.path">
+                        <a :href="item.path" :class="{active: currentPage === item.path}" target="mainFrame" @click="setCurrentPage(item.path)">{{item.name}}</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="main-content">
+            <iframe name="mainFrame" src="html/home.html" frameborder="0"></iframe>
+        </div>
+    </div>
+    <script src="js/main.js"></script>
+</body>
+</html>

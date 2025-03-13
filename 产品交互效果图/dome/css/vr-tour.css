@@ -1,0 +1,85 @@
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #fff;
+}
+
+.vr-container {
+    position: relative;
+    width: 100%;
+    height: 500px;
+    background: #000;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.vr-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 18px;
+}
+
+.vr-controls {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 15px;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 10px 20px;
+    border-radius: 20px;
+}
+
+.control-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    background: transparent;
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.scene-list {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.scene-item {
+    border: 1px solid #eee;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.scene-item img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+}
+
+.scene-info {
+    padding: 10px;
+}
+
+.scene-info h3 {
+    margin: 0;
+    font-size: 16px;
+}
+
+.scene-info p {
+    margin: 5px 0 0;
+    font-size: 14px;
+    color: #666;
+}

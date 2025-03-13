@@ -132,7 +132,39 @@
             margin: 40px 0;
             color: #666;
         }
+        .city-item {
+            padding: 6px 12px;
+            background: #f5f5f5;
+            border-radius: 15px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .city-item:hover {
+            background: #007AFF;
+            color: white;
+        }
     </style>
+    <script>
+        function toggleCitySelector() {
+            const citySelector = document.getElementById('citySelector');
+            citySelector.style.display = citySelector.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function selectCity(city) {
+            document.getElementById('selectedCity').textContent = city;
+            document.getElementById('citySelector').style.display = 'none';
+        }
+
+        // 点击其他区域关闭城市选择器
+        document.addEventListener('click', function(event) {
+            const citySelector = document.getElementById('citySelector');
+            const citySelectorTrigger = document.querySelector('[onclick="toggleCitySelector()"]');
+            if (!citySelectorTrigger.contains(event.target) && !citySelector.contains(event.target)) {
+                citySelector.style.display = 'none';
+            }
+        });
+    </script>
 </head>
 <body>
     <div class="prototype-container">
@@ -164,9 +196,37 @@
                 <div class="screen" style="background: #f5f5f5;">
                     <!-- 其他内容 -->
                     <div style="padding: 15px; background: white;">
-                        <div style="position: relative; margin-bottom: 15px;">
-                            <input type="text" placeholder="搜索目的地、网红或行程" style="width: 100%; padding: 12px 40px 12px 15px; border: 1px solid #ddd; border-radius: 25px; background: #f5f5f5;">
-                            <span style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: #999;">🔍</span>
+                        <div style="position: relative; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                            <div style="position: relative;">
+                                <div style="display: flex; align-items: center; padding: 12px 15px; border: 1px solid #ddd; border-radius: 25px; background: #f5f5f5; cursor: pointer; min-width: 100px;" onclick="toggleCitySelector()">
+                                    <span id="selectedCity">深圳</span>
+                                    <span style="margin-left: 5px;">▼</span>
+                                </div>
+                                <div id="citySelector" style="display: none; position: absolute; top: 100%; left: 0; width: 300px; background: white; border: 1px solid #ddd; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-top: 5px; z-index: 1000; padding: 15px;">
+                                    <div style="margin-bottom: 15px;">
+                                        <h4 style="font-size: 14px; color: #666; margin-bottom: 10px;">热门城市</h4>
+                                        <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                                            <span class="city-item" onclick="selectCity('肇庆')">肇庆</span>
+                                            <span class="city-item" onclick="selectCity('珠海')">珠海</span>
+                                            <span class="city-item" onclick="selectCity('澳门')">澳门</span>
+                                            <span class="city-item" onclick="selectCity('广州')">广州</span>
+                                            <span class="city-item" onclick="selectCity('上海')">上海</span>
+                                            <span class="city-item" onclick="selectCity('北京')">北京</span>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <h4 style="font-size: 14px; color: #666; margin-bottom: 10px;">最近访问</h4>
+                                        <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                                            <span class="city-item" onclick="selectCity('肇庆')">肇庆</span>
+                                            <span class="city-item" onclick="selectCity('珠海')">珠海</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="flex-grow: 1; position: relative;">
+                                <input type="text" placeholder="搜索目的地、网红或行程" style="width: 100%; padding: 12px 40px 12px 15px; border: 1px solid #ddd; border-radius: 25px; background: #f5f5f5;">
+                                <span style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: #999;">🔍</span>
+                            </div>
                         </div>
                     </div>
                    <!-- 分类导航 -->

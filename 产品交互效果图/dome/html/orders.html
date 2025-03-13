@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>订单管理 - 约旅</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="../css/orders.css">
+</head>
+<body>
+    <div id="app">
+        <div class="order-tabs">
+            <div v-for="tab in tabs" 
+                 :key="tab.value" 
+                 class="tab" 
+                 :class="{ active: currentTab === tab.value }"
+                 @click="currentTab = tab.value">
+                {{ tab.label }}
+            </div>
+        </div>
+
+        <div class="order-list">
+            <div v-for="order in filteredOrders" 
+                 :key="order.id" 
+                 class="order-item">
+                <div class="order-header">
+                    <span>订单号：{{ order.orderNo }}</span>
+                    <span class="order-status">{{ order.status }}</span>
+                </div>
+                <h3>{{ order.tripName }}</h3>
+                <p>出发日期：{{ order.departureDate }}</p>
+                <p>人数：{{ order.adultCount }}成人 {{ order.childCount > 0 ? order.childCount + '儿童' : '' }}</p>
+                <p>总价：¥{{ order.totalPrice }}</p>
+                <div class="order-actions">
+                    <button v-for="action in order.actions" 
+                            :key="action.type"
+                            class="btn" 
+                            :class="action.primary ? 'btn-primary' : 'btn-secondary'"
+                            @click="handleAction(action.type, order)">
+                        {{ action.label }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/orders.js"></script>
+</body>
+</html>

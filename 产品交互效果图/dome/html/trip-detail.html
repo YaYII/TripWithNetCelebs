@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>行程详情 - 约旅</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="../css/trip-detail.css">
+</head>
+<body>
+    <div id="app">
+        <div class="trip-header">
+            <img :src="trip.image" :alt="trip.title">
+            <h1 class="trip-title">{{ trip.title }}</h1>
+            <div class="trip-info">
+                <div class="info-item">
+                    <h3>行程时长</h3>
+                    <p>{{ trip.duration }}</p>
+                </div>
+                <div class="info-item">
+                    <h3>价格</h3>
+                    <p>¥{{ trip.price }}/人起</p>
+                </div>
+                <div class="info-item">
+                    <h3>集合地点</h3>
+                    <p>{{ trip.meetingPoint }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="schedule">
+            <h2>行程安排</h2>
+            <div class="day-item" v-for="(day, index) in trip.schedule" :key="index">
+                <h3>第{{ index + 1 }}天</h3>
+                <p v-for="(activity, actIndex) in day" :key="actIndex">{{ activity }}</p>
+            </div>
+        </div>
+
+        <button class="book-button" @click="goToBooking">立即预订</button>
+    </div>
+
+    <script src="../js/trip-detail.js"></script>
+</body>
+</html>
