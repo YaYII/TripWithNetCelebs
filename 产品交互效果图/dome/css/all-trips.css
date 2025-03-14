@@ -1,0 +1,380 @@
+/* 顶部导航栏样式 */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: linear-gradient(135deg, #4e8cff, #3b7dff);
+    height: 56px;
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    width: 100%;
+    max-width: 393px;
+    margin: 0 auto;
+}
+
+.nav-bar {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.back-button {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    transition: background 0.2s ease;
+    margin-right: 10px;
+}
+
+.back-button:active {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.back-icon {
+    font-size: 20px;
+    line-height: 1;
+}
+
+.header-title {
+    flex: 1;
+    text-align: center;
+    margin: 0;
+    font-size: 18px;
+    color: #fff;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+/* 搜索栏样式 */
+.search-container {
+    position: fixed;
+    top: 56px;
+    left: 0;
+    right: 0;
+    z-index: 99;
+    background: linear-gradient(135deg, #4e8cff, #3b7dff);
+    padding: 10px 15px 20px;
+    width: 100%;
+    max-width: 393px;
+    margin: 0 auto;
+    transition: transform 0.3s ease;
+}
+
+.search-container.hidden {
+    transform: translateY(-100%);
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 30px;
+    padding: 10px 15px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.search-bar:focus-within {
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+}
+
+.search-bar input {
+    flex: 1;
+    border: none;
+    background: none;
+    padding: 0;
+    margin: 0;
+    font-size: 15px;
+    color: #fff;
+    font-weight: 500;
+}
+
+.search-bar input::placeholder {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.search-icon {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+}
+
+/* 筛选栏样式 */
+.filter-bar {
+    position: fixed;
+    top: 126px;
+    left: 0;
+    right: 0;
+    z-index: 98;
+    background: linear-gradient(135deg, #4e8cff, #3b7dff);
+    padding: 12px 0 15px;
+    width: 100%;
+    max-width: 393px;
+    margin: 0 auto;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, top 0.3s ease;
+}
+
+.filter-bar.hidden {
+    transform: translateY(-100%);
+}
+
+.filter-bar.search-hidden {
+    top: 56px;
+}
+
+.filter-scroll {
+    display: flex;
+    overflow-x: auto;
+    padding: 0 15px;
+    -webkit-overflow-scrolling: touch;
+}
+
+.filter-item {
+    padding: 3px 10px;
+    margin-right: 12px;
+    border-radius: 30px;
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    user-select: none;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.filter-item:last-child {
+    margin-right: 15px;
+}
+
+.filter-item:active {
+    transform: scale(0.95);
+}
+
+.filter-item.active {
+    background: #fff;
+    color: #3b7dff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+/* 行程列表样式 */
+.trip-list {
+    margin-top: 180px;
+    padding: 0 15px;
+    width: 100%;
+    max-width: 393px;
+    margin-left: auto;
+    margin-right: auto;
+    transition: margin-top 0.3s ease;
+}
+
+.trip-list.search-hidden {
+    margin-top: 110px;
+}
+
+.trip-card {
+    background: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+.trip-card:active {
+    transform: scale(0.98);
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+}
+
+.trip-image-container {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+}
+
+.trip-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.trip-card:hover .trip-image-container img {
+    transform: scale(1.05);
+}
+
+.trip-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 20px 15px 15px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.2), transparent);
+    color: #fff;
+}
+
+.trip-title {
+    margin: 0 0 5px;
+    font-size: 18px;
+    font-weight: 600;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.trip-desc {
+    margin: 0;
+    font-size: 14px;
+    opacity: 0.95;
+    line-height: 1.4;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.trip-meta {
+    padding: 15px 18px;
+}
+
+.trip-info {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.trip-info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.trip-location,
+.trip-dates,
+.duration {
+    display: flex;
+    align-items: center;
+    color: #666;
+    font-size: 14px;
+}
+
+.trip-location svg,
+.trip-dates svg,
+.duration svg {
+    margin-right: 6px;
+    flex-shrink: 0;
+    color: #3b7dff;
+}
+
+.trip-location {
+    max-width: 70%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.price {
+    color: #f44336;
+    font-size: 20px;
+    font-weight: 600;
+    text-align: right;
+}
+
+.price::before {
+    content: '¥';
+    font-size: 16px;
+    margin-right: 1px;
+}
+
+.duration {
+    background: rgba(59, 125, 255, 0.1);
+    padding: 4px 10px;
+    border-radius: 20px;
+    color: #3b7dff;
+    font-weight: 500;
+}
+
+.trip-status {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 10px;
+    border-top: 1px solid #f5f5f5;
+}
+
+/* 加载更多按钮样式 */
+.load-more {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 393px;
+    padding: 15px;
+    margin: 20px auto 30px;
+    border: none;
+    background: rgba(59, 125, 255, 0.08);
+    color: #3b7dff;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.load-more:active {
+    background: rgba(59, 125, 255, 0.15);
+    transform: translateY(1px);
+}
+
+.load-more.loading {
+    opacity: 0.8;
+}
+
+.load-more svg {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+    animation: rotate 1s linear infinite;
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* 无结果提示样式 */
+.no-results {
+    text-align: center;
+    padding: 40px 20px;
+    color: #666;
+    font-size: 15px;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    margin: 20px 0;
+}
+
+.no-results::before {
+    content: "😕";
+    display: block;
+    font-size: 40px;
+    margin-bottom: 15px;
+} 

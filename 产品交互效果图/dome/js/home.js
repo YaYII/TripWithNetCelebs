@@ -137,6 +137,7 @@ createApp({
         viewAllTrips() {
             // TODO: 实现查看全部行程的逻辑
             console.log('查看全部行程');
+            window.location.href = `all-trips.html`;
         },
         // 初始化加载数据
         async loadInitialTrips() {

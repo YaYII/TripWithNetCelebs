@@ -66,7 +66,7 @@ const app = createApp({
         goBack() {
             // 返回上一页，如果没有上一页则返回首页
             if (this.referrer && this.referrer !== '') {
-                window.location.href = this.referrer;
+                window.history.go(-1);
             } else {
                 window.location.href = 'index.html';
             }
