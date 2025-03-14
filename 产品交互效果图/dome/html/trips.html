@@ -8,14 +8,14 @@
     <link rel="stylesheet" href="../css/trips.css">
     <link rel="stylesheet" href="../css/trip-card.css">
     <link rel="stylesheet" href="../css/iphone16.css">
-    <script src="https://cdn.bootcdn.net/ajax/libs/vue/3.2.47/vue.global.prod.min.js"></script>
+    <script src="../libs/vue.global.prod.min.js"></script>
 </head>
 <body>
     <div id="app" v-cloak>
         <!-- 顶部导航栏 -->
         <div class="header">
             <div style="width: 24px;"></div>
-            <div class="header-title">行程</div>
+            <div class="header-title">我的行程</div>
             <div style="width: 24px;"></div>
         </div>
         
@@ -33,9 +33,7 @@
             
             <!-- 用户行程部分 -->
             <div v-if="hasUserTrips">
-                <div class="trips-header">
-                    <div class="trips-title">我的行程</div>
-                </div>
+                
                 
                 <div class="trips-container">
                     <div class="trip-card" v-for="trip in userTrips" :key="trip.id" @click="viewTripDetail(trip.id)">
@@ -130,4 +128,4 @@
     <script src="../js/nav-handler.js"></script>
     <script src="../js/trips.js"></script>
 </body>
-</html> 
+</html>

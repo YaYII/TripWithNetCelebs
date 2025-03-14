@@ -1,12 +1,78 @@
+/* 隐藏滚动条但保留滚动功能 */
+html, body {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+    overflow-y: auto;
+}
+
+html::-webkit-scrollbar, 
+body::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+    width: 0;
+    background: transparent;
+}
+
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     margin: 0;
-    padding: 20px;
-    background-color: #fff;
+    padding: 0;
+    background: linear-gradient(135deg, #1e90ff, #70a1ff);
+    color: #333;
+    line-height: 1.5;
+    display: flex;
+    justify-content: center;
 }
+
+/* 顶部导航栏 */
+.nav-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    background: linear-gradient(135deg, #1e90ff, #70a1ff);
+    z-index: 100;
+    padding: 12px 15px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    box-sizing: border-box;
+    transition: transform 0.3s ease;
+}
+
+.back-button {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin-right: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.back-button svg {
+    color: white;
+}
+
+.nav-title {
+    color: white;
+    font-size: 18px;
+    font-weight: 500;
+    text-align: left;
+}
+
 .booking-form {
     max-width: 600px;
     margin: 0 auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    padding: 20px;
 }
 .form-group {
     margin-bottom: 20px;
@@ -25,25 +91,28 @@ body {
     box-sizing: border-box;
 }
 .trip-summary {
-    background: #f8f8f8;
+    background: #f5f7fa;
     padding: 20px;
     border-radius: 8px;
     margin-bottom: 30px;
+    border: 1px solid #e3f2fd;
 }
 .price-detail {
-    border-top: 1px solid #eee;
-    margin-top: 20px;
-    padding-top: 20px;
+    background: #f5f7fa;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 0;
+    border: 1px solid #e3f2fd;
 }
 .total-price {
     font-size: 20px;
-    color: #f00;
+    color: #1976d2;
     font-weight: bold;
 }
 .submit-button {
     width: 100%;
     padding: 15px;
-    background: #007aff;
+    background: #1976d2;
     color: #fff;
     border: none;
     border-radius: 8px;
@@ -51,5 +120,534 @@ body {
     cursor: pointer;
 }
 .submit-button:hover {
-    background: #0056b3;
+    background: #1565c0;
+}
+.booking-detail {
+    width: 100%;
+    max-width: 800px;
+    margin: 20px auto;
+    margin-top: 70px; /* 为顶部导航栏留出空间 */
+    background: transparent;
+    border-radius: 12px;
+    overflow: hidden;
+}
+.order-info {
+    padding: 25px;
+    border-bottom: none;
+    position: relative;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.order-header h2 {
+    margin: 0;
+    color: #1976d2;
+    font-size: 22px;
+    font-weight: 600;
+}
+.order-status {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+}
+.order-status.pending {
+    background: #fff8e1;
+    color: #ff8f00;
+}
+.order-status.paid {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+.order-status.cancelled {
+    background: #ffebee;
+    color: #c62828;
+}
+.order-status.refunding {
+    background: #e3f2fd;
+    color: #1565c0;
+}
+.order-number, .order-time, .order-validity {
+    margin: 10px 0;
+    color: #546e7a;
+    font-size: 15px;
+}
+.countdown-timer {
+    margin-top: 15px;
+    padding: 10px 15px;
+    background: #e3f2fd;
+    color: #1976d2;
+    border-radius: 8px;
+    font-weight: 500;
+    text-align: center;
+    font-size: 15px;
+    box-shadow: 0 2px 4px rgba(25, 118, 210, 0.1);
+}
+.countdown-timer.expired {
+    background: #ffebee;
+    color: #c62828;
+    box-shadow: 0 2px 4px rgba(198, 40, 40, 0.1);
+}
+.trip-info, .price-info, .refund-rules, .payment-info {
+    padding: 25px;
+    border-bottom: none;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+.trip-info h3, .price-info h3, .refund-rules h3, .payment-info h3 {
+    color: #1976d2;
+    margin: 0 0 20px 0;
+    font-size: 18px;
+    font-weight: 600;
+}
+.trip-basic {
+    background: rgba(245, 247, 250, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #e3f2fd;
+}
+.trip-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #1976d2;
+}
+.trip-date, .trip-time, .trip-location {
+    margin: 8px 0;
+    color: #546e7a;
+    font-size: 15px;
+}
+.influencer-info {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.4);
+    border: 1px solid #e3f2fd;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(25, 118, 210, 0.05);
+}
+.influencer-info img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin-right: 15px;
+    object-fit: cover;
+    border: 2px solid #bbdefb;
+}
+.influencer-detail {
+    flex: 1;
+}
+.influencer-name {
+    font-weight: 600;
+    margin-bottom: 5px;
+    font-size: 16px;
+    color: #1976d2;
+}
+.influencer-followers {
+    color: #546e7a;
+    font-size: 14px;
+}
+.price-item {
+    display: flex;
+    justify-content: space-between;
+    margin: 12px 0;
+    color: #546e7a;
+    font-size: 15px;
+}
+.price-item.total {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #bbdefb;
+    font-weight: 600;
+    color: #1976d2;
+    font-size: 18px;
+}
+.rule-item {
+    margin-bottom: 20px;
+}
+.rule-item h4 {
+    color: #1976d2;
+    margin-bottom: 12px;
+    font-size: 16px;
+    font-weight: 500;
+}
+.rule-item ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    background: rgba(245, 247, 250, 0.8);
+    border-radius: 10px;
+    padding: 15px 20px;
+    border: 1px solid #e3f2fd;
+}
+.rule-item li {
+    color: #546e7a;
+    margin: 10px 0;
+    padding-left: 24px;
+    position: relative;
+    font-size: 14px;
+}
+.rule-item li:before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: #1976d2;
+    font-size: 18px;
+    line-height: 1;
+}
+.payment-detail {
+    background: rgba(245, 247, 250, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #e3f2fd;
+}
+.payment-detail p {
+    color: #546e7a;
+    margin: 10px 0;
+    font-size: 14px;
+}
+.cancel-success {
+    text-align: center;
+    padding: 30px;
+    margin: 0 0 15px 0;
+    background: #e8f5e9;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+.success-icon {
+    width: 70px;
+    height: 70px;
+    line-height: 70px;
+    border-radius: 50%;
+    background: #2e7d32;
+    color: white;
+    font-size: 32px;
+    margin: 0 auto 20px;
+    box-shadow: 0 4px 8px rgba(46, 125, 50, 0.2);
+}
+.cancel-success h3 {
+    color: #2e7d32;
+    margin-bottom: 10px;
+    font-size: 20px;
+    font-weight: 600;
+}
+.cancel-success p {
+    color: #546e7a;
+    font-size: 15px;
+    margin-bottom: 20px;
+}
+.reorder-tip {
+    color: #1976d2 !important;
+    font-weight: 500;
+    font-size: 16px !important;
+    margin-top: 15px;
+}
+
+/* 取消确认弹窗 */
+.cancel-confirm-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    width: 85%;
+    max-width: 350px;
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.modal-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1976d2;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.modal-message {
+    font-size: 15px;
+    color: #546e7a;
+    margin-bottom: 25px;
+    text-align: center;
+    line-height: 1.5;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.modal-buttons button {
+    flex: 1;
+    padding: 12px 0;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.cancel-confirm-btn {
+    background: #c62828;
+    color: white;
+    box-shadow: 0 2px 6px rgba(198, 40, 40, 0.3);
+}
+
+.cancel-cancel-btn {
+    background: #eceff1;
+    color: #546e7a;
+}
+
+.cancel-confirm-btn:hover {
+    background: #b71c1c;
+    box-shadow: 0 4px 8px rgba(198, 40, 40, 0.4);
+}
+
+.cancel-cancel-btn:hover {
+    background: #cfd8dc;
+}
+
+.bottom-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 15px 20px;
+    background: #fff;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 0 auto;
+    border-top: 1px solid #e3f2fd;
+}
+.bottom-actions-placeholder {
+    height: 70px;
+    width: 100%;
+}
+.bottom-actions button, .bottom-actions a {
+    padding: 12px 0;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    flex: 1;
+    text-align: center;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.cancel-btn {
+    background: #eceff1;
+    color: #546e7a;
+    margin-right: 10px;
+}
+.pay-btn {
+    background: #1976d2;
+    color: #fff;
+    box-shadow: 0 2px 6px rgba(25, 118, 210, 0.3);
+}
+.refund-btn {
+    background: #c62828;
+    color: #fff;
+    box-shadow: 0 2px 6px rgba(198, 40, 40, 0.3);
+    width: 100%;
+}
+.reorder-btn {
+    background: #1976d2;
+    color: #fff;
+    box-shadow: 0 2px 6px rgba(25, 118, 210, 0.3);
+    width: 100%;
+}
+.cancel-btn:hover {
+    background: #cfd8dc;
+}
+.pay-btn:hover {
+    background: #1565c0;
+    box-shadow: 0 4px 8px rgba(25, 118, 210, 0.4);
+}
+.refund-btn:hover {
+    background: #b71c1c;
+    box-shadow: 0 4px 8px rgba(198, 40, 40, 0.4);
+}
+.reorder-btn:hover {
+    background: #1565c0;
+    box-shadow: 0 4px 8px rgba(25, 118, 210, 0.4);
+}
+
+/* 支付成功页面样式 */
+.payment-success {
+    /* width: 100%; */
+    max-width: 800px;
+    margin: 20px auto;
+    margin-top: 70px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    padding: 40px 20px;
+}
+.payment-success .success-icon {
+    width: 80px;
+    height: 80px;
+    line-height: 80px;
+    border-radius: 50%;
+    background: #2e7d32;
+    color: white;
+    font-size: 40px;
+    margin: 0 auto 30px;
+    box-shadow: 0 6px 12px rgba(46, 125, 50, 0.2);
+}
+.payment-success h2 {
+    color: #2e7d32;
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: 600;
+}
+.payment-success p {
+    color: #546e7a;
+    font-size: 16px;
+    margin-bottom: 30px;
+}
+.payment-success .trip-reminder {
+    background: rgba(255, 248, 225, 0.8);
+    padding: 25px;
+    border-radius: 10px;
+    margin: 20px auto;
+    max-width: 500px;
+    text-align: left;
+    box-shadow: 0 2px 8px rgba(255, 143, 0, 0.1);
+    border: 1px solid #ffe082;
+}
+.payment-success .trip-reminder h3 {
+    color: #ff8f00;
+    margin-bottom: 15px;
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+}
+.payment-success .trip-reminder p {
+    color: #546e7a;
+    margin: 10px 0;
+    font-size: 15px;
+}
+.back-btn {
+    display: inline-block;
+    padding: 12px 30px;
+    background: #1976d2;
+    color: #fff;
+    border-radius: 8px;
+    text-decoration: none;
+    margin-top: 20px;
+    font-size: 15px;
+    font-weight: 500;
+    box-shadow: 0 2px 6px rgba(25, 118, 210, 0.3);
+    transition: all 0.2s ease;
+}
+.back-btn:hover {
+    background: #1565c0;
+    box-shadow: 0 4px 8px rgba(25, 118, 210, 0.4);
+}
+
+/* 可展开信息区域样式 */
+.info-section {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.info-header {
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.info-header:hover {
+    background-color: rgba(25, 118, 210, 0.05);
+}
+
+.info-header h3 {
+    margin: 0;
+    color: #1976d2;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.toggle-icon {
+    color: #1976d2;
+    transition: transform 0.3s ease;
+    font-size: 14px;
+}
+
+.toggle-icon.expanded {
+    transform: rotate(180deg);
+}
+
+.info-content {
+    padding: 0 20px 20px;
+    border-top: 1px solid rgba(25, 118, 210, 0.1);
+}
+
+.info-content .rule-item,
+.info-content .payment-detail {
+    margin-top: 15px;
+}
+
+.info-content .rule-item:first-child {
+    margin-top: 0;
+}
+
+.info-content h4 {
+    color: #1976d2;
+    margin: 0 0 10px 0;
+    font-size: 16px;
+}
+
+.info-content ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.info-content li {
+    color: #546e7a;
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+.info-content p {
+    color: #546e7a;
+    margin: 5px 0;
+    font-size: 14px;
 }

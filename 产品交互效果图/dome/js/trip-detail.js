@@ -101,17 +101,27 @@ const app = createApp({
                     {
                         title: '第一天',
                         activities: [
-                            { time: '09:00', description: '集合出发' },
+                            { time: '09:00', description: '集合出发（请提前15分钟到达集合地点）' },
                             { time: '10:30', description: '到达长隆海洋王国' },
-                            { time: '11:00', description: '观看海豚表演' }
+                            { time: '11:00', description: '观看海豚表演' },
+                            { time: '12:30', description: '午餐时间（自理）' },
+                            { time: '14:00', description: '自由活动，体验游乐项目' },
+                            { time: '16:00', description: '观看白鲸表演' },
+                            { time: '17:30', description: '晚餐时间（自理）' },
+                            { time: '19:00', description: '观看烟花表演' },
+                            { time: '20:00', description: '返回酒店休息' }
                         ]
                     },
                     {
                         title: '第二天',
                         activities: [
-                            { time: '09:30', description: '体验过山车' },
-                            { time: '11:00', description: '观看白鲸表演' },
-                            { time: '14:00', description: '自由活动' }
+                            { time: '09:00', description: '酒店早餐' },
+                            { time: '10:00', description: '再次入园，体验过山车' },
+                            { time: '11:30', description: '观看海狮表演' },
+                            { time: '12:30', description: '午餐时间（自理）' },
+                            { time: '14:00', description: '自由活动，体验游乐项目' },
+                            { time: '16:00', description: '观看海豚表演' },
+                            { time: '17:30', description: '结束行程，返回' }
                         ]
                     }
                 ],

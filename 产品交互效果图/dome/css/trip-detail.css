@@ -527,3 +527,140 @@ body {
     width: 16px;
     height: 16px;
 }
+
+/* 费用详情 */
+.cost-section {
+    margin: 20px 0;
+}
+
+.cost-list {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    margin: 0 20px;
+}
+
+.cost-category {
+    padding: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.cost-category:last-child {
+    border-bottom: none;
+}
+
+.cost-category-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.cost-category-header h3 {
+    font-size: var(--title-small);
+    font-weight: 600;
+    color: white;
+}
+
+.total-cost, .estimated-cost {
+    font-size: var(--text-large);
+    font-weight: 600;
+    color: #FFD700;
+}
+
+.cost-items {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.cost-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.cost-item-info {
+    flex: 1;
+    margin-right: 16px;
+}
+
+.cost-item-name {
+    font-size: var(--text-medium);
+    font-weight: 500;
+    color: white;
+    margin-bottom: 4px;
+}
+
+.cost-item-desc {
+    font-size: var(--text-small);
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.4;
+}
+
+.cost-item-price {
+    font-size: var(--text-medium);
+    font-weight: 500;
+    color: #FFD700;
+    white-space: nowrap;
+}
+
+.cost-notes {
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    margin: 20px;
+}
+
+.cost-notes h3 {
+    font-size: var(--text-medium);
+    font-weight: 600;
+    color: white;
+    margin-bottom: 12px;
+}
+
+.cost-notes ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.cost-notes li {
+    font-size: var(--text-small);
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 8px;
+    padding-left: 16px;
+    position: relative;
+    line-height: 1.4;
+}
+
+.cost-notes li:before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.cost-notes li:last-child {
+    margin-bottom: 0;
+}
+
+.cost-category-footer {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.cost-category-footer p {
+    font-size: var(--text-small);
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.4;
+    text-align: left;
+    font-style: italic;
+}

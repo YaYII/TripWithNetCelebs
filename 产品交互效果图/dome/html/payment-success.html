@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>支付成功 - 约旅</title>
+    <script src="../libs/vue.global.js"></script>
+    <link rel="stylesheet" href="../css/booking.css">
+    <style>
+        /* 确保标题完全居中 */
+        .nav-title-center {
+            width: 100%;
+            text-align: center;
+            position: absolute;
+            left: 0;
+            right: 0;
+        }
+        
+        /* 强调行程信息 */
+        .highlight-info {
+            font-weight: 500;
+            color: #1976d2;
+        }
+        
+        .important-note {
+            color: #ff8f00;
+            font-weight: 500;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        /* 添加内容区域样式 */
+        .payment-success {
+            max-width: 600px;
+            margin: 80px auto 20px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .trip-reminder {
+            background: #f5f7fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 1px solid #e3f2fd;
+        }
+
+        .trip-reminder p {
+            margin: 10px 0;
+            word-break: break-all;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- 顶部导航栏 -->
+        <!-- <div class="nav-bar">
+            <div class="nav-title-center">支付成功</div>
+        </div> -->
+
+        <div class="payment-success">
+            <div class="success-icon">✓</div>
+            <h2>支付成功</h2>
+            <p>您的订单已支付成功，感谢您的预订！</p>
+            
+            <div class="trip-reminder">
+                <h3>行程提醒</h3>
+                <p><span class="highlight-info">行程名称：</span>珠海长隆海洋王国2日游</p>
+                <p><span class="highlight-info">出发日期：</span>2024-03-20</p>
+                <p><span class="highlight-info">集合时间：</span>09:00</p>
+                <p><span class="highlight-info">集合地点：</span>珠海长隆海洋王国正门</p>
+                <p class="important-note"><strong>该行程已在行程中，请注意不要错过时间！</strong></p>
+            </div>
+            
+            <a href="trips.html" class="back-btn">全部订单</a>
+        </div>
+    </div>
+</body>
+</html>

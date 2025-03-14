@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>首页 - 约旅</title>
     <link rel="stylesheet" href="../css/home.css">
-    <script src="https://cdn.bootcdn.net/ajax/libs/vue/3.2.47/vue.global.min.js"></script>
-    <script src="https://cdn.bootcdn.net/ajax/libs/Swiper/8.4.5/swiper-bundle.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/Swiper/8.4.5/swiper-bundle.min.css">
+    <script src="../libs/vue.global.min.js"></script>
+    <script src="../libs/swiper-bundle.min.js"></script>
+    <link rel="stylesheet" href="../libs/swiper-bundle.min.css">
     <style>
         /* 调整iframe位置和样式 */
         .nav-frame-container {
@@ -87,7 +87,7 @@
         <!-- 热门目的地轮播 -->
         <div class="swiper destination-swiper">
             <div class="swiper-wrapper">
-                <div class="swiper-slide" v-for="dest in destinations" :key="dest.id">
+                <div class="swiper-slide" v-for="dest in destinations" :key="dest.id" @click="goToTripDetail(dest.tripId)">
                     <div class="destination-card">
                         <img :src="dest.image" :alt="dest.name">
                         <div class="destination-info">

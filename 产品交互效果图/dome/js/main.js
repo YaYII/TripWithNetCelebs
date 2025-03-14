@@ -9,7 +9,7 @@ const app = createApp({
                 { name: '登录', path: 'html/login.html' },
                 { name: '首页', path: 'html/home.html' },
                 { name: '网红推荐', path: 'html/influencer-list.html' },
-                { name: '行程详情', path: 'html/trip-detail.html' },
+                { name: '行程详情', path: 'html/trip-detail.html?id=11' },
                 { name: '预订行程', path: 'html/booking.html' },
                 { name: '订单管理', path: 'html/orders.html' },
                 { name: '行程', path: 'html/trips.html' },

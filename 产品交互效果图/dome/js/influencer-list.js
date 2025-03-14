@@ -6,7 +6,7 @@ createApp({
             currentPage: 'explore',
             selectedTag: '全部',
             searchQuery: '',
-            tags: ['全部', '珠海', '澳门', '香港', '广州', '深圳', '热门', '特价', '亲子', '摄影', '美食'],
+            tags: ['全部',  '亲子', '摄影', '美食'],
             influencers: [
                 {
                     id: 1,

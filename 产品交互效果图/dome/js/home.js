@@ -25,19 +25,22 @@ createApp({
                     id: 1,
                     name: '香港维多利亚港',
                     description: '感受不夜城的魅力',
-                    image: '../img/test.png'
+                    image: '../img/test.png',
+                    tripId: 101
                 },
                 {
                     id: 2,
                     name: '澳门威尼斯人',
                     description: '体验东方威尼斯',
-                    image: '../img/test.png'
+                    image: '../img/test.png',
+                    tripId: 102
                 },
                 {
                     id: 3,
                     name: '迪士尼乐园',
                     description: '重拾童年欢乐时光',
-                    image: '../img/test.png'
+                    image: '../img/test.png',
+                    tripId: 103
                 }
             ],
             influencers: [
@@ -126,8 +129,7 @@ createApp({
             window.location.href = 'influencer-list.html';
         },
         viewInfluencerDetail(id) {
-            // TODO: 实现查看网红详情的逻辑
-            console.log('查看网红详情:', id);
+            window.location.href = `trip-detail.html?id=${id}`;
         },
         goToTripDetail(id) {
             window.location.href = `trip-detail.html?id=${id}`;

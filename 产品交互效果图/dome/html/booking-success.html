@@ -123,28 +123,9 @@
             <div class="bottom-actions-placeholder"></div>
         </div>
 
-        <!-- 取消订单确认弹窗 -->
-        <div v-if="showCancelModal" class="cancel-confirm-modal">
-            <div class="modal-content">
-                <div class="modal-title">确认取消订单</div>
-                <div class="modal-message">
-                    取消后将无法恢复，只能重新下单。<br>
-                    确定要取消该订单吗？
-                </div>
-                <div class="modal-buttons">
-                    <button class="cancel-cancel-btn" @click="closeCancelModal">再想想</button>
-                    <button class="cancel-confirm-btn" @click="confirmCancel">确认取消</button>
-                </div>
-            </div>
-        </div>
+        
 
-        <!-- 悬浮底部按钮 -->
-        <div class="bottom-actions">
-            <button v-if="orderInfo.status === 'pending'" class="cancel-btn" @click="openCancelModal">取消订单</button>
-            <button v-if="orderInfo.status === 'pending'" class="pay-btn" @click="payOrder">立即支付</button>
-            <button v-if="orderInfo.status === 'paid'" class="refund-btn" @click="applyRefund">申请退款</button>
-            <a v-if="orderInfo.status === 'cancelled'" href="index.html" class="reorder-btn">重新下单</a>
-        </div>
+       
     </div>
 
     <script src="../js/booking.js"></script>

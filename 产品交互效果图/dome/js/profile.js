@@ -107,16 +107,16 @@ createApp({
                     window.location.href = 'trips.html';
                     break;
                 case 'all-orders':
-                    // window.location.href = 'orders.html?type=all';
+                    window.location.href = 'orders.html';
                     break;
                 case 'unpaid':
-                    // window.location.href = 'orders.html?type=unpaid';
+                    window.location.href = 'orders.html?type=unpaid';
                     break;
                 case 'to-travel':
-                    // window.location.href = 'orders.html?type=to-travel';
+                    window.location.href = 'orders.html?type=to-travel';
                     break;
                 case 'to-review':
-                    // window.location.href = 'orders.html?type=to-review';
+                    window.location.href = 'orders.html?type=to-review';
                     break;
                 case 'favorite':
                     // window.location.href = 'favorite.html';

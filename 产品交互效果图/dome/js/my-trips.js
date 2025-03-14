@@ -88,7 +88,7 @@ const app = Vue.createApp({
         
         // 查看行程详情
         viewTripDetail(tripId) {
-            window.location.href = `trip-detail.html?id=${tripId}`;
+            window.location.href = `trip-detail-success.html?id=${tripId}`;
         },
         
         // 返回上一页
