@@ -16,6 +16,7 @@
                  :class="{ active: currentTab === tab.value }"
                  @click="currentTab = tab.value">
                 {{ tab.label }}
+                <span class="tab-count" v-if="getTabCount(tab.value) > 0">({{ getTabCount(tab.value) }})</span>
             </div>
         </div>
 
@@ -25,12 +26,19 @@
                  class="order-item">
                 <div class="order-header">
                     <span>订单号：{{ order.orderNo }}</span>
-                    <span class="order-status">{{ order.status }}</span>
+                    <span class="order-status" :class="getStatusClass(order.status)">{{ order.status }}</span>
                 </div>
-                <h3>{{ order.tripName }}</h3>
-                <p>出发日期：{{ order.departureDate }}</p>
-                <p>人数：{{ order.adultCount }}成人 {{ order.childCount > 0 ? order.childCount + '儿童' : '' }}</p>
-                <p>总价：¥{{ order.totalPrice }}</p>
+                <div class="order-content" @click="showOrderDetail(order)">
+                    <div class="order-image">
+                        <img :src="order.tripImage" :alt="order.tripName">
+                    </div>
+                    <div class="order-info">
+                        <h3>{{ order.tripName }}</h3>
+                        <p>出发日期：{{ order.departureDate }}</p>
+                        <p>人数：{{ order.adultCount }}成人 {{ order.childCount > 0 ? order.childCount + '儿童' : '' }}</p>
+                        <p class="price">总价：¥{{ order.totalPrice }}</p>
+                    </div>
+                </div>
                 <div class="order-actions">
                     <button v-for="action in order.actions" 
                             :key="action.type"
@@ -39,6 +47,42 @@
                             @click="handleAction(action.type, order)">
                         {{ action.label }}
                     </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 订单详情弹窗 -->
+        <div class="order-detail-modal" v-if="selectedOrder" @click.self="closeOrderDetail">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>订单详情</h3>
+                    <span class="close-btn" @click="closeOrderDetail">×</span>
+                </div>
+                <div class="modal-body">
+                    <div class="detail-item">
+                        <label>订单状态</label>
+                        <span :class="getStatusClass(selectedOrder.status)">{{ selectedOrder.status }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <label>订单号</label>
+                        <span>{{ selectedOrder.orderNo }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <label>行程名称</label>
+                        <span>{{ selectedOrder.tripName }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <label>出发日期</label>
+                        <span>{{ selectedOrder.departureDate }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <label>预订人数</label>
+                        <span>{{ selectedOrder.adultCount }}成人 {{ selectedOrder.childCount > 0 ? selectedOrder.childCount + '儿童' : '' }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <label>订单金额</label>
+                        <span class="price">¥{{ selectedOrder.totalPrice }}</span>
+                    </div>
                 </div>
             </div>
         </div>

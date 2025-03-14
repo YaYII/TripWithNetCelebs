@@ -4,41 +4,100 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>行程详情 - 约旅</title>
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css">
     <link rel="stylesheet" href="../css/trip-detail.css">
 </head>
 <body>
     <div id="app">
-        <div class="trip-header">
-            <img :src="trip.image" :alt="trip.title">
-            <h1 class="trip-title">{{ trip.title }}</h1>
+        <!-- 顶部导航栏 -->
+        <div class="nav-bar">
+            <div class="back-button" @click="goBack">
+                <svg width="20" height="20" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+                </svg>
+            </div>
+            <div class="nav-title">行程详情</div>
+        </div>
+
+        <!-- 内容区域 -->
+        <div class="content-wrapper">
+            <!-- 图片轮播 -->
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide" v-for="(image, index) in trip.images" :key="index">
+                        <img :src="image" :alt="trip.title">
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+
+            <!-- 行程信息 -->
             <div class="trip-info">
-                <div class="info-item">
-                    <h3>行程时长</h3>
-                    <p>{{ trip.duration }}</p>
+                <h1 class="trip-title">{{ trip.title }}</h1>
+                <div class="trip-meta">
+                    <div class="meta-item">
+                        <svg width="16" height="16" viewBox="0 0 24 24">
+                            <path fill="currentColor" d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+                        </svg>
+                        <span>{{ trip.duration }}</span>
+                    </div>
+                    <div class="meta-item">
+                        <svg width="16" height="16" viewBox="0 0 24 24">
+                            <path fill="currentColor" d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                        </svg>
+                        <span>{{ trip.location }}</span>
+                    </div>
+                    <div class="meta-item">
+                        <svg width="16" height="16" viewBox="0 0 24 24">
+                            <path fill="currentColor" d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+                        </svg>
+                        <span>{{ trip.groupSize }}人成团</span>
+                    </div>
                 </div>
-                <div class="info-item">
-                    <h3>价格</h3>
-                    <p>¥{{ trip.price }}/人起</p>
+
+                <div class="price-section">
+                    <div class="price">
+                        <span class="price-unit">¥</span>
+                        <span class="price-amount">{{ trip.price }}</span>
+                        <span class="price-unit">/人起</span>
+                    </div>
+                    <div class="rating">
+                        <span class="stars">★★★★★</span>
+                        <span class="rating-count">{{ trip.ratingCount }}条评价</span>
+                    </div>
                 </div>
-                <div class="info-item">
-                    <h3>集合地点</h3>
-                    <p>{{ trip.meetingPoint }}</p>
+            </div>
+
+            <!-- 行程安排 -->
+            <div class="schedule-list">
+                <h2 class="section-title">行程安排</h2>
+                <div class="day-item" v-for="(day, index) in trip.schedule" :key="index">
+                    <div class="day-header">
+                        <div class="day-title">第{{ index + 1 }}天</div>
+                        <div class="day-duration">{{ day.duration }}</div>
+                    </div>
+                    <div class="activity-list">
+                        <div class="activity-item" v-for="(activity, actIndex) in day.activities" :key="actIndex">
+                            <div class="activity-time">{{ activity.time }}</div>
+                            <div class="activity-content">{{ activity.description }}</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="schedule">
-            <h2>行程安排</h2>
-            <div class="day-item" v-for="(day, index) in trip.schedule" :key="index">
-                <h3>第{{ index + 1 }}天</h3>
-                <p v-for="(activity, actIndex) in day" :key="actIndex">{{ activity }}</p>
+        <!-- 底部预订栏 -->
+        <div class="booking-bar">
+            <div class="price">
+                <span class="price-unit">¥</span>
+                <span class="price-amount">{{ trip.price }}</span>
             </div>
+            <button class="book-button" @click="goToBooking">立即预订</button>
         </div>
-
-        <button class="book-button" @click="goToBooking">立即预订</button>
     </div>
 
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
     <script src="../js/trip-detail.js"></script>
 </body>
 </html>

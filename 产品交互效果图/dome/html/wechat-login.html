@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微信登录 - 约旅</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="../css/wechat-login.css">
+</head>
+<body>
+    <div id="app">
+        <div class="wechat-login-container">
+            <div class="logo-section">
+                <img src="../img/logo.png" alt="约旅Logo">
+                <h1>约旅</h1>
+            </div>
+
+            <div class="auth-section">
+                <div class="wechat-icon">
+                    <svg viewBox="0 0 24 24" width="48" height="48">
+                        <path fill="#07C160" d="M8.691,2C4.547,2,1.182,4.819,1.182,8.283c0,1.829,0.934,3.314,2.486,4.477l-0.617,1.943 l2.15-1.143c0.771,0.229,1.571,0.343,2.4,0.343c0.076,0,0.152-0.001,0.228-0.003c-0.134-0.475-0.201-0.972-0.201-1.486 c0-3.154,2.966-5.714,6.623-5.714c0.076,0,0.152,0.001,0.228,0.003C13.944,4.404,11.536,2,8.691,2z M13.182,5.714 c-0.476,0-0.857-0.381-0.857-0.857s0.381-0.857,0.857-0.857s0.857,0.381,0.857,0.857S13.658,5.714,13.182,5.714z M6.881,4 c0.476,0,0.857,0.381,0.857,0.857S7.357,5.714,6.881,5.714S6.024,5.333,6.024,4.857S6.405,4,6.881,4z M15.309,7.714 c-4.144,0-7.509,2.819-7.509,6.283s3.365,6.283,7.509,6.283c0.829,0,1.629-0.114,2.4-0.343l2.15,1.143l-0.617-1.943 c1.552-1.162,2.486-2.648,2.486-4.477C22.818,10.533,19.453,7.714,15.309,7.714z M17.619,11.429c0.476,0,0.857,0.381,0.857,0.857 s-0.381,0.857-0.857,0.857s-0.857-0.381-0.857-0.857S17.143,11.429,17.619,11.429z M13,11.429c0.476,0,0.857,0.381,0.857,0.857 s-0.381,0.857-0.857,0.857s-0.857-0.381-0.857-0.857S12.524,11.429,13,11.429z"/>
+                    </svg>
+                </div>
+                <p class="auth-title">微信授权登录</p>
+                <button class="wechat-login-btn" @click="handleWechatLogin">
+                    <span class="btn-text">确认登录</span>
+                </button>
+                <p class="auth-tips">授权后将获得您的公开信息（昵称、头像等）</p>
+            </div>
+
+            <div class="agreement-section">
+                <p class="agreement-text">
+                    登录即表示同意
+                    <a href="#">《用户协议》</a>
+                    和
+                    <a href="#">《隐私政策》</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/wechat-login.js"></script>
+</body>
+</html>

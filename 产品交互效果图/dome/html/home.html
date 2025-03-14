@@ -4,7 +4,123 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>首页 - 约旅</title>
+    <link rel="stylesheet" href="../css/home.css">
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css">
+</head>
+<body>
+    <div id="app">
+        <!-- 顶部搜索栏 -->
+        <header class="header">
+            <div class="logo-container">
+                
+                <div class="search-bar">
+                    <div class="city-selector" @click="toggleCitySelector">
+                        <span id="selectedCity">{{ selectedCity }}</span>
+                        <span class="dropdown-icon">▼</span>
+                    </div>
+                    <input type="text" :placeholder="searchPlaceholder" v-model="searchQuery">
+                    <span class="search-icon" @click="search">🔍</span>
+                    <!-- 城市选择下拉菜单 -->
+                    <div class="city-dropdown" v-if="showCitySelector">
+                        <div class="city-item" v-for="city in cities" :key="city" @click="selectCity(city)">
+                            {{ city }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+            
+            
+        </header>
+
+        <!-- 热门目的地轮播 -->
+        <div class="swiper destination-swiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide" v-for="dest in destinations" :key="dest.id">
+                    <div class="destination-card">
+                        <img :src="dest.image" :alt="dest.name">
+                        <div class="destination-info">
+                            <h3>{{ dest.name }}</h3>
+                            <p>{{ dest.description }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+
+        <!-- 分类导航 -->
+        <section class="category-nav">
+            <div class="category-item" v-for="category in categories" :key="category.id" @click="navigateToCategory(category.id)">
+                <div class="category-icon">{{ category.icon }}</div>
+                <p class="category-name">{{ category.name }}</p>
+            </div>
+        </section>
+
+        <!-- 网红推荐 -->
+        <section class="influencer-section">
+            <div class="section-header">
+                <h2>网红推荐</h2>
+                <span class="view-all" @click="viewAllInfluencers">查看全部 ></span>
+            </div>
+            <div class="influencer-list">
+                <div class="influencer-card" v-for="influencer in influencers" :key="influencer.id" @click="viewInfluencerDetail(influencer.id)">
+                    <img :src="influencer.avatar" :alt="influencer.name">
+                    <div class="influencer-info">
+                        <h3>{{ influencer.name }}</h3>
+                        <p>{{ influencer.description }}</p>
+                        <div class="tags">
+                            <span class="tag" v-for="tag in influencer.tags" :key="tag">{{ tag }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 热门行程 -->
+        <section class="trip-section">
+            <div class="section-header">
+                <h2>热门行程</h2>
+                <span class="view-all" @click="viewAllTrips">查看全部 ></span>
+            </div>
+            <div class="trip-list">
+                <div class="trip-card" v-for="trip in trips" :key="trip.id" @click="viewTripDetail(trip.id)">
+                    <img :src="trip.image" :alt="trip.title">
+                    <div class="trip-info">
+                        <h3>{{ trip.title }}</h3>
+                        <p class="trip-desc">{{ trip.description }}</p>
+                        <div class="trip-meta">
+                            <span class="price">¥{{ trip.price }}</span>
+                            <span class="duration">{{ trip.duration }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 底部导航栏 -->
+        <nav class="bottom-nav">
+            <div class="nav-item" :class="{ active: currentPage === 'home' }" @click="navigate('home')">
+                <i class="nav-icon home-icon"></i>
+                <span>首页</span>
+            </div>
+            <div class="nav-item" :class="{ active: currentPage === 'explore' }" @click="navigate('explore')">
+                <i class="nav-icon explore-icon"></i>
+                <span>发现</span>
+            </div>
+            <div class="nav-item" :class="{ active: currentPage === 'vr' }" @click="navigate('vr')">
+                <i class="nav-icon vr-icon"></i>
+                <span>VR导览</span>
+            </div>
+            <div class="nav-item" :class="{ active: currentPage === 'profile' }" @click="navigate('profile')">
+                <i class="nav-icon profile-icon"></i>
+                <span>我的</span>
+            </div>
+        </nav>
+    </div>
+
     <script src="../js/home.js"></script>
 </body>
 </html>

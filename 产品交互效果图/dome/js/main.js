@@ -5,6 +5,8 @@ const app = createApp({
         return {
             currentPage: 'html/home.html',
             menuItems: [
+                { name: '启动页', path: 'html/splash.html' },
+                { name: '登录', path: 'html/login.html' },
                 { name: '首页', path: 'html/home.html' },
                 { name: '行程详情', path: 'html/trip-detail.html' },
                 { name: '预订行程', path: 'html/booking.html' },
