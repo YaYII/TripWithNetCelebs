@@ -469,12 +469,11 @@ body {
     justify-content: flex-end;
 }
 
-.trip-title {
-    font-size: 1.625rem;
-    font-weight: 700;
+.trip-overlay .trip-title {
+    font-size: var(--title-large);
+    font-weight: 600;
+    margin: 0 0 8px;
     color: white;
-    margin-bottom: 12px;
-    line-height: 1.3;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 

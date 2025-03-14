@@ -45,16 +45,33 @@ const app = createApp({
 
         // 添加滚动监听
         let lastScrollTop = 0;
+        let isAtTop = true;
         window.addEventListener('scroll', () => {
             const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
             const navBar = document.querySelector('.nav-bar');
+            const bannerSwiper = document.querySelector('.banner-swiper');
+            
+            // 检查是否在顶部
+            if (currentScrollTop <= 0) {
+                isAtTop = true;
+            } else {
+                isAtTop = false;
+            }
             
             if (currentScrollTop > lastScrollTop) {
-                // 向上滚动，隐藏导航栏
+                // 向下滚动
                 navBar.style.transform = 'translateY(-100%)';
+                if (bannerSwiper) {
+                    bannerSwiper.style.transform = 'scale(1)';
+                    bannerSwiper.classList.remove('enlarged');
+                }
             } else {
-                // 向下滚动，显示导航栏
+                // 向上滚动
                 navBar.style.transform = 'translateY(0)';
+                if (bannerSwiper && isAtTop && currentScrollTop <= 0) {
+                    bannerSwiper.style.transform = 'scale(1.1)';
+                    bannerSwiper.classList.add('enlarged');
+                }
             }
             
             lastScrollTop = currentScrollTop;
