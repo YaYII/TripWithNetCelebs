@@ -9,27 +9,21 @@ const app = createApp({
             locations: [
                 {
                     id: 1,
-                    name: '维多利亚港',
-                    image: '../img/location1.jpg',
-                    description: '香港最著名的景点之一，可以欣赏到壮丽的海港景色和城市天际线。',
-                    details: {
-                        description: '维多利亚港是香港的标志性景点，也是世界三大夜景之一。这里不仅有壮观的海港景色，还有著名的幻彩咏香江灯光秀。',
-                        bestTime: '傍晚和夜晚',
-                        duration: '建议游览1-2小时',
-                        tips: '建议在尖沙咀海滨长廊观赏夜景，每晚8点有灯光表演。'
-                    }
+                    name: '香港维多利亚港',
+                    description: '感受不夜城的魅力，欣赏世界著名的海港夜景',
+                    image: '../img/placeholder-logo.png',
+                    vrUrl: 'vr-scene.html?id=1',
+                    rating: 4.8,
+                    reviewCount: 256
                 },
                 {
                     id: 2,
-                    name: '太平山顶',
-                    image: '../img/location2.jpg',
-                    description: '香港最高点，可以360度俯瞰整个香港岛和九龙半岛的壮丽景色。',
-                    details: {
-                        description: '太平山顶是香港最受欢迎的观光胜地之一，搭乘历史悠久的山顶缆车上山，在凉爽的山顶欣赏香港全景。',
-                        bestTime: '下午至傍晚',
-                        duration: '建议游览2-3小时',
-                        tips: '建议提前在线预订山顶缆车票，避免排队。'
-                    }
+                    name: '澳门威尼斯人',
+                    description: '体验东方威尼斯，感受独特的购物和娱乐体验',
+                    image: '../img/placeholder-logo.png',
+                    vrUrl: 'vr-scene.html?id=2',
+                    rating: 4.9,
+                    reviewCount: 189
                 }
             ]
         }

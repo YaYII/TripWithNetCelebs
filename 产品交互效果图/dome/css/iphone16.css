@@ -1,0 +1,128 @@
+/* iPhone 16 尺寸适配 CSS */
+/* iPhone 16 Pro 尺寸: 393px × 852px */
+
+/* 基础设置 */
+:root {
+    --iphone16-width: 393px;
+    --iphone16-height: 852px;
+    --safe-area-top: env(safe-area-inset-top, 47px);
+    --safe-area-bottom: env(safe-area-inset-bottom, 34px);
+}
+
+/* 应用容器适配 */
+#app {
+    width: 100%;
+    max-width: var(--iphone16-width);
+    min-height: var(--iphone16-height);
+    margin: 0 auto;
+    position: relative;
+    overflow-x: hidden;
+    padding-bottom: calc(70px + var(--safe-area-bottom));
+}
+
+/* 顶部导航栏适配 */
+.header {
+    width: 100%;
+    max-width: var(--iphone16-width);
+    height: 60px;
+    padding-top: var(--safe-area-top);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    z-index: 100;
+}
+
+/* 内容区域适配 */
+.content {
+    margin-top: calc(60px + var(--safe-area-top));
+    padding: 15px 20px;
+    width: 100%;
+}
+
+/* 行程卡片适配 */
+.trip-card {
+    border-radius: 16px;
+    margin-bottom: 20px;
+}
+
+.trip-image {
+    height: 180px;
+}
+
+/* 底部导航栏适配 */
+.nav-frame-container {
+    width: 100%;
+    max-width: var(--iphone16-width);
+    height: calc(60px + var(--safe-area-bottom));
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    z-index: 100;
+}
+
+#navFrame {
+    height: 100%;
+}
+
+/* 搜索栏适配 */
+.search-bar {
+    margin: 10px 0 20px;
+    border-radius: 16px;
+    display: none;
+}
+
+/* 空状态适配 */
+.empty-trips {
+    padding: 40px 0;
+    margin: 30px 0;
+}
+
+/* 媒体查询确保在iPhone 16上的显示效果 */
+@media screen and (width: 393px) and (height: 852px) {
+    :root {
+        --safe-area-top: env(safe-area-inset-top);
+        --safe-area-bottom: env(safe-area-inset-bottom);
+    }
+    
+    /* 动态岛适配 */
+    .header {
+        padding-top: calc(var(--safe-area-top) + 10px);
+    }
+    
+    .content {
+        margin-top: calc(60px + var(--safe-area-top) + 10px);
+    }
+}
+
+/* 深色模式适配 */
+@media (prefers-color-scheme: dark) {
+    .trip-card {
+        background: linear-gradient(to bottom, rgba(40, 40, 40, 0.9), rgba(30, 30, 30, 0.8));
+        border: 1px solid rgba(70, 70, 70, 0.2);
+    }
+    
+    .trip-info {
+        background: linear-gradient(135deg, rgba(41, 121, 255, 0.2), rgba(21, 101, 192, 0.1));
+    }
+    
+    .trip-title {
+        color: #4b9fff;
+    }
+    
+    .trip-location, .trip-dates {
+        color: #aaa;
+    }
+    
+    .empty-trips {
+        background: rgba(40, 40, 40, 0.9);
+        border: 1px solid rgba(70, 70, 70, 0.2);
+    }
+    
+    .empty-trips p {
+        color: #aaa;
+    }
+} 

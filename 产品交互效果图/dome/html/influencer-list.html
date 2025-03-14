@@ -3,28 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>网红推荐 - 约旅</title>
+    <title>全部网红 - 约旅</title>
     <link rel="stylesheet" href="../css/home.css">
-    <link rel="stylesheet" href="../css/influencer-list.css">
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="../css/new-influencer-list.css">
+    <script src="https://cdn.bootcdn.net/ajax/libs/vue/3.2.47/vue.global.prod.min.js"></script>
+    <style>
+        /* 隐藏滚动条但保留滚动功能 */
+        body {
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE and Edge */
+        }
+        
+        body::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+        }
+        
+        #app {
+            overflow-x: hidden;
+        }
+        
+        /* 确保筛选栏的滚动条也被隐藏 */
+        .filter-scroll {
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        
+        .filter-scroll::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
 </head>
 <body>
-    <div id="app">
+    <div id="app" v-cloak>
         <!-- 顶部导航栏 -->
         <header class="header">
             <div class="nav-bar">
                 <div class="back-button" @click="goBack">
                     <i class="back-icon">←</i>
                 </div>
-                <h1>网红推荐</h1>
+                <h1>全部网红</h1>
             </div>
         </header>
 
         <!-- 搜索栏 -->
         <div class="search-container">
             <div class="search-bar">
-                <input type="text" v-model="searchQuery" placeholder="搜索网红名称或标签">
-                <span class="search-icon">🔍</span>
+                <input type="text" v-model="searchQuery" placeholder="搜索网红名称或目的地">
+                <div class="search-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 0 0 1.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 0 0-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 0 0 5.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="white"/>
+                    </svg>
+                </div>
             </div>
         </div>
 
@@ -43,43 +72,64 @@
 
         <!-- 网红列表 -->
         <div class="influencer-list">
+            <div v-if="filteredInfluencers.length === 0" class="no-results">
+                <p>没有找到符合条件的网红</p>
+            </div>
             <div class="influencer-card" 
                  v-for="influencer in filteredInfluencers" 
                  :key="influencer.id"
                  @click="viewInfluencerDetail(influencer.id)">
+                <div class="trip-status" :class="influencer.tripStatus.type">{{ influencer.tripStatus.text }}</div>
                 <div class="influencer-avatar">
-                    <img :src="influencer.avatar" :alt="influencer.name">
-                    <div class="followers-count">{{ influencer.followers }}</div>
+                    <img src="../img/test.png" alt="活动背景">
+                    <div class="influencer-overlay">
+                        <div class="influencer-avatar-container">
+                            <img :src="influencer.avatar" :alt="influencer.name">
+                        </div>
+                        <div class="influencer-name">{{ influencer.name }}</div>
+                        <div class="trip-destination">{{ influencer.tripDestination }}</div>
+                        <div class="trip-info-row">
+                            <div class="trip-views">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" fill="currentColor"/>
+                                </svg>
+                                {{ influencer.viewCount }}
+                            </div>
+                            <div class="trip-deadline-info">
+                                <span class="deadline-item">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8zm.5-13H11v6l5.2 3.2.8-1.3-4.5-2.7V7z" fill="currentColor"/>
+                                    </svg>
+                                    {{ influencer.daysLeft }}天
+                                </span>
+                                <span class="departure-item">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zM5 8V6h14v2H5zm2 4h10v2H7v-2zm0 4h7v2H7v-2z" fill="currentColor"/>
+                                    </svg>
+                                    {{ influencer.departureDate }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="influencer-info">
-                    <h3>{{ influencer.name }}</h3>
-                    <p>{{ influencer.description }}</p>
-                    <div class="tags">
-                        <span class="tag" v-for="tag in influencer.tags" :key="tag">{{ tag }}</span>
+                    <div class="trip-stats">
+                        <div class="stat-item">
+                            <div class="stat-value participants">{{ influencer.currentParticipants }}</div>
+                            <div class="stat-label">已报名</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value max-participants">{{ influencer.maxParticipants }}</div>
+                            <div class="stat-label">总名额</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value price">{{ influencer.price }}</div>
+                            <div class="stat-label">价格</div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- 底部导航栏 -->
-        <nav class="bottom-nav">
-            <div class="nav-item" :class="{ active: currentPage === 'home' }" @click="navigate('home')">
-                <i class="nav-icon home-icon"></i>
-                <span>首页</span>
-            </div>
-            <div class="nav-item" :class="{ active: currentPage === 'explore' }" @click="navigate('explore')">
-                <i class="nav-icon explore-icon"></i>
-                <span>发现</span>
-            </div>
-            <div class="nav-item" :class="{ active: currentPage === 'vr' }" @click="navigate('vr')">
-                <i class="nav-icon vr-icon"></i>
-                <span>VR导览</span>
-            </div>
-            <div class="nav-item" :class="{ active: currentPage === 'profile' }" @click="navigate('profile')">
-                <i class="nav-icon profile-icon"></i>
-                <span>我的</span>
-            </div>
-        </nav>
     </div>
 
     <script src="../js/influencer-list.js"></script>

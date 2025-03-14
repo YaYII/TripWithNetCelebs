@@ -1,3 +1,17 @@
+/* 隐藏滚动条但保留滚动功能 */
+html, body {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+    overflow-y: auto;
+}
+
+html::-webkit-scrollbar, 
+body::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+    width: 0;
+    background: transparent;
+}
+
 /* 全局样式 */
 :root {
     --title-large: 1.4rem;    /* 大标题 */
@@ -16,38 +30,56 @@ body {
     color: white;
     line-height: 1.5;
     overflow-x: hidden;
+    display: flex;
+    justify-content: center;
 }
 
 #app {
+    width: 100%;
     max-width: 393px;
     margin: 0 auto;
     min-height: 100vh;
     position: relative;
     display: flex;
     flex-direction: column;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+}
+
+#app::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+    width: 0;
+    background: transparent;
 }
 
 /* 内容区域 */
 .content-wrapper {
     flex: 1;
     padding-bottom: 80px; /* 为底部预订栏留出空间 */
+    width: 100%;
+    margin-top: 56px; /* 为固定导航栏留出空间 */
+    transition: margin-top 0.3s ease;
 }
 
 /* 顶部导航栏 */
 .nav-bar {
     position: fixed;
     top: 0;
-    left: 50%;
-    transform: translateX(-50%);
+    left: 0;
+    right: 0;
     width: 100%;
     max-width: 393px;
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(10px);
+    margin: 0 auto;
+    background: linear-gradient(135deg, #1e90ff, #70a1ff);
     z-index: 100;
     padding: 12px 15px;
     display: flex;
     align-items: center;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    box-sizing: border-box;
+    transition: transform 0.3s ease;
 }
 
 .back-button {
@@ -68,35 +100,36 @@ body {
 }
 
 .nav-title {
-    font-size: var(--title-medium);
+    font-size: 15px;
     font-weight: 600;
     color: white;
+    margin-left: 0px;
 }
 
-/* 图片轮播 */
-.swiper-container {
+/* Banner轮播样式 */
+.banner-swiper {
     width: 100%;
     height: 300px;
-    margin-top: 56px;
     position: relative;
+    transition: margin-top 0.3s ease;
 }
 
-.swiper-slide img {
+.banner-swiper .swiper-slide img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-.swiper-pagination {
+.banner-swiper .swiper-pagination {
     bottom: 20px !important;
 }
 
-.swiper-pagination-bullet {
+.banner-swiper .swiper-pagination-bullet {
     background: rgba(255, 255, 255, 0.8) !important;
     opacity: 0.5 !important;
 }
 
-.swiper-pagination-bullet-active {
+.banner-swiper .swiper-pagination-bullet-active {
     opacity: 1 !important;
 }
 
@@ -139,43 +172,42 @@ body {
     color: rgba(255, 255, 255, 0.9);
 }
 
-.price-section {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.price {
-    color: #FFD700;
-}
-
-.price-amount {
-    font-size: var(--title-large);
-    font-weight: 600;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.price-unit {
-    font-size: var(--text-medium);
-}
-
-.rating {
+/* 评分部分 */
+.trip-rating {
     display: flex;
     align-items: center;
     gap: 8px;
+    margin-bottom: 15px;
 }
 
-.stars {
+.rating-stars {
+    display: flex;
+    gap: 2px;
+}
+
+.rating-stars svg {
+    color: #ccc;
+}
+
+.rating-stars svg.filled {
     color: #FFD700;
-    font-size: var(--text-medium);
+}
+
+.rating-value {
+    font-weight: bold;
+    color: #FFD700;
 }
 
 .rating-count {
-    color: rgba(255, 255, 255, 0.9);
+    color: rgba(255, 255, 255, 0.8);
     font-size: var(--text-small);
+}
+
+.trip-desc {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: var(--text-medium);
+    line-height: 1.6;
+    margin-bottom: 20px;
 }
 
 /* 行程安排 */
@@ -185,6 +217,7 @@ body {
     margin: 25px 0 15px;
     color: white;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 0 20px;
 }
 
 .schedule-list {
@@ -193,50 +226,40 @@ body {
     border-radius: 20px;
     overflow: hidden;
     border: 1px solid rgba(255, 255, 255, 0.1);
+    margin: 0 20px;
 }
 
-.day-item {
-    padding: 20px;
+.schedule-day {
+    padding: 15px 20px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.day-item:last-child {
+.schedule-day:last-child {
     border-bottom: none;
 }
 
 .day-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-}
-
-.day-title {
     font-size: var(--title-small);
     font-weight: 600;
     color: white;
-}
-
-.day-duration {
-    font-size: var(--text-medium);
-    color: rgba(255, 255, 255, 0.9);
-}
-
-.activity-list {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+    margin-bottom: 15px;
 }
 
 .activity-item {
     display: flex;
     gap: 15px;
+    margin-bottom: 12px;
+}
+
+.activity-item:last-child {
+    margin-bottom: 0;
 }
 
 .activity-time {
     font-size: var(--text-medium);
     color: rgba(255, 255, 255, 0.9);
     width: 60px;
+    flex-shrink: 0;
 }
 
 .activity-content {
@@ -250,43 +273,45 @@ body {
 .booking-bar {
     position: fixed;
     bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
+    left: 0;
+    right: 0;
     width: 100%;
     max-width: 393px;
+    margin: 0 auto;
     background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(15px);
     padding: 15px 20px;
-    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.1);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    z-index: 100;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 99;
     box-sizing: border-box;
 }
 
 .book-button {
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    padding: 12px 30px;
+    background: #FFD700;
+    color: #333;
+    border: none;
     border-radius: 25px;
+    padding: 12px 25px;
     font-size: var(--text-medium);
-    font-weight: 500;
+    font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .book-button:hover {
-    background: rgba(255, 255, 255, 0.3);
+    background: #f8ce00;
     transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 /* 动画效果 */
 .fade-enter-active,
 .fade-leave-active {
-    transition: opacity 0.3s;
+    transition: opacity 0.3s ease;
 }
 
 .fade-enter-from,
@@ -296,10 +321,203 @@ body {
 
 .slide-up-enter-active,
 .slide-up-leave-active {
-    transition: transform 0.3s;
+    transition: transform 0.3s ease;
 }
 
 .slide-up-enter-from,
 .slide-up-leave-to {
     transform: translateY(100%);
+}
+
+[v-cloak] {
+    display: none;
+}
+
+/* 底部导航栏样式 */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-around;
+    padding: 8px 0;
+    padding-bottom: calc(8px + env(safe-area-inset-bottom));
+    background: #fff;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    z-index: 90;
+    transition: transform 0.3s ease;
+}
+
+.bottom-nav.hidden {
+    transform: translateY(100%);
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 4px 0;
+    cursor: pointer;
+}
+
+.nav-icon {
+    width: 24px;
+    height: 24px;
+    margin-bottom: 4px;
+    background-size: 24px;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.home-icon {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23666'%3E%3Cpath d='M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z'/%3E%3C/svg%3E");
+}
+
+.explore-icon {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23666'%3E%3Cpath d='M12 10.9c-.61 0-1.1.49-1.1 1.1s.49 1.1 1.1 1.1c.61 0 1.1-.49 1.1-1.1s-.49-1.1-1.1-1.1zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm2.19 12.19L6 18l3.81-8.19L18 6l-3.81 8.19z'/%3E%3C/svg%3E");
+}
+
+.vr-icon {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23666'%3E%3Cpath d='M20.5 6c-2.61.7-5.67 1-8.5 1s-5.89-.3-8.5-1L3 8c1.86.5 4 .83 6 1v13h2v-6h2v6h2V9c2-.17 4.14-.5 6-1l-.5-2zM12 6c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z'/%3E%3C/svg%3E");
+}
+
+.profile-icon {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23666'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E");
+}
+
+.nav-item.active .home-icon {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%232979ff'%3E%3Cpath d='M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z'/%3E%3C/svg%3E");
+}
+
+.nav-item.active .explore-icon {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%232979ff'%3E%3Cpath d='M12 10.9c-.61 0-1.1.49-1.1 1.1s.49 1.1 1.1 1.1c.61 0 1.1-.49 1.1-1.1s-.49-1.1-1.1-1.1zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm2.19 12.19L6 18l3.81-8.19L18 6l-3.81 8.19z'/%3E%3C/svg%3E");
+}
+
+.nav-item.active .vr-icon {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%232979ff'%3E%3Cpath d='M20.5 6c-2.61.7-5.67 1-8.5 1s-5.89-.3-8.5-1L3 8c1.86.5 4 .83 6 1v13h2v-6h2v6h2V9c2-.17 4.14-.5 6-1l-.5-2zM12 6c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z'/%3E%3C/svg%3E");
+}
+
+.nav-item.active .profile-icon {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%232979ff'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E");
+}
+
+.nav-item span {
+    font-size: 0.7rem;
+    color: #666;
+}
+
+.nav-item.active span {
+    color: #2979ff;
+}
+
+/* 带队网红信息样式 */
+.influencer-info {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    margin-bottom: 16px;
+}
+
+.influencer-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 12px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.influencer-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.influencer-details {
+    flex: 1;
+}
+
+.influencer-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 8px;
+}
+
+.influencer-stats {
+    display: flex;
+    gap: 16px;
+}
+
+.influencer-stats .stat-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.influencer-stats svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* 活动统计信息样式 */
+.trip-stats {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 16px;
+    margin: 16px 0;
+}
+
+.stat-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.stat-row:last-child {
+    margin-bottom: 0;
+}
+
+.stat-row .stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    position: relative;
+}
+
+.stat-row .stat-item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1px;
+    height: 24px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.stat-row .stat-value {
+    font-size: 16px;
+    font-weight: 600;
+    color: white;
+    margin: 4px 0;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.stat-row .stat-label {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.stat-row svg {
+    width: 16px;
+    height: 16px;
 }

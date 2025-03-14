@@ -14,34 +14,35 @@ const app = createApp({
             ],
             orders: [
                 {
-                    id: 1,
-                    orderNo: '20240101001',
-                    status: '待付款',
+                    id: 'ORD20230001',
+                    status: 'pending',
+                    statusText: '待付款',
+                    orderTime: '2023-03-15 14:30',
+                    expireTime: '2023-03-15 15:00',
                     tripName: '香港经典三日游',
-                    tripImage: '../img/trip1.jpg',
-                    departureDate: '2024年2月1日',
-                    adultCount: 2,
-                    childCount: 0,
-                    totalPrice: 5998,
-                    actions: [
-                        { type: 'pay', label: '去支付', primary: true },
-                        { type: 'cancel', label: '取消订单', primary: false }
-                    ]
+                    tripDate: '2023-04-10 - 2023-04-12',
+                    price: 2999,
+                    persons: 2,
+                    totalAmount: 5998,
+                    tripImage: '../img/test.png',
+                    canPay: true,
+                    canCancel: true,
+                    canReview: false
                 },
                 {
-                    id: 2,
-                    orderNo: '20231225001',
-                    status: '已完成',
-                    tripName: '港澳联游五日',
-                    tripImage: '../img/trip2.jpg',
-                    departureDate: '2023年12月25日',
-                    adultCount: 2,
-                    childCount: 1,
-                    totalPrice: 8997,
-                    actions: [
-                        { type: 'review', label: '评价', primary: true },
-                        { type: 'rebooking', label: '再次预订', primary: false }
-                    ]
+                    id: 'ORD20230002',
+                    status: 'paid',
+                    statusText: '待出行',
+                    orderTime: '2023-03-10 09:15',
+                    tripName: '澳门美食文化之旅',
+                    tripDate: '2023-05-20 - 2023-05-21',
+                    price: 1999,
+                    persons: 1,
+                    totalAmount: 1999,
+                    tripImage: '../img/test.png',
+                    canPay: false,
+                    canCancel: true,
+                    canReview: false
                 }
             ]
         }

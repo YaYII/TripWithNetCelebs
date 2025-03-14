@@ -1,0 +1,157 @@
+/* iPhone 16 边框模拟样式 */
+
+/* iPhone 16 Pro 尺寸: 393px × 852px */
+:root {
+    --iphone16-width: 393px;
+    --iphone16-height: 852px;
+    --iphone16-border-radius: 45px;
+    --iphone16-frame-color: #1a1a1a;
+    --iphone16-frame-width: 12px;
+    --dynamic-island-width: 120px;
+    --dynamic-island-height: 35px;
+}
+
+/* iPhone 16 边框容器 */
+.iphone16-frame-container {
+    position: relative;
+    width: calc(var(--iphone16-width) + var(--iphone16-frame-width) * 2);
+    height: calc(var(--iphone16-height) + var(--iphone16-frame-width) * 2);
+    background-color: var(--iphone16-frame-color);
+    border-radius: var(--iphone16-border-radius);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    padding: var(--iphone16-frame-width);
+    box-sizing: border-box;
+    margin: 0 auto;
+}
+
+/* iPhone 16 屏幕区域 */
+.iphone16-frame-screen {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    border-radius: calc(var(--iphone16-border-radius) - var(--iphone16-frame-width));
+    overflow: hidden;
+}
+
+/* 动态岛 */
+.iphone16-dynamic-island {
+    position: absolute;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: var(--dynamic-island-width);
+    height: var(--dynamic-island-height);
+    background-color: #000;
+    border-radius: 20px;
+    z-index: 10;
+    pointer-events: none; /* 确保不会阻挡交互 */
+}
+
+/* 侧边按钮 - 电源键 */
+.iphone16-power-button {
+    position: absolute;
+    width: 4px;
+    height: 80px;
+    background: #2a2a2a;
+    right: -2px;
+    top: 180px;
+    border-radius: 2px;
+    z-index: 5;
+}
+
+/* 音量按钮 */
+.iphone16-volume-up {
+    position: absolute;
+    width: 4px;
+    height: 35px;
+    background: #2a2a2a;
+    left: -2px;
+    top: 180px;
+    border-radius: 2px;
+    z-index: 5;
+}
+
+.iphone16-volume-down {
+    position: absolute;
+    width: 4px;
+    height: 35px;
+    background: #2a2a2a;
+    left: -2px;
+    top: 230px;
+    border-radius: 2px;
+    z-index: 5;
+}
+
+/* 静音开关 */
+.iphone16-mute-switch {
+    position: absolute;
+    width: 4px;
+    height: 20px;
+    background: #2a2a2a;
+    left: -2px;
+    top: 140px;
+    border-radius: 2px;
+    z-index: 5;
+}
+
+/* 底部指示条 */
+.iphone16-home-indicator {
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 140px;
+    height: 5px;
+    background-color: #000;
+    border-radius: 3px;
+    z-index: 10;
+    opacity: 0.3;
+    pointer-events: none; /* 确保不会阻挡交互 */
+}
+
+/* 适配iframe内容 */
+.iphone16-frame-content {
+    width: 100%;
+    height: 100%;
+    border: none;
+    overflow: hidden;
+    display: block;
+}
+
+/* 媒体查询确保在不同设备上的显示效果 */
+@media screen and (max-width: 450px) {
+    .iphone16-frame-container {
+        width: 100%;
+        height: 100vh;
+        border-radius: 0;
+        padding: 0;
+    }
+    
+    .iphone16-frame-screen {
+        border-radius: 0;
+    }
+    
+    .iphone16-power-button,
+    .iphone16-volume-up,
+    .iphone16-volume-down,
+    .iphone16-mute-switch {
+        display: none;
+    }
+}
+
+/* 深色模式适配 */
+@media (prefers-color-scheme: dark) {
+    .iphone16-frame-container {
+        background-color: #000;
+    }
+    
+    .iphone16-frame-screen {
+        background-color: #121212;
+    }
+    
+    .iphone16-home-indicator {
+        background-color: #fff;
+    }
+} 

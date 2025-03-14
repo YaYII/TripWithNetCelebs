@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>行程 - 约旅</title>
+    <link rel="stylesheet" href="../css/home.css">
+    <script src="https://cdn.bootcdn.net/ajax/libs/vue/3.2.47/vue.global.min.js"></script>
+    <style>
+        /* 隐藏滚动条但保留滚动功能 */
+        html, body {
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE and Edge */
+            overflow-y: auto;
+            display: flex;
+            justify-content: center;
+            margin: 0;
+            padding: 0;
+            background: #f5f5f5;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            padding-bottom: calc(60px + env(safe-area-inset-bottom));
+        }
+        
+        html::-webkit-scrollbar,
+        body::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+            width: 0;
+            background: transparent;
+        }
+        
+        #app {
+            overflow-x: hidden;
+            overflow-y: auto;
+            width: 100%;
+            max-width: 393px;
+            position: relative;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE and Edge */
+        }
+        
+        #app::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+            width: 0;
+            background: transparent;
+        }
+        
+        /* 顶部导航栏 */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: #fff;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 393px;
+            margin: 0 auto;
+        }
+        
+        .back-btn {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        
+        .header-title {
+            flex: 1;
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        /* 内容区域 */
+        .content {
+            margin-top: 60px;
+            padding: 10px 15px;
+        }
+        
+        /* 行程卡片样式 */
+        .trips-container {
+            margin-bottom: 20px;
+        }
+        
+        .trips-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .trips-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .trip-card {
+            background: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+        }
+        
+        .trip-image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+        
+        .trip-info {
+            padding: 15px;
+        }
+        
+        .trip-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #333;
+            margin: 0 0 5px;
+        }
+        
+        .trip-location {
+            font-size: 0.85rem;
+            color: #666;
+            margin: 0 0 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .trip-location svg {
+            margin-right: 5px;
+        }
+        
+        .trip-dates {
+            font-size: 0.85rem;
+            color: #666;
+            margin: 0 0 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .trip-dates svg {
+            margin-right: 5px;
+        }
+        
+        .trip-status {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .status-tag {
+            background: #e3f2fd;
+            color: #2979ff;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .days-left {
+            font-size: 0.85rem;
+            color: #f44336;
+            font-weight: 500;
+        }
+        
+        .empty-trips {
+            text-align: center;
+            padding: 20px 0;
+            color: #999;
+            background: #fff;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .empty-trips svg {
+            width: 64px;
+            height: 64px;
+            margin-bottom: 15px;
+            fill: #ccc;
+        }
+        
+        .empty-trips p {
+            margin: 5px 0;
+        }
+        
+        .empty-trips .action-btn {
+            display: inline-block;
+            margin-top: 15px;
+            background: #2979ff;
+            color: #fff;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            text-decoration: none;
+        }
+        
+        /* 底部导航栏iframe容器 */
+        .nav-frame-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            height: 56px; /* 基础高度，将通过JS动态调整 */
+            width: 100%;
+            max-width: 393px;
+            margin: 0 auto;
+        }
+        
+        #navFrame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+        
+        /* 搜索栏 */
+        .search-bar {
+            background: #fff;
+            border-radius: 10px;
+            padding: 10px 15px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .search-icon {
+            margin-right: 10px;
+            color: #999;
+        }
+        
+        .search-input {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-size: 0.9rem;
+            color: #333;
+        }
+        
+        .search-input::placeholder {
+            color: #999;
+        }
+        
+        /* 分隔线 */
+        .section-divider {
+            height: 10px;
+            background-color: #f5f5f5;
+            margin: 20px -15px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app" v-cloak>
+        <!-- 顶部导航栏 -->
+        <div class="header">
+            <div style="width: 24px;"></div>
+            <div class="header-title">行程</div>
+            <div style="width: 24px;"></div>
+        </div>
+        
+        <!-- 内容区域 -->
+        <div class="content">
+            <!-- 搜索栏 -->
+            <div class="search-bar">
+                <div class="search-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#999"/>
+                    </svg>
+                </div>
+                <input type="text" class="search-input" placeholder="搜索行程">
+            </div>
+            
+            <!-- 用户行程部分 -->
+            <div v-if="hasUserTrips">
+                <div class="trips-header">
+                    <div class="trips-title">我的行程</div>
+                </div>
+                
+                <div class="trips-container">
+                    <div class="trip-card" v-for="trip in userTrips" :key="trip.id" @click="viewTripDetail(trip.id)">
+                        <img :src="trip.image" :alt="trip.title" class="trip-image">
+                        <div class="trip-info">
+                            <h3 class="trip-title">{{ trip.title }}</h3>
+                            <p class="trip-location">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="#666"/>
+                                </svg>
+                                {{ trip.location }}
+                            </p>
+                            <p class="trip-dates">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z" fill="#666"/>
+                                </svg>
+                                {{ trip.startDate }} - {{ trip.endDate }}
+                            </p>
+                            <div class="trip-status">
+                                <div class="status-tag">{{ trip.status }}</div>
+                                <div class="days-left" v-if="trip.daysLeft > 0">还有 {{ trip.daysLeft }} 天</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 无行程状态 -->
+            <div v-if="!hasUserTrips" class="empty-trips">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
+                </svg>
+                <p>暂无行程</p>
+                <p>快去看看推荐行程吧</p>
+            </div>
+            
+            <!-- 推荐行程部分，只有在没有用户行程或有用户行程但需要显示推荐时才显示 -->
+            <div v-if="!hasUserTrips">
+                <div class="trips-header">
+                    <div class="trips-title">推荐行程</div>
+                </div>
+                
+                <div class="trips-container">
+                    <div class="trip-card" v-for="trip in filteredRecommendedTrips" :key="trip.id" @click="viewTripDetail(trip.id)">
+                        <img :src="trip.image" :alt="trip.title" class="trip-image">
+                        <div class="trip-info">
+                            <h3 class="trip-title">{{ trip.title }}</h3>
+                            <p class="trip-location">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="#666"/>
+                                </svg>
+                                {{ trip.location }}
+                            </p>
+                            <p class="trip-dates">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z" fill="#666"/>
+                                </svg>
+                                {{ trip.startDate }} - {{ trip.endDate }}
+                            </p>
+                            <div class="trip-status">
+                                <div class="status-tag">{{ trip.status }}</div>
+                                <div class="days-left" v-if="trip.daysLeft > 0">还有 {{ trip.daysLeft }} 天</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 底部留白区域，为底部导航栏预留空间 -->
+        <div style="height: 70px;"></div>
+    </div>
+
+    <!-- 底部导航栏iframe容器 -->
+    <div class="nav-frame-container">
+        <iframe id="navFrame" src="nav-bar.html" frameborder="0"></iframe>
+    </div>
+
+    <script src="../js/nav-handler.js"></script>
+    <script src="../js/trips-empty.js"></script>
+</body>
+</html> 

@@ -1,0 +1,677 @@
+/* 新版网红列表页面样式 */
+/* Vue 初始化防闪烁 */
+[v-cloak] {
+    display: none;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #1e90ff, #70a1ff);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: white;
+    min-height: 100vh;
+}
+
+@keyframes gradient-animation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* 顶部导航栏 */
+.header {
+    position: fixed;
+    padding-left: 0px;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.nav-bar {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    height: 48px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.back-button {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin-right: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+}
+
+.back-button:hover, .back-button:active {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.back-icon {
+    font-size: 18px;
+    color: white;
+}
+
+.nav-bar h1 {
+    font-size: 15px;
+    font-weight: 600;
+    margin: 0;
+    color: white;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    letter-spacing: 0.5px;
+}
+
+/* 搜索栏样式 */
+.search-container {
+    position: fixed;
+    top: 80px;
+    left: 0;
+    right: 0;
+    z-index: 99;
+    padding: 12px 16px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    transition: transform 0.3s ease;
+}
+
+.search-container.hidden {
+    transform: translateY(-100%);
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 16px;
+    padding: 10px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.search-bar:focus-within {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.search-bar input {
+    flex: 1;
+    border: none;
+    background: none;
+    font-size: 14px;
+    color: white;
+    outline: none;
+    padding: 0 8px;
+}
+
+.search-bar input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.search-icon {
+    color: rgba(255, 255, 255, 0.8);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-icon:hover {
+    transform: scale(1.1);
+    color: white;
+}
+
+.search-icon svg {
+    width: 20px;
+    height: 20px;
+}
+
+.search-icon svg path {
+    fill: white;
+}
+
+/* 筛选栏样式 */
+.filter-bar {
+    position: fixed;
+    top: 140px;
+    left: 0;
+    right: 0;
+    z-index: 98;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: transform 0.3s ease, top 0.3s ease;
+}
+
+.filter-bar.search-hidden {
+    top: 80px;
+}
+
+.filter-scroll {
+    display: flex;
+    overflow-x: auto;
+    padding: 0 16px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.filter-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.filter-item {
+    padding: 3px 10px;
+    margin-right: 10px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 13px;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.filter-item:last-child {
+    margin-right: 16px;
+}
+
+.filter-item:hover {
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.filter-item.active {
+    background: rgba(255, 255, 255, 0.25);
+    color: white;
+    font-weight: 600;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+/* 网红列表样式 */
+.influencer-list {
+    margin-top: 180px;
+    padding: 12px;
+    padding-bottom: calc(80px + env(safe-area-inset-bottom));
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 16px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.influencer-card {
+    display: flex;
+    flex-direction: column;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    width: 100%;
+}
+
+.influencer-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.influencer-avatar {
+    position: relative;
+    width: 100%;
+    height: 180px;
+    overflow: hidden;
+}
+
+.influencer-avatar img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.influencer-card:hover .influencer-avatar img {
+    transform: scale(1.1);
+}
+
+.influencer-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0.2) 0%,
+        rgba(0, 0, 0, 0.4) 50%,
+        rgba(0, 0, 0, 0.8) 100%
+    );
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.influencer-card:hover .influencer-overlay {
+    background: linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0.3) 0%,
+        rgba(0, 0, 0, 0.5) 50%,
+        rgba(0, 0, 0, 0.9) 100%
+    );
+}
+
+.influencer-avatar-container {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 3px solid rgba(255, 255, 255, 0.8);
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    z-index: 2;
+}
+
+.influencer-avatar-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.influencer-card:hover .influencer-avatar-container img {
+    transform: scale(1.1);
+}
+
+.influencer-name {
+    position: absolute;
+    top: 88px;
+    left: 16px;
+    font-size: 12px;
+    font-weight: 600;
+    color: white;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    z-index: 2;
+}
+
+.trip-destination {
+    font-size: 15px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 4px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.trip-stats {
+    display: flex;
+    justify-content: space-between;
+    padding: 4px 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    margin-top: 4px;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    position: relative;
+}
+
+.stat-item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1px;
+    height: 16px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.stat-value {
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+    line-height: 1.2;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.stat-value::before {
+    font-size: 16px;
+}
+
+.stat-value.participants {
+    color: #FFD700;
+}
+
+.stat-value.participants::before {
+    content: '👤';
+}
+
+.stat-value.max-participants {
+    color: #f5fed4;
+}
+
+.stat-value.max-participants::before {
+    content: '👥';
+}
+
+.stat-value.price::before {
+    content: '¥';
+    font-size: 14px;
+}
+
+.stat-label {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-top: 2px;
+}
+
+.trip-deadline {
+    display: flex;
+    justify-content: space-between;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 12px;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.influencer-card:hover .trip-deadline {
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.deadline-item {
+    color: #FFD700;
+    font-weight: 600;
+    background: rgba(255, 215, 0, 0.1);
+    padding: 4px 8px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 215, 0, 0.3);
+}
+
+.departure-item {
+    color: #70a1ff;
+    font-weight: 500;
+    background: rgba(112, 161, 255, 0.1);
+    padding: 4px 8px;
+    border-radius: 12px;
+    border: 1px solid rgba(112, 161, 255, 0.3);
+}
+
+.trip-deadline-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.1);
+    padding: 8px 16px;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+
+.trip-deadline-info span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.trip-deadline-info svg {
+    width: 16px;
+    height: 16px;
+}
+
+.trip-deadline-info svg path {
+    fill: currentColor;
+}
+
+.influencer-card:hover .trip-deadline-info {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+}
+
+.influencer-card:hover .deadline-item {
+    background: rgba(255, 215, 0, 0.15);
+    border-color: rgba(255, 215, 0, 0.4);
+}
+
+.influencer-card:hover .departure-item {
+    background: rgba(112, 161, 255, 0.15);
+    border-color: rgba(112, 161, 255, 0.4);
+}
+
+.trip-info-row {
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    right: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    z-index: 2;
+}
+
+.trip-views {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.1);
+    padding: 6px 12px;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+
+.trip-deadline-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.1);
+    padding: 6px 12px;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+
+.trip-deadline-info span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.trip-deadline-info span:first-child {
+    color: #FFD700;
+    font-weight: 600;
+}
+
+.influencer-card:hover .trip-views,
+.influencer-card:hover .trip-deadline-info {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+}
+
+.trip-status {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    padding: 4px 10px;
+    border-radius: 16px;
+    font-size: 12px;
+    font-weight: 600;
+    color: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+
+.trip-status::before {
+    content: '';
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: white;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.5); opacity: 0.7; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.trip-status.hot {
+    background: linear-gradient(90deg, #FF416C, #FF4B2B);
+}
+
+.trip-status.new {
+    background: linear-gradient(90deg, #11998e, #38ef7d);
+}
+
+.trip-status.limited {
+    background: linear-gradient(90deg, #F2994A, #F2C94C);
+}
+
+/* 底部导航栏样式 */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-around;
+    padding: 16px 0;
+    padding-bottom: calc(16px + env(safe-area-inset-bottom));
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    z-index: 100;
+    box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8px 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.nav-item:hover {
+    transform: translateY(-4px);
+}
+
+.nav-icon {
+    width: 28px;
+    height: 28px;
+    margin-bottom: 6px;
+    background-size: 28px;
+    background-position: center;
+    transition: all 0.3s ease;
+}
+
+.nav-item span {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.nav-item.active span {
+    color: white;
+    font-weight: 700;
+}
+
+.no-results {
+    text-align: center;
+    padding: 60px 0;
+    color: white;
+    font-size: 1.2rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+    max-width: 400px;
+}
+
+/* 响应式设计 */
+@media (min-width: 768px) {
+    .influencer-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1200px) {
+    .influencer-list {
+        grid-template-columns: repeat(3, 1fr);
+        max-width: 1200px;
+    }
+} 

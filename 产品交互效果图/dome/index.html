@@ -5,7 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>约旅 - 网红导游旅行平台</title>
     <link rel="stylesheet" href="css/style.css">
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="css/iphone16-frame.css">
+    <script src="https://cdn.bootcdn.net/ajax/libs/vue/3.2.47/vue.global.prod.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/Swiper/8.4.5/swiper-bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/Swiper/8.4.5/swiper-bundle.min.css">
 </head>
 <body>
     <div id="app" class="container">
@@ -22,7 +25,25 @@
             </nav>
         </div>
         <div class="main-content">
-            <iframe name="mainFrame" src="html/home.html" frameborder="0"></iframe>
+            <!-- iPhone 16 边框容器 -->
+            <div class="iphone16-frame-container">
+                <div class="iphone16-frame-screen">
+                    <!-- 动态岛 -->
+                    <div class="iphone16-dynamic-island"></div>
+                    
+                    <!-- 侧边按钮 -->
+                    <div class="iphone16-power-button"></div>
+                    <div class="iphone16-volume-up"></div>
+                    <div class="iphone16-volume-down"></div>
+                    <div class="iphone16-mute-switch"></div>
+                    
+                    <!-- 底部指示条 -->
+                    <div class="iphone16-home-indicator"></div>
+                    
+                    <!-- 内容iframe -->
+                    <iframe name="mainFrame" src="html/home.html" frameborder="0" class="iphone16-frame-content"></iframe>
+                </div>
+            </div>
         </div>
     </div>
     <script src="js/main.js"></script>

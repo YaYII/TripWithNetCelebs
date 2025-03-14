@@ -5,9 +5,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>首页 - 约旅</title>
     <link rel="stylesheet" href="../css/home.css">
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-    <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css">
+    <script src="https://cdn.bootcdn.net/ajax/libs/vue/3.2.47/vue.global.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/Swiper/8.4.5/swiper-bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/Swiper/8.4.5/swiper-bundle.min.css">
+    <style>
+        /* 调整iframe位置和样式 */
+        .nav-frame-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            height: 56px; /* 基础高度，将通过JS动态调整 */
+            width: 100%;
+            max-width: 393px;
+            margin: 0 auto;
+        }
+        
+        #navFrame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+            overflow: hidden; /* 确保iframe不显示滚动条 */
+        }
+        
+        /* 隐藏滚动条但保留滚动功能 */
+        html, body {
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE and Edge */
+            overflow-y: auto;
+        }
+        
+        html::-webkit-scrollbar,
+        body::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+            width: 0;
+            background: transparent;
+        }
+        
+        #app {
+            overflow-x: hidden;
+            overflow-y: auto;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE and Edge */
+        }
+        
+        #app::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+            width: 0;
+            background: transparent;
+        }
+    </style>
 </head>
 <body>
     <div id="app">
@@ -85,42 +134,51 @@
                 <h2>热门行程</h2>
                 <span class="view-all" @click="viewAllTrips">查看全部 ></span>
             </div>
+            <!-- 下拉刷新提示 -->
+            <div class="refresh-tip" :class="{ visible: isRefreshing }">
+                <span v-if="isRefreshing">正在刷新...</span>
+                <span v-else>下拉刷新</span>
+            </div>
             <div class="trip-list">
-                <div class="trip-card" v-for="trip in trips" :key="trip.id" @click="viewTripDetail(trip.id)">
-                    <img :src="trip.image" :alt="trip.title">
-                    <div class="trip-info">
-                        <h3>{{ trip.title }}</h3>
-                        <p class="trip-desc">{{ trip.description }}</p>
-                        <div class="trip-meta">
-                            <span class="price">¥{{ trip.price }}</span>
-                            <span class="duration">{{ trip.duration }}</span>
+                <div class="trip-card" v-for="trip in popularTrips" :key="trip.id" @click="goToTripDetail(trip.id)">
+                    <div class="trip-image-container">
+                        <img :src="trip.image" :alt="trip.title">
+                        <div class="trip-overlay">
+                            <h3 class="trip-title">{{ trip.title }}</h3>
+                            <p class="trip-desc">{{ trip.description }}</p>
                         </div>
+                    </div>
+                    <div class="trip-meta">
+                        <span class="price">{{ trip.price }}</span>
+                        <span class="duration">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z" fill="currentColor"/>
+                            </svg>
+                            {{ trip.duration }}
+                        </span>
                     </div>
                 </div>
             </div>
+            <!-- 加载更多按钮 -->
+            <button class="load-more" :class="{ loading: isLoading }" @click="loadMore" v-if="hasMore">
+                <svg v-if="isLoading" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z" fill="currentColor" opacity="0.3"/>
+                    <path d="M12 2v4c4.42 0 8 3.58 8 8h4c0-6.62-5.38-12-12-12z" fill="currentColor"/>
+                </svg>
+                {{ isLoading ? '加载中...' : '加载更多' }}
+            </button>
         </section>
 
-        <!-- 底部导航栏 -->
-        <nav class="bottom-nav">
-            <div class="nav-item" :class="{ active: currentPage === 'home' }" @click="navigate('home')">
-                <i class="nav-icon home-icon"></i>
-                <span>首页</span>
-            </div>
-            <div class="nav-item" :class="{ active: currentPage === 'explore' }" @click="navigate('explore')">
-                <i class="nav-icon explore-icon"></i>
-                <span>发现</span>
-            </div>
-            <div class="nav-item" :class="{ active: currentPage === 'vr' }" @click="navigate('vr')">
-                <i class="nav-icon vr-icon"></i>
-                <span>VR导览</span>
-            </div>
-            <div class="nav-item" :class="{ active: currentPage === 'profile' }" @click="navigate('profile')">
-                <i class="nav-icon profile-icon"></i>
-                <span>我的</span>
-            </div>
-        </nav>
+        <!-- 底部留白区域，为底部导航栏预留空间 -->
+        <div style="height: 70px;"></div>
     </div>
 
+    <!-- 底部导航栏iframe容器 -->
+    <div class="nav-frame-container">
+        <iframe id="navFrame" src="nav-bar.html" frameborder="0"></iframe>
+    </div>
+
+    <script src="../js/nav-handler.js"></script>
     <script src="../js/home.js"></script>
 </body>
 </html>

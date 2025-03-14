@@ -1,0 +1,210 @@
+/* 行程卡片样式 */
+.trip-card {
+    position: relative;
+    width: 100%;
+    height: 220px;
+    border-radius: 24px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    background: #fff;
+    transform: translateZ(0);
+    -webkit-font-smoothing: antialiased;
+}
+
+/* 卡片图片 */
+.trip-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(1);
+    transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+/* 卡片内容遮罩 */
+.trip-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(0, 0, 0, 0.2) 30%,
+        rgba(0, 0, 0, 0.6) 100%
+    );
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 24px;
+    color: #fff;
+    transition: background 0.3s ease;
+}
+
+/* 卡片标题区域 */
+.trip-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.trip-title {
+    font-size: 1.625rem;
+    font-weight: 700;
+    margin: 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+}
+
+.trip-price {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 10px 16px;
+    border-radius: 24px;
+    font-size: 1.25rem;
+    font-weight: 700;
+    white-space: nowrap;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    letter-spacing: -0.01em;
+}
+
+/* 卡片底部信息 */
+.trip-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 2px;
+}
+
+.trip-info {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.trip-location, .trip-duration {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    opacity: 0.95;
+}
+
+.trip-location svg, .trip-duration svg {
+    width: 18px;
+    height: 18px;
+    fill: #fff;
+    filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.2));
+}
+
+.trip-status {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+}
+
+.status-tag {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.days-left {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #FFB74D;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* 深色模式适配 */
+@media (prefers-color-scheme: dark) {
+    .trip-card {
+        background: #1a1a1a;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    }
+    
+    .trip-overlay {
+        background: linear-gradient(
+            180deg,
+            rgba(0, 0, 0, 0.1) 0%,
+            rgba(0, 0, 0, 0.3) 30%,
+            rgba(0, 0, 0, 0.7) 100%
+        );
+    }
+}
+
+/* 动画效果 */
+.trip-card {
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.trip-card:hover {
+    transform: translateY(-8px) translateZ(0);
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.15);
+}
+
+.trip-card:hover .trip-image {
+    transform: scale(1.08);
+}
+
+.trip-card:hover .trip-overlay {
+    background: linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0.1) 0%,
+        rgba(0, 0, 0, 0.3) 30%,
+        rgba(0, 0, 0, 0.7) 100%
+    );
+}
+
+/* 响应式适配 */
+@media screen and (max-width: 393px) {
+    .trip-card {
+        height: 200px;
+        margin-bottom: 16px;
+        border-radius: 20px;
+    }
+    
+    .trip-overlay {
+        padding: 10px;
+    }
+    
+    .trip-title {
+        font-size: 1.375rem;
+    }
+    
+    .trip-price {
+        font-size: 1.125rem;
+        padding: 8px 14px;
+        display: none;
+    }
+    
+    .trip-location, .trip-duration {
+        font-size: 0.875rem;
+    }
+    
+    .trip-location svg, .trip-duration svg {
+        width: 16px;
+        height: 16px;
+    }
+    
+    .status-tag {
+        padding: 6px 12px;
+        font-size: 0.8125rem;
+    }
+    
+    .days-left {
+        font-size: 0.8125rem;
+    }
+} 
