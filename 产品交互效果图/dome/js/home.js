@@ -3,10 +3,10 @@ const { createApp } = Vue
 createApp({
     data() {
         return {
-            selectedCity: '深圳',
+            selectedCity: '珠海',
             searchQuery: '',
             searchPlaceholder: '搜索目的地、网红或行程',
-            cities: ['肇庆', '珠海', '澳门', '广州', '上海', '北京'],
+            cities: ['肇庆', '珠海'],
             showCitySelector: false,
             currentLang: 'zh',
             currentPage: 'home',
