@@ -86,7 +86,7 @@ createApp({
         
         // 查看行程详情
         viewTripDetail(tripId) {
-            window.location.href = `trip-detail.html?id=${tripId}`;
+            window.location.href = `destination-detail.html?id=${tripId}`;
         },
         
         // 加载更多数据
@@ -110,7 +110,8 @@ createApp({
                         dates: '2024-05-15 至 2024-05-17',
                         price: '1299',
                         duration: '3天2晚',
-                        tags: ['亲子', '摄影']
+                        tags: ['亲子', '摄影'],
+                        viewCount: 28760
                     },
                     {
                         id: this.trips.length + 2,
@@ -121,7 +122,8 @@ createApp({
                         dates: '2024-05-20 至 2024-05-21',
                         price: '699',
                         duration: '2天1晚',
-                        tags: ['摄影', '美食']
+                        tags: ['摄影', '美食'],
+                        viewCount: 19850
                     },
                     {
                         id: this.trips.length + 3,
@@ -132,7 +134,8 @@ createApp({
                         dates: '2024-06-01 至 2024-06-03',
                         price: '1599',
                         duration: '3天2晚',
-                        tags: ['摄影']
+                        tags: ['摄影'],
+                        viewCount: 12345
                     },
                     {
                         id: this.trips.length + 4,
@@ -143,7 +146,8 @@ createApp({
                         dates: '2024-05-25 至 2024-05-26',
                         price: '899',
                         duration: '2天1晚',
-                        tags: ['亲子']
+                        tags: ['亲子'],
+                        viewCount: 10234
                     },
                     {
                         id: this.trips.length + 5,
@@ -154,7 +158,8 @@ createApp({
                         dates: '2024-06-10 至 2024-06-11',
                         price: '599',
                         duration: '2天1晚',
-                        tags: ['摄影']
+                        tags: ['摄影'],
+                        viewCount: 8765
                     }
                 ];
                 
@@ -191,7 +196,8 @@ createApp({
                         dates: '2024-04-20 至 2024-04-22',
                         price: '1299',
                         duration: '3天2晚',
-                        tags: ['亲子', '摄影']
+                        tags: ['亲子', '摄影'],
+                        viewCount: 25680
                     },
                     {
                         id: 2,
@@ -202,7 +208,8 @@ createApp({
                         dates: '2024-04-25 至 2024-04-26',
                         price: '799',
                         duration: '2天1晚',
-                        tags: ['亲子']
+                        tags: ['亲子'],
+                        viewCount: 18920
                     },
                     {
                         id: 3,
@@ -213,7 +220,8 @@ createApp({
                         dates: '2024-05-01 至 2024-05-03',
                         price: '1599',
                         duration: '3天2晚',
-                        tags: ['亲子', '美食']
+                        tags: ['亲子', '美食'],
+                        viewCount: 21450
                     },
                     {
                         id: 4,
@@ -224,7 +232,8 @@ createApp({
                         dates: '2024-05-05 至 2024-05-07',
                         price: '1899',
                         duration: '3天2晚',
-                        tags: ['美食']
+                        tags: ['美食'],
+                        viewCount: 15678
                     },
                     {
                         id: 5,
@@ -235,7 +244,8 @@ createApp({
                         dates: '2024-05-10 至 2024-05-12',
                         price: '1499',
                         duration: '3天2晚',
-                        tags: ['摄影']
+                        tags: ['摄影'],
+                        viewCount: 12345
                     },
                     {
                         id: 6,
@@ -246,7 +256,8 @@ createApp({
                         dates: '2024-04-28 至 2024-04-29',
                         price: '699',
                         duration: '2天1晚',
-                        tags: ['摄影']
+                        tags: ['摄影'],
+                        viewCount: 10234
                     },
                     {
                         id: 7,
@@ -257,7 +268,8 @@ createApp({
                         dates: '2024-05-08 至 2024-05-09',
                         price: '799',
                         duration: '2天1晚',
-                        tags: ['摄影', '亲子']
+                        tags: ['摄影', '亲子'],
+                        viewCount: 12345
                     },
                     {
                         id: 8,
@@ -268,7 +280,8 @@ createApp({
                         dates: '2024-05-15 至 2024-05-16',
                         price: '999',
                         duration: '2天1晚',
-                        tags: ['美食']
+                        tags: ['美食'],
+                        viewCount: 15678
                     },
                     {
                         id: 9,
@@ -279,7 +292,8 @@ createApp({
                         dates: '2024-06-01 至 2024-06-02',
                         price: '899',
                         duration: '2天1晚',
-                        tags: ['亲子']
+                        tags: ['亲子'],
+                        viewCount: 10234
                     },
                     {
                         id: 10,
@@ -290,7 +304,8 @@ createApp({
                         dates: '2024-06-05 至 2024-06-08',
                         price: '2999',
                         duration: '4天3晚',
-                        tags: ['亲子', '美食']
+                        tags: ['亲子', '美食'],
+                        viewCount: 21450
                     }
                 ];
                 
@@ -301,6 +316,14 @@ createApp({
             } finally {
                 this.isLoading = false;
             }
+        },
+        
+        // 格式化数字，超过1万显示为x.x万
+        formatNumber(num) {
+            if (num >= 10000) {
+                return (num / 10000).toFixed(1) + '万';
+            }
+            return num.toString();
         }
     },
     watch: {

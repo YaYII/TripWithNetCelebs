@@ -87,7 +87,7 @@ createApp({
                     window.location.href = 'my-trips.html';
                     break;
                 case 'favorites':
-                    // window.location.href = 'my-favorites.html';
+                     window.location.href = 'my-favorites.html';
                     break;
                 case 'followers':
                     // window.location.href = 'my-followers.html';

@@ -10,6 +10,8 @@ createApp({
             recommendedTrips: [
                 {
                     id: 101,
+                    influencerName: "小红",
+                    influencerAvatar: "../img/placeholder-logo.png",
                     title: '珠海长隆海洋王国2日游',
                     location: '广东，珠海',
                     startDate: '2023-04-15',
@@ -22,6 +24,8 @@ createApp({
                 },
                 {
                     id: 102,
+                    influencerName: "旅行达人",
+                    influencerAvatar: "../img/placeholder-logo.png",
                     title: '珠海横琴澳门3日游',
                     location: '广东，珠海/澳门',
                     startDate: '2023-05-10',
@@ -34,6 +38,8 @@ createApp({
                 },
                 {
                     id: 103,
+                    influencerName: "珠海小妹",
+                    influencerAvatar: "../img/placeholder-logo.png",
                     title: '珠海情侣路+渔女雕像1日游',
                     location: '广东，珠海',
                     startDate: '2023-06-05',
@@ -46,6 +52,8 @@ createApp({
                 },
                 {
                     id: 104,
+                    influencerName: "岛主",
+                    influencerAvatar: "../img/placeholder-logo.png",
                     title: '珠海外伶仃岛2日游',
                     location: '广东，珠海',
                     startDate: '2023-07-10',
@@ -58,6 +66,8 @@ createApp({
                 },
                 {
                     id: 105,
+                    influencerName: "温泉达人",
+                    influencerAvatar: "../img/placeholder-logo.png",
                     title: '珠海圆明新园+御温泉2日游',
                     location: '广东，珠海',
                     startDate: '2023-08-15',
@@ -89,7 +99,16 @@ createApp({
     methods: {
         // 查看行程详情
         viewTripDetail(tripId) {
-            window.location.href = `trip-detail.html?id=${tripId}`;
+            try {
+                if (!tripId || typeof tripId !== 'number') {
+                    throw new Error('无效的行程ID');
+                }
+                window.location.href = `trip-detail.html?id=${tripId}`;
+            } catch (error) {
+                console.error('查看行程详情失败:', error);
+                // 可以在这里添加用户提示
+                alert('查看行程详情失败，请稍后重试');
+            }
         },
         
         // 返回上一页
@@ -111,4 +130,4 @@ createApp({
             }
         }
     }
-}).mount('#app'); 
+}).mount('#app');

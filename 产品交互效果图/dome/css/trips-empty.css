@@ -1,0 +1,288 @@
+html, body {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+    overflow-y: auto;
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    background: #f5f5f5;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    padding-bottom: calc(60px + env(safe-area-inset-bottom));
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+    width: 0;
+    background: transparent;
+}
+
+#app {
+    overflow-x: hidden;
+    overflow-y: auto;
+    width: 100%;
+    max-width: 393px;
+    position: relative;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+}
+
+#app::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+    width: 0;
+    background: transparent;
+}
+
+/* 顶部导航栏 */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: #fff;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 393px;
+    margin: 0 auto;
+}
+
+.back-btn {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.header-title {
+    flex: 1;
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333;
+}
+
+/* 内容区域 */
+.content {
+    margin-top: 60px;
+    padding: 10px 15px;
+}
+
+/* 行程卡片样式 */
+.trips-container {
+    margin-bottom: 20px;
+}
+
+.trips-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.trips-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.trip-card {
+    position: relative;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+}
+
+.trip-image {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+}
+
+.trip-info {
+    padding: 15px;
+}
+
+.trip-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 5px;
+}
+
+.trip-location {
+    font-size: 0.85rem;
+    color: #666;
+    margin: 0 0 10px;
+    display: flex;
+    align-items: center;
+}
+
+.trip-location svg {
+    margin-right: 5px;
+}
+
+.trip-dates {
+    font-size: 0.85rem;
+    color: #666;
+    margin: 0 0 10px;
+    display: flex;
+    align-items: center;
+}
+
+.trip-dates svg {
+    margin-right: 5px;
+}
+
+.trip-status {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.status-tag {
+    background: #e3f2fd;
+    color: #2979ff;
+    padding: 4px 10px;
+    border-radius: 15px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.days-left {
+    font-size: 0.85rem;
+    color: #f44336;
+    font-weight: 500;
+/* 网红头像样式 */
+.trip-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+
+.influencer-avatar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 10px;
+}
+
+.avatar-img {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #FF4081;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.influencer-name {
+    font-size: 0.7rem;
+    color: #FF4081;
+    margin-top: 2px;
+    max-width: 50px;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+}
+
+.empty-trips {
+    text-align: center;
+    padding: 20px 0;
+    color: #999;
+    background: #fff;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.empty-trips svg {
+    width: 64px;
+    height: 64px;
+    margin-bottom: 15px;
+    fill: #ccc;
+}
+
+.empty-trips p {
+    margin: 5px 0;
+}
+
+.empty-trips .action-btn {
+    display: inline-block;
+    margin-top: 15px;
+    background: #2979ff;
+    color: #fff;
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    text-decoration: none;
+}
+
+/* 底部导航栏iframe容器 */
+.nav-frame-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    height: 56px; /* 基础高度，将通过JS动态调整 */
+    width: 100%;
+    max-width: 393px;
+    margin: 0 auto;
+}
+
+#navFrame {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+}
+
+/* 搜索栏 */
+.search-bar {
+    background: #fff;
+    border-radius: 10px;
+    padding: 10px 15px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.search-icon {
+    margin-right: 10px;
+    color: #999;
+}
+
+.search-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 0.9rem;
+    color: #333;
+}
+
+.search-input::placeholder {
+    color: #999;
+}
+
+/* 分隔线 */
+.section-divider {
+    height: 10px;
+    background-color: #f5f5f5;
+    margin: 20px -15px;
+}

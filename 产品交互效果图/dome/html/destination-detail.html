@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>目的地详情 - 约旅</title>
+    <link rel="stylesheet" href="../libs/swiper-bundle.min.css">
+    <link rel="stylesheet" href="../css/trip-detail.css">
+    <link rel="stylesheet" href="../css/influencer-avatar.css">
+    <link rel="stylesheet" href="../css/destination-detail.css">
+    <script src="../libs/vue.global.min.js"></script>
+    <script src="../libs/swiper-bundle.min.js"></script>
+</head>
+<body>
+    <div id="app" v-cloak>
+        <!-- 顶部导航栏 -->
+        <div class="nav-bar">
+            <div class="back-button" @click="goBack">
+                <svg width="20" height="20" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+                </svg>
+            </div>
+            <div class="nav-title">景点地详情</div>
+        </div>
+
+        <!-- 内容区域 -->
+        <div class="content-wrapper">
+            <!-- Banner轮播 -->
+            <div class="banner-swiper swiper-container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide" v-for="(image, index) in destination.images" :key="index">
+                        <img :src="image" :alt="destination.name">
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+
+            <!-- 目的地信息 -->
+            <div class="destination-info">
+                <div class="destination-header">
+                    <div class="destination-title-container">
+                        <h1 class="destination-title">{{ destination.name }}</h1>
+                        <div class="destination-rating">
+                            <div class="rating-stars">
+                                <svg v-for="i in 5" :key="i" width="16" height="16" viewBox="0 0 24 24" :class="{ 'filled': i <= Math.floor(destination.rating) }">
+                                    <path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                                </svg>
+                            </div>
+                            <span class="rating-value">{{ destination.rating }}</span>
+                            <span class="rating-count">({{ destination.reviewCount }}评价)</span>
+                        </div>
+                    </div>
+                    <div class="favorite-button" @click="toggleFavorite">
+                        <svg width="28" height="28" viewBox="0 0 24 24" :fill="isFavorite ? 'currentColor' : 'none'" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- 目的地基本信息 -->
+                <div class="destination-meta">
+                    <div class="meta-item">
+                        <svg width="16" height="16" viewBox="0 0 24 24">
+                            <path fill="currentColor" d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                        </svg>
+                        <span>{{ destination.location }}</span>
+                    </div>
+                    <div class="meta-item">
+                        <svg width="16" height="16" viewBox="0 0 24 24">
+                            <path fill="currentColor" d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                        </svg>
+                        <span>{{ destination.viewCount }}人浏览</span>
+                    </div>
+                    <div class="meta-item">
+                        <svg width="16" height="16" viewBox="0 0 24 24">
+                            <path fill="currentColor" d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+                        </svg>
+                        <span>{{ destination.tripCount }}个相关行程</span>
+                    </div>
+                </div>
+
+                <div class="destination-desc">
+                    {{ destination.description }}
+                </div>
+
+                <!-- 标签 -->
+                <div class="destination-tags">
+                    <span class="tag" v-for="tag in destination.tags" :key="tag">{{ tag }}</span>
+                </div>
+            </div>
+
+            <!-- 网红导游行程 -->
+            <div class="influencer-trips-section">
+                <h2 class="section-title">网红导游行程</h2>
+                <div class="influencer-trips">
+                    <div class="influencer-trip-card" v-for="trip in influencerTrips" :key="trip.id" @click="viewTripDetail(trip.id)">
+                        <div class="trip-status" :class="trip.status.type">{{ trip.status.text }}</div>
+                        <div class="trip-image">
+                            <img :src="trip.image" :alt="trip.title">
+                        </div>
+                        <div class="trip-content">
+                            <div class="trip-title">{{ trip.title }}</div>
+                            <div class="influencer-info">
+                                <div class="influencer-avatar-small">
+                                    <img :src="trip.influencer.avatar" :alt="trip.influencer.name">
+                                </div>
+                                <div class="influencer-name-small">{{ trip.influencer.name }}</div>
+                            </div>
+                            <div class="trip-meta-row">
+                                <div class="trip-price">¥{{ trip.price }}</div>
+                                <div class="trip-duration">{{ trip.duration }}</div>
+                            </div>
+                            <div class="trip-stats-row">
+                                <div class="trip-stat">
+                                    <span class="stat-label">已报名</span>
+                                    <span class="stat-value">{{ trip.currentParticipants }}/{{ trip.maxParticipants }}</span>
+                                </div>
+                                <div class="trip-stat">
+                                    <span class="stat-label">出发日期</span>
+                                    <span class="stat-value">{{ trip.departureDate }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 景点特色 -->
+            <div class="features-section">
+                <h2 class="section-title">景点特色</h2>
+                <div class="features-list">
+                    <div class="feature-item" v-for="(feature, index) in destination.features" :key="index">
+                        <div class="feature-icon">
+                            <img :src="feature.icon" :alt="feature.title">
+                        </div>
+                        <div class="feature-content">
+                            <div class="feature-title">{{ feature.title }}</div>
+                            <div class="feature-desc">{{ feature.description }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 游客评价 -->
+            <div class="reviews-section">
+                <h2 class="section-title">游客评价</h2>
+                <div class="reviews-list">
+                    <div class="review-item" v-for="review in destination.reviews" :key="review.id">
+                        <div class="review-header">
+                            <div class="reviewer-avatar">
+                                <img :src="review.avatar" :alt="review.name">
+                            </div>
+                            <div class="reviewer-info">
+                                <div class="reviewer-name">{{ review.name }}</div>
+                                <div class="review-date">{{ review.date }}</div>
+                            </div>
+                            <div class="review-rating">
+                                <svg v-for="i in 5" :key="i" width="12" height="12" viewBox="0 0 24 24" :class="{ 'filled': i <= review.rating }">
+                                    <path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="review-content">{{ review.content }}</div>
+                    </div>
+                </div>
+                <div class="view-more-reviews" @click="viewMoreReviews">
+                    查看更多评价 <svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentColor" d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+                </div>
+            </div>
+
+            <!-- 周边推荐 -->
+            <div class="nearby-section">
+                <h2 class="section-title">周边推荐</h2>
+                <div class="nearby-list">
+                    <div class="nearby-item" v-for="nearby in destination.nearby" :key="nearby.id" @click="viewDestinationDetail(nearby.id)">
+                        <div class="nearby-image">
+                            <img :src="nearby.image" :alt="nearby.name">
+                        </div>
+                        <div class="nearby-info">
+                            <div class="nearby-name">{{ nearby.name }}</div>
+                            <div class="nearby-distance">{{ nearby.distance }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 底部操作栏 -->
+        <div class="bottom-action-bar">
+            <div class="action-buttons">
+                <div class="action-button favorite" @click="toggleFavorite">
+                    <svg width="24" height="24" viewBox="0 0 24 24" :class="{ 'active': isFavorite }">
+                        <path fill="currentColor" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                    <span>收藏</span>
+                </div>
+                <div class="action-button share" @click="shareDestination">
+                    <svg width="24" height="24" viewBox="0 0 24 24">
+                        <path fill="currentColor" d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/>
+                    </svg>
+                    <span>分享</span>
+                </div>
+            </div>
+            <button class="primary-button" @click="viewAllTrips">查看全部行程</button>
+        </div>
+    </div>
+
+    <script src="../js/destination-detail.js"></script>
+</body>
+</html> 

@@ -18,7 +18,11 @@ createApp({
                     endDate: '2023-04-16',
                     image: '../img/test.png',
                     status: '即将出行',
-                    daysLeft: 25
+                    daysLeft: 25,
+                    influencer: {
+                        name: '小红书达人',
+                        avatar: '../img/potato.png'
+                    }
                 },
                 {
                     id: 202,
@@ -28,7 +32,11 @@ createApp({
                     endDate: '2023-05-12',
                     image: '../img/test.png',
                     status: '计划中',
-                    daysLeft: 40
+                    daysLeft: 40,
+                    influencer: {
+                        name: '旅游博主',
+                        avatar: '../img/potato.png'
+                    }
                 }
             ],
             // 推荐行程数据
@@ -43,7 +51,11 @@ createApp({
                     status: '热门推荐',
                     daysLeft: 25,
                     isPast: false,
-                    isCancelled: false
+                    isCancelled: false,
+                    influencer: {
+                        name: '旅游达人',
+                        avatar: '../img/potato.png'
+                    }
                 },
                 {
                     id: 102,
@@ -55,7 +67,11 @@ createApp({
                     status: '限时优惠',
                     daysLeft: 40,
                     isPast: false,
-                    isCancelled: false
+                    isCancelled: false,
+                    influencer: {
+                        name: '旅游达人',
+                        avatar: '../img/potato.png'
+                    },
                 },
                 {
                     id: 103,
@@ -67,7 +83,11 @@ createApp({
                     status: '新品上线',
                     daysLeft: 65,
                     isPast: false,
-                    isCancelled: false
+                    isCancelled: false,
+                    influencer: {
+                        name: '旅游达人',
+                        avatar: '../img/potato.png'
+                    },
                 },
                 {
                     id: 104,
@@ -79,7 +99,11 @@ createApp({
                     status: '热门推荐',
                     daysLeft: 100,
                     isPast: false,
-                    isCancelled: false
+                    isCancelled: false,
+                    influencer: {
+                        name: '旅游达人',
+                        avatar: '../img/potato.png'
+                    },
                 },
                 {
                     id: 105,
@@ -91,7 +115,11 @@ createApp({
                     status: '限时优惠',
                     daysLeft: 135,
                     isPast: false,
-                    isCancelled: false
+                    isCancelled: false,
+                    influencer: {
+                        name: '旅游达人',
+                        avatar: '../img/potato.png'
+                    },
                 }
             ]
         }
@@ -167,4 +195,4 @@ createApp({
             }
         }
     }
-}).mount('#app'); 
+}).mount('#app');

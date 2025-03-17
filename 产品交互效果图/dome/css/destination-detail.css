@@ -1,0 +1,639 @@
+/* 目的地详情页面样式 */
+
+/* 基础样式 */
+[v-cloak] {
+    display: none;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #1e90ff, #70a1ff);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: white;
+    min-height: 100vh;
+}
+
+/* 内容区域 */
+.content-wrapper {
+    padding-bottom: 80px; /* 为底部操作栏留出空间 */
+}
+
+/* 目的地信息 */
+.destination-info {
+    padding: 20px;
+    background: #547cff;
+    border-radius: 20px 20px 0 0;
+    margin-top: -20px;
+    position: relative;
+    z-index: 10;
+}
+
+.destination-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 15px;
+}
+
+.destination-title-container {
+    flex: 1;
+}
+
+.destination-title {
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0 0 10px;
+    color: #333;
+}
+
+.favorite-button {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 107, 107, 0.1);
+    border-radius: 50%;
+    cursor: pointer;
+    color: #ff6b6b;
+    transition: all 0.3s ease;
+    margin-left: 15px;
+}
+
+.favorite-button:active {
+    transform: scale(0.9);
+    background: rgba(255, 107, 107, 0.2);
+}
+
+.destination-rating {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.rating-stars {
+    display: flex;
+    margin-right: 8px;
+}
+
+.rating-stars svg {
+    margin-right: 2px;
+    opacity: 0.5;
+}
+
+.rating-stars svg.filled {
+    opacity: 1;
+    color: #ffcc00;
+}
+
+.rating-value {
+    font-weight: 600;
+    margin-right: 4px;
+}
+
+.rating-count {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 14px;
+}
+
+.destination-meta {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    margin-right: 16px;
+    margin-bottom: 8px;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 14px;
+}
+
+.meta-item svg {
+    margin-right: 6px;
+}
+
+.destination-desc {
+    font-size: 15px;
+    line-height: 1.6;
+    margin-bottom: 16px;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.destination-tags {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+}
+
+.tag {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    padding: 4px 12px;
+    font-size: 12px;
+    margin-right: 8px;
+    margin-bottom: 8px;
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* 网红导游行程部分 */
+.influencer-trips-section {
+    padding: 20px 16px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.section-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 16px;
+    color: white;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+}
+
+.section-title::before {
+    content: '';
+    display: inline-block;
+    width: 4px;
+    height: 18px;
+    background: white;
+    margin-right: 8px;
+    border-radius: 2px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.influencer-trips {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+}
+
+.influencer-trip-card {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+}
+
+.influencer-trip-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.trip-status {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    z-index: 10;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.trip-status.hot {
+    background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+}
+
+.trip-status.limited {
+    background: linear-gradient(135deg, #ff9f43, #ffbe76);
+}
+
+.trip-status.new {
+    background: linear-gradient(135deg, #1dd1a1, #10ac84);
+}
+
+.trip-image {
+    height: 140px;
+    overflow: hidden;
+}
+
+.trip-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.influencer-trip-card:hover .trip-image img {
+    transform: scale(1.05);
+}
+
+.trip-content {
+    padding: 12px;
+}
+
+.trip-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: white;
+}
+
+.influencer-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.influencer-avatar-small {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.influencer-avatar-small img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.influencer-name-small {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.trip-meta-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.trip-price {
+    font-size: 18px;
+    font-weight: 700;
+    color: #ff6b6b;
+}
+
+.trip-duration {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.trip-stats-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.trip-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.stat-label {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 2px;
+}
+
+.stat-value {
+    font-size: 14px;
+    color: white;
+}
+
+/* 景点特色部分 */
+.features-section {
+    padding: 20px 16px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.features-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+}
+
+.feature-item {
+    display: flex;
+    align-items: flex-start;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.feature-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-right: 12px;
+    background: rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.feature-icon img {
+    width: 24px;
+    height: 24px;
+}
+
+.feature-content {
+    flex: 1;
+}
+
+.feature-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: white;
+}
+
+.feature-desc {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.5;
+}
+
+/* 游客评价部分 */
+.reviews-section {
+    padding: 20px 16px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.reviews-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+}
+
+.review-item {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.review-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.reviewer-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.reviewer-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.reviewer-info {
+    flex: 1;
+}
+
+.reviewer-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: white;
+}
+
+.review-date {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.review-rating {
+    display: flex;
+}
+
+.review-rating svg {
+    margin-left: 2px;
+    opacity: 0.5;
+}
+
+.review-rating svg.filled {
+    opacity: 1;
+    color: #ffcc00;
+}
+
+.review-content {
+    font-size: 14px;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.view-more-reviews {
+    text-align: center;
+    margin-top: 16px;
+    padding: 8px;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.view-more-reviews svg {
+    margin-left: 4px;
+}
+
+/* 周边推荐部分 */
+.nearby-section {
+    padding: 20px 16px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.nearby-list {
+    display: flex;
+    overflow-x: auto;
+    padding-bottom: 12px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.nearby-list::-webkit-scrollbar {
+    display: none;
+}
+
+.nearby-item {
+    flex: 0 0 auto;
+    width: 140px;
+    margin-right: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+}
+
+.nearby-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.nearby-image {
+    height: 100px;
+    overflow: hidden;
+}
+
+.nearby-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.nearby-item:hover .nearby-image img {
+    transform: scale(1.05);
+}
+
+.nearby-info {
+    padding: 8px;
+}
+
+.nearby-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.nearby-distance {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* 底部操作栏 */
+.bottom-action-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 100;
+}
+
+.action-buttons {
+    display: flex;
+}
+
+.action-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+.action-button svg {
+    margin-bottom: 4px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.action-button svg.active {
+    color: #ff6b6b;
+}
+
+.action-button span {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.primary-button {
+    background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+    border: none;
+    border-radius: 24px;
+    padding: 12px 24px;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(255, 107, 107, 0.4);
+    transition: all 0.3s ease;
+}
+
+.primary-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(255, 107, 107, 0.5);
+}
+
+/* 响应式布局 */
+@media (min-width: 768px) {
+    .influencer-trips {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .features-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .reviews-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1200px) {
+    .influencer-trips {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Toast提示样式 */
+.toast {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.8);
+    background: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    z-index: 1000;
+    opacity: 0;
+    transition: all 0.3s ease;
+    max-width: 80%;
+    text-align: center;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+} 

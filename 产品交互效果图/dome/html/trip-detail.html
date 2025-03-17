@@ -6,6 +6,7 @@
     <title>行程详情 - 约旅</title>
     <link rel="stylesheet" href="../libs/swiper-bundle.min.css">
     <link rel="stylesheet" href="../css/trip-detail.css">
+    <link rel="stylesheet" href="../css/influencer-avatar.css">
     <script src="../libs/vue.global.min.js"></script>
     <style>
         /* 隐藏滚动条但保留滚动功能 */
@@ -75,7 +76,16 @@
 
             <!-- 行程信息 -->
             <div class="trip-info">
-                <h1 class="trip-title">{{ trip.title }}</h1>
+                <div class="trip-header">
+                    <div class="trip-title-container">
+                        <h1 class="trip-title">{{ trip.title }}</h1>
+                    </div>
+                    <div class="favorite-button" @click="toggleFavorite">
+                        <svg width="28" height="28" viewBox="0 0 24 24" :fill="isFavorite ? 'currentColor' : 'none'" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                        </svg>
+                    </div>
+                </div>
                 
                 <!-- 带队网红信息 -->
                 <div class="influencer-info">

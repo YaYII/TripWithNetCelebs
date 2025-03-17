@@ -2,60 +2,55 @@
 
 // 初始化导航栏
 function initNavBar(currentPage) {
-    // 获取导航栏iframe
-    const navFrame = document.getElementById('navFrame');
-    
-    // 调整iframe高度以适应底部安全区域
-    adjustNavFrameHeight();
-    
-    // 监听窗口大小变化，重新调整高度
-    window.addEventListener('resize', adjustNavFrameHeight);
-    
-    // 监听来自导航栏iframe的消息
+    // 监听来自iframe的消息
     window.addEventListener('message', function(event) {
-        // 检查消息来源
-        if (event.origin !== window.location.origin) {
-            return;
+        // 处理导航请求
+        if (event.data && event.data.action === 'navigate') {
+            const target = event.data.target;
+            
+            // 如果目标页面不是当前页面，则进行导航
+            if (!window.location.href.includes(target)) {
+                window.location.href = target;
+            }
         }
         
-        // 处理导航消息
-        if (typeof event.data === 'object' && event.data && event.data.action === 'navigate') {
-            // 导航到指定URL
-            if (event.data.target) {
-                window.location.href = event.data.target;
+        // 处理iframe高度调整请求
+        if (event.data && event.data.action === 'adjustHeight') {
+            const navFrame = document.getElementById('navFrame');
+            if (navFrame) {
+                navFrame.style.height = event.data.height + 'px';
             }
         }
     });
     
-    // 如果提供了当前页面参数，通知导航栏高亮对应项
-    if (currentPage && navFrame) {
-        // 确保iframe已经加载完成
-        const sendMessage = () => {
-            try {
-                // 使用简单的数据结构
-                const message = JSON.stringify({
-                    action: 'setActivePage',
-                    page: currentPage
-                });
-                
-                // 确保iframe已经准备好
-                if (navFrame.contentWindow) {
-                    navFrame.contentWindow.postMessage(message, window.location.origin);
-                }
-            } catch (e) {
-                console.error('导航栏通信失败:', e);
-            }
+    // 向iframe发送当前页面信息
+    const navFrame = document.getElementById('navFrame');
+    if (navFrame && navFrame.contentWindow) {
+        // 等待iframe加载完成
+        navFrame.onload = function() {
+            // 发送当前页面信息
+            navFrame.contentWindow.postMessage({
+                action: 'setCurrentPage',
+                page: currentPage || getCurrentPageFromUrl()
+            }, '*');
         };
-
-        if (navFrame.contentDocument && navFrame.contentDocument.readyState === 'complete') {
-            sendMessage();
-        } else {
-            navFrame.onload = sendMessage;
-        }
     }
     
     // 检测是否为iPhone 16并应用特定样式
     detectIPhone16();
+}
+
+// 从URL获取当前页面
+function getCurrentPageFromUrl() {
+    const url = window.location.href;
+    if (url.includes('home.html')) {
+        return 'home';
+    } else if (url.includes('trips.html')) {
+        return 'trips';
+    } else if (url.includes('profile.html') || url.includes('my-trips.html') || url.includes('my-favorites.html')) {
+        return 'profile';
+    }
+    return 'home'; // 默认为首页
 }
 
 // 调整导航栏iframe高度

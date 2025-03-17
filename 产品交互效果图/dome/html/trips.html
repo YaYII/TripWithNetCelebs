@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../css/trips.css">
     <link rel="stylesheet" href="../css/trip-card.css">
     <link rel="stylesheet" href="../css/iphone16.css">
+    <link rel="stylesheet" href="../css/influencer-avatar.css">
     <script src="../libs/vue.global.prod.min.js"></script>
 </head>
 <body>
@@ -15,7 +16,7 @@
         <!-- 顶部导航栏 -->
         <div class="header">
             <div style="width: 24px;"></div>
-            <div class="header-title">我的行程</div>
+            <div class="header-title">我的行程trips</div>
             <div style="width: 24px;"></div>
         </div>
         
@@ -40,6 +41,10 @@
                         <img :src="trip.image" :alt="trip.title" class="trip-image">
                         <div class="trip-overlay">
                             <div class="trip-header">
+                                <div class="influencer-avatar1" v-if="trip.influencer">
+                                    <img :src="trip.influencer.avatar" :alt="trip.influencer.name" class="avatar-img">
+                                    <span class="influencer-name">{{ trip.influencer.name }}</span>
+                                </div>
                                 <h3 class="trip-title">{{ trip.title }}</h3>
                                 <div class="trip-price">¥{{ trip.price }}</div>
                             </div>
@@ -88,6 +93,10 @@
                         <img :src="trip.image" :alt="trip.title" class="trip-image">
                         <div class="trip-overlay">
                             <div class="trip-header">
+                                <div class="influencer-avatar" v-if="trip.influencer">
+                                    <img :src="trip.influencer.avatar" :alt="trip.influencer.name" class="avatar-img">
+                                    <span class="influencer-name">{{ trip.influencer.name }}</span>
+                                </div>
                                 <h3 class="trip-title">{{ trip.title }}</h3>
                                 <div class="trip-price">¥{{ trip.price }}</div>
                             </div>

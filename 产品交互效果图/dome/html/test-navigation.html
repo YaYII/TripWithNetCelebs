@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>导航测试 - 约旅</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #1e90ff, #70a1ff);
+            color: white;
+            min-height: 100vh;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .test-links {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .test-link {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 15px;
+            text-decoration: none;
+            color: white;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .test-link:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .description {
+            font-size: 14px;
+            opacity: 0.8;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>导航测试页面</h1>
+    
+    <div class="test-links">
+        <a href="search-results.html" class="test-link">
+            搜索结果页面
+            <div class="description">显示网红导游和目的地的搜索结果</div>
+        </a>
+        
+        <a href="destination-detail.html?id=101" class="test-link">
+            目的地详情页面 - 珠海长隆海洋王国
+            <div class="description">展示目的地详情和相关网红行程</div>
+        </a>
+        
+        <a href="destination-detail.html?id=102" class="test-link">
+            目的地详情页面 - 珠海渔女像
+            <div class="description">展示目的地详情和相关网红行程</div>
+        </a>
+        
+        <a href="trip-detail.html?id=1" class="test-link">
+            行程详情页面 - 旅行达人小王
+            <div class="description">展示网红导游行程详情</div>
+        </a>
+        
+        <a href="influencer-detail.html?id=1" class="test-link">
+            网红详情页面 - 旅行达人小王
+            <div class="description">展示网红导游个人资料和行程</div>
+        </a>
+    </div>
+    
+    <script>
+        // 添加点击事件记录
+        document.querySelectorAll('.test-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                console.log(`导航到: ${this.href}`);
+            });
+        });
+    </script>
+</body>
+</html> 

@@ -247,6 +247,22 @@ createApp({
             influencer.departureDate = this.formatDate(influencer.departureDate);
         });
         
+        // 检查URL参数，如果有destination参数，则根据目的地ID过滤网红行程
+        const urlParams = new URLSearchParams(window.location.search);
+        const destinationId = urlParams.get('destination');
+        if (destinationId) {
+            // 更新页面标题
+            document.querySelector('.header h1').textContent = '相关网红行程';
+            
+            // 这里应该根据目的地ID从API获取相关网红行程
+            // 由于是演示，我们只是模拟过滤，实际项目中应该从API获取数据
+            console.log(`根据目的地ID: ${destinationId} 过滤网红行程`);
+            
+            // 模拟过滤逻辑，实际项目中应该从API获取数据
+            // 这里假设所有行程都与该目的地相关
+            this.searchQuery = '珠海'; // 假设目的地是珠海，设置搜索关键词
+        }
+        
         // 添加页面进入动画
         this.animateCards();
         

@@ -25,19 +25,22 @@ createApp({
                     id: 1,
                     name: '香港维多利亚港',
                     description: '感受不夜城的魅力',
-                    image: '../img/test.png'
+                    image: '../img/test.png',
+                    tripId: 101
                 },
                 {
                     id: 2,
                     name: '澳门威尼斯人',
                     description: '体验东方威尼斯',
-                    image: '../img/test.png'
+                    image: '../img/test.png',
+                    tripId: 102
                 },
                 {
                     id: 3,
                     name: '迪士尼乐园',
                     description: '重拾童年欢乐时光',
-                    image: '../img/test.png'
+                    image: '../img/test.png',
+                    tripId: 103
                 }
             ],
             influencers: [
@@ -131,7 +134,7 @@ createApp({
             window.location.href = `trip-detail.html?id=${id}`;
         },
         goToTripDetail(id) {
-            window.location.href = `destination-detail.html?id=${id}`;
+            window.location.href = `trip-detail.html?id=${id}`;
         },
         viewAllTrips() {
             // TODO: 实现查看全部行程的逻辑
@@ -243,8 +246,7 @@ createApp({
                             image: '../img/test.png',
                             price: '599',
                             duration: '2天1晚',
-                            highlights: ['海豚表演', '白鲸互动', '企鹅馆'],
-                            viewCount: 25680
+                            highlights: ['海豚表演', '白鲸互动', '企鹅馆']
                         },
                         {
                             id: page * 100 + 2,
@@ -253,8 +255,7 @@ createApp({
                             image: '../img/test.png',
                             price: '899',
                             duration: '3天2晚',
-                            highlights: ['横琴科学城', '澳门新街坊', '粤澳合作产业园'],
-                            viewCount: 18920
+                            highlights: ['横琴科学城', '澳门新街坊', '粤澳合作产业园']
                         },
                         {
                             id: page * 100 + 3,
@@ -263,8 +264,7 @@ createApp({
                             image: '../img/test.png',
                             price: '459',
                             duration: '2天1晚',
-                            highlights: ['日月贝', '渔女雕像', '海滨烧烤'],
-                            viewCount: 21450
+                            highlights: ['日月贝', '渔女雕像', '海滨烧烤']
                         },
                         {
                             id: page * 100 + 4,
@@ -273,8 +273,7 @@ createApp({
                             image: '../img/test.png',
                             price: '799',
                             duration: '3天2晚',
-                            highlights: ['海岛沙滩', '海鲜美食', '日落观景'],
-                            viewCount: 15000
+                            highlights: ['海岛沙滩', '海鲜美食', '日落观景']
                         },
                         {
                             id: page * 100 + 5,
@@ -283,8 +282,7 @@ createApp({
                             image: '../img/test.png',
                             price: '299',
                             duration: '1天',
-                            highlights: ['白蕉古镇', '斗门手信', '农家美食'],
-                            viewCount: 10000
+                            highlights: ['白蕉古镇', '斗门手信', '农家美食']
                         },
                         {
                             id: page * 100 + 6,
@@ -293,8 +291,7 @@ createApp({
                             image: '../img/test.png',
                             price: '688',
                             duration: '1天',
-                            highlights: ['大桥观光', '澳门老城', '葡式蛋挞'],
-                            viewCount: 12000
+                            highlights: ['大桥观光', '澳门老城', '葡式蛋挞']
                         },
                         {
                             id: page * 100 + 7,
@@ -303,8 +300,7 @@ createApp({
                             image: '../img/test.png',
                             price: '899',
                             duration: '2天1晚',
-                            highlights: ['温泉SPA', '养生美食', '瑜伽课程'],
-                            viewCount: 10000
+                            highlights: ['温泉SPA', '养生美食', '瑜伽课程']
                         },
                         {
                             id: page * 100 + 8,
@@ -313,22 +309,13 @@ createApp({
                             image: '../img/test.png',
                             price: '1299',
                             duration: '2天1晚',
-                            highlights: ['帆船课程', '海钓体验', '海上日落'],
-                            viewCount: 8000
+                            highlights: ['帆船课程', '海钓体验', '海上日落']
                         }
                     ].slice((page - 1) * this.pageSize, page * this.pageSize);
                     
                     resolve(mockTrips);
                 }, 1000);
             });
-        },
-        
-        // 格式化数字，超过1万显示为x.x万
-        formatNumber(num) {
-            if (num >= 10000) {
-                return (num / 10000).toFixed(1) + '万';
-            }
-            return num.toString();
         }
     },
     beforeUnmount() {
