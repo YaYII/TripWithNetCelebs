@@ -95,11 +95,11 @@ createApp({
             this.isApplied = true;
             
             // 显示成功提示
-            this.showToast('报名成功，请等待确认');
+            this.showToast('报名成功，即将查看行程');
             
-            // 延迟跳转到订单页面
+            // 延迟跳转到行程人员页面
             setTimeout(() => {
-                window.location.href = 'orders.html';
+                window.location.href = `trip-list.html`;
             }, 1500);
         },
         
@@ -131,7 +131,7 @@ createApp({
         
         // 查看订单
         viewOrder() {
-            window.location.href = 'orders.html';
+            window.location.href = `trip-participants.html?id=${this.tripId}`;
         },
         
         // 显示提示信息

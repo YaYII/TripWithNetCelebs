@@ -1,0 +1,52 @@
+/* 全部行程页面特定样式 */
+
+/* 顶部导航栏 */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    background-color: #fff;
+    border-bottom: 1px solid #f0f0f0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.back-btn {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.back-btn i {
+    font-size: 20px;
+    color: #333;
+}
+
+.page-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+    text-align: left;
+    margin-left: 8px;
+    flex: 1;
+}
+
+/* 调整行程列表上边距 */
+.trip-section {
+    margin-top: 16px;
+}
+
+/* 响应式调整 */
+@media screen and (min-width: 768px) {
+    .trip-section {
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+} 

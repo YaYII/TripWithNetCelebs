@@ -17,7 +17,7 @@ createApp({
             
             // 收益信息
             earnings: {
-                total: '15,680.00',
+                total: '2,6880.00',
                 available: '5,280.00',
                 pending: '3,400.00',
                 thisMonth: '4,580.00',
@@ -26,13 +26,13 @@ createApp({
             
             // 菜单项
             menuItems: [
-                {
-                    id: 'orders',
-                    icon: 'bi-receipt',
-                    title: '我的订单',
-                    badge: 2,
-                    link: 'orders.html'
-                },
+                // {
+                //     id: 'orders',
+                //     icon: 'bi-receipt',
+                //     title: '我的订单',
+                //     badge: 2,
+                //     link: 'orders.html'
+                // },
                 {
                     id: 'trip-management',
                     icon: 'bi-calendar-check',

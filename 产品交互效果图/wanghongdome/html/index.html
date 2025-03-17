@@ -22,9 +22,57 @@
                     <div class="user-level">{{ influencer.level }}</div>
                 </div>
             </div>
+            <div class="city-selector" @click="showCitySelector">
+                <span>{{ currentCity }}</span>
+                <i class="bi bi-chevron-down"></i>
+            </div>
             <div class="notification-icon" @click="goToNotifications">
                 <i class="bi bi-bell"></i>
                 <span class="notification-badge" v-if="unreadNotifications > 0">{{ unreadNotifications }}</span>
+            </div>
+        </div>
+        
+        <!-- 城市选择弹窗 -->
+        <div class="city-selector-modal" v-if="showCitySelectorModal">
+            <div class="city-selector-content">
+                <div class="city-selector-header">
+                    <h3>选择城市</h3>
+                    <i class="bi bi-x-lg" @click="closeCitySelector"></i>
+                </div>
+                <div class="city-search">
+                    <i class="bi bi-search"></i>
+                    <input type="text" placeholder="搜索城市" v-model="citySearchText">
+                </div>
+                <div class="current-location">
+                    <i class="bi bi-geo-alt"></i>
+                    <span>当前定位城市：{{ currentCity }}</span>
+                </div>
+                <div class="hot-cities">
+                    <h4>热门城市</h4>
+                    <div class="city-grid">
+                        <div class="city-item" 
+                             v-for="city in hotCities" 
+                             :key="city"
+                             :class="{ active: city === currentCity }"
+                             @click="selectCity(city)">
+                            {{ city }}
+                        </div>
+                    </div>
+                </div>
+                <div class="all-cities">
+                    <div v-for="(cities, initial) in filteredCities" :key="initial" class="city-section">
+                        <div class="city-initial">{{ initial }}</div>
+                        <div class="city-list">
+                            <div class="city-item" 
+                                 v-for="city in cities" 
+                                 :key="city"
+                                 :class="{ active: city === currentCity }"
+                                 @click="selectCity(city)">
+                                {{ city }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         
@@ -45,7 +93,7 @@
         </div>
         
         <!-- 快捷操作 -->
-        <div class="quick-actions">
+        <!-- <div class="quick-actions">
             <div class="action-button" @click="goToEarnings">
                 <i class="bi bi-wallet2"></i>
                 <span>收益</span>
@@ -62,12 +110,12 @@
                 <i class="bi bi-person-gear"></i>
                 <span>设置</span>
             </div>
-        </div>
+        </div> -->
         
         <!-- 推荐行程 -->
         <div class="section-header">
             <h2>推荐行程</h2>
-            <a @click="goToTripList" class="view-all">查看全部 <i class="bi bi-chevron-right"></i></a>
+            <a @click="goToAllTrips" class="view-all">查看全部 <i class="bi bi-chevron-right"></i></a>
         </div>
         
         <div class="trip-list">
@@ -80,7 +128,7 @@
                     <div class="trip-title">{{ trip.title }}</div>
                     <div class="trip-details">
                         <div class="trip-location">
-                            <i class="bi bi-geo-alt"></i> {{ trip.location }}
+                            <i class="bi bi-geo-alt"></i> {{ trip.destination }}
                         </div>
                         <div class="trip-date">
                             <i class="bi bi-calendar3"></i> {{ trip.date }}
