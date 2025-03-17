@@ -1,0 +1,435 @@
+/* 行程参与者页面样式 */
+
+/* 顶部导航栏 */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 50px;
+    padding: 0 15px;
+    background-color: #fff;
+    border-bottom: 1px solid #f0f0f0;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.page-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.back-btn {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #333;
+    font-size: 20px;
+}
+
+/* 加载状态 */
+.loading-state {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+}
+
+.loading-spinner {
+    width: 30px;
+    height: 30px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #ff4d4f;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* 行程信息卡片 */
+.trip-info-card {
+    background-color: #fff;
+    padding: 15px;
+    margin-bottom: 10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.trip-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.trip-meta {
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.trip-meta-item {
+    margin-right: 15px;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.trip-meta-item i {
+    margin-right: 5px;
+    font-size: 16px;
+}
+
+.enrollment-summary {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 12px;
+}
+
+.enrollment-count {
+    text-align: center;
+}
+
+.count-label {
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.count-value {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+
+.progress-container {
+    margin-bottom: 15px;
+}
+
+.progress-label {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.progress-bar {
+    height: 8px;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 5px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #ff6b00;
+    border-radius: 4px;
+}
+
+.progress-text {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: #666;
+}
+
+.deadline-info {
+    font-size: 14px;
+    color: #666;
+    display: flex;
+    align-items: center;
+}
+
+.deadline-info i {
+    margin-right: 5px;
+}
+
+.countdown {
+    margin-left: 5px;
+    color: #ff6b00;
+}
+
+.countdown.expired {
+    color: #ff4d4f;
+}
+
+/* 标签栏 */
+.tab-bar {
+    display: flex;
+    background-color: #fff;
+    border-bottom: 1px solid #f0f0f0;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    position: sticky;
+    top: 50px;
+    z-index: 10;
+}
+
+.tab-item {
+    padding: 12px 15px;
+    font-size: 14px;
+    color: #666;
+    position: relative;
+    cursor: pointer;
+}
+
+.tab-item.active {
+    color: #ff4d4f;
+    font-weight: 500;
+}
+
+.tab-item.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 15px;
+    right: 15px;
+    height: 2px;
+    background-color: #ff4d4f;
+}
+
+.tab-count {
+    display: inline-block;
+    background-color: #ff4d4f;
+    color: #fff;
+    font-size: 12px;
+    border-radius: 10px;
+    padding: 0 6px;
+    margin-left: 5px;
+    min-width: 16px;
+    text-align: center;
+}
+
+/* 空状态 */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 50px 20px;
+    text-align: center;
+}
+
+.empty-icon {
+    font-size: 48px;
+    color: #ccc;
+    margin-bottom: 15px;
+}
+
+.empty-text {
+    font-size: 16px;
+    color: #999;
+    margin-bottom: 20px;
+}
+
+.empty-action {
+    padding: 8px 20px;
+    background-color: #ff4d4f;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+/* 参与者列表 */
+.participants-list {
+    padding: 15px;
+    margin-bottom: 70px; /* 为底部操作栏留出空间 */
+}
+
+/* 参与者卡片 */
+.participant-card {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    padding: 15px;
+    margin-bottom: 10px;
+}
+
+.participant-avatar {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    overflow: hidden;
+    margin-right: 15px;
+    flex-shrink: 0;
+}
+
+.participant-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.participant-status {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+}
+
+.participant-status.paid {
+    background-color: #52c41a;
+}
+
+.participant-status.pending {
+    background-color: #faad14;
+}
+
+.participant-status.cancelled {
+    background-color: #ff4d4f;
+}
+
+.participant-info {
+    flex: 1;
+}
+
+.participant-name {
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.participant-meta {
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 13px;
+    color: #666;
+}
+
+.participant-meta-item {
+    margin-right: 15px;
+    margin-bottom: 3px;
+    display: flex;
+    align-items: center;
+}
+
+.participant-meta-item i {
+    margin-right: 5px;
+}
+
+.participant-actions {
+    margin-left: 10px;
+}
+
+.action-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    color: #1890ff;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.action-btn i {
+    font-size: 20px;
+    margin-bottom: 3px;
+}
+
+/* 底部操作栏 */
+.bottom-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #fff;
+    padding: 12px 16px;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+}
+
+.share-btn, .notify-btn {
+    flex: 1;
+    height: 44px;
+    border-radius: 22px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.share-btn {
+    background-color: #fff;
+    color: #ff4d4f;
+    border: 1px solid #ff4d4f;
+    margin-right: 10px;
+}
+
+.share-btn:active {
+    background-color: #fff1f0;
+}
+
+.notify-btn {
+    background-color: #ff4d4f;
+    color: #fff;
+    border: none;
+}
+
+.notify-btn:active {
+    background-color: #ff7875;
+}
+
+.share-btn i, .notify-btn i {
+    margin-right: 5px;
+    font-size: 18px;
+}
+
+/* 响应式调整 */
+@media screen and (min-width: 768px) {
+    .participants-list {
+        max-width: 800px;
+        margin: 0 auto 70px;
+    }
+    
+    .trip-info-card {
+        max-width: 800px;
+        margin: 0 auto 10px;
+    }
+    
+    .bottom-bar {
+        max-width: 800px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}
+
+@media (max-width: 375px) {
+    .participant-meta-item {
+        margin-right: 8px;
+    }
+    
+    .enrollment-summary {
+        padding: 8px;
+    }
+    
+    .count-value {
+        font-size: 16px;
+    }
+} 

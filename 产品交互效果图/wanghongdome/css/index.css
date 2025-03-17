@@ -1,0 +1,362 @@
+/* 首页样式 */
+
+/* 顶部用户信息 */
+.user-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    background-color: #ff6b00;
+    color: #fff;
+    border-radius: 0 0 16px 16px;
+    margin-bottom: 16px;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+}
+
+.user-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 12px;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+}
+
+.user-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.user-details {
+    flex: 1;
+}
+
+.user-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 4px;
+}
+
+.user-level {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 2px 8px;
+    border-radius: 10px;
+    display: inline-block;
+}
+
+.notification-icon {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.notification-icon i {
+    font-size: 24px;
+    color: #fff;
+}
+
+.notification-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: #f44336;
+    color: white;
+    font-size: 10px;
+    min-width: 16px;
+    height: 16px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 4px;
+}
+
+/* 数据概览 */
+.data-overview {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 16px;
+    margin-bottom: 20px;
+}
+
+.data-card {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    padding: 16px;
+    flex: 1;
+    margin: 0 4px;
+    text-align: center;
+}
+
+.data-value {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 4px;
+}
+
+.data-label {
+    font-size: 12px;
+    color: #999;
+}
+
+/* 快捷操作 */
+.quick-actions {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 16px;
+    margin-bottom: 24px;
+}
+
+.action-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 22%;
+    cursor: pointer;
+}
+
+.action-button i {
+    font-size: 24px;
+    color: #ff6b00;
+    background-color: rgba(255, 107, 0, 0.1);
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+}
+
+.action-button span {
+    font-size: 12px;
+    color: #666;
+}
+
+/* 推荐行程和热门目的地 */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 16px;
+    margin-bottom: 12px;
+}
+
+.section-header h2 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+}
+
+.view-all {
+    font-size: 14px;
+    color: #ff6b00;
+    cursor: pointer;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+.view-all i {
+    margin-left: 4px;
+}
+
+/* 行程列表 */
+.trip-list {
+    padding: 0 16px;
+    margin-bottom: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.trip-card {
+    background-color: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+}
+
+.trip-image {
+    height: 160px;
+    position: relative;
+    overflow: hidden;
+}
+
+.trip-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.trip-status {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    z-index: 1;
+}
+
+.trip-status.hot {
+    background-color: rgba(255, 107, 107, 0.8);
+    color: white;
+}
+
+.trip-status.new {
+    background-color: rgba(76, 175, 80, 0.8);
+    color: white;
+}
+
+.trip-status.limited {
+    background-color: rgba(255, 152, 0, 0.8);
+    color: white;
+}
+
+.trip-info {
+    padding: 12px;
+}
+
+.trip-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.trip-details {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 12px;
+    color: #666;
+}
+
+.trip-location, .trip-date {
+    display: flex;
+    align-items: center;
+}
+
+.trip-location i, .trip-date i {
+    margin-right: 4px;
+    font-size: 14px;
+}
+
+.trip-stats {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 8px;
+    border-top: 1px solid #f0f0f0;
+    font-size: 14px;
+}
+
+.trip-commission {
+    color: #ff6b00;
+    font-weight: 600;
+}
+
+.trip-participants {
+    color: #666;
+}
+
+.trip-participants .current {
+    color: #ff6b00;
+    font-weight: 600;
+}
+
+.trip-participants .max {
+    color: #666;
+}
+
+/* 目的地列表 */
+.destination-list {
+    display: flex;
+    overflow-x: auto;
+    padding: 0 16px 24px;
+    gap: 12px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.destination-list::-webkit-scrollbar {
+    display: none;
+}
+
+.destination-card {
+    flex: 0 0 140px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    background-color: #fff;
+}
+
+.destination-image {
+    height: 100px;
+    overflow: hidden;
+}
+
+.destination-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.destination-info {
+    padding: 8px;
+}
+
+.destination-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.destination-trips {
+    font-size: 12px;
+    color: #999;
+}
+
+/* 响应式调整 */
+@media screen and (min-width: 768px) {
+    .trip-list, .data-overview, .quick-actions, .section-header {
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .destination-list {
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+        justify-content: center;
+    }
+} 

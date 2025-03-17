@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>个人中心 - 网红旅行</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/profile.css">
+    <link rel="stylesheet" href="../css/components.css">
+</head>
+<body>
+    <div id="app" class="page-content">
+        <!-- 用户信息区域 -->
+        <div class="profile-header">
+            <div class="user-info">
+                <div class="user-avatar">
+                    <img :src="user.avatar" :alt="user.name">
+                </div>
+                <div class="user-details">
+                    <div class="user-name">{{ user.name }}</div>
+                    <div class="user-level">{{ user.level }}</div>
+                    <div class="user-stats">
+                        <div class="user-stat-item">
+                            <div class="stat-value">{{ formatNumber(user.followers) }}</div>
+                            <div class="stat-label">粉丝</div>
+                        </div>
+                        <div class="user-stat-item">
+                            <div class="stat-value">{{ user.trips }}</div>
+                            <div class="stat-label">行程</div>
+                        </div>
+                        <div class="user-stat-item">
+                            <div class="stat-value">{{ user.completedTrips }}</div>
+                            <div class="stat-label">已完成</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 收益概览 -->
+        <div class="earnings-overview">
+            <div class="earnings-title">收益概览</div>
+            <div class="earnings-main">
+                <div class="total-earnings">
+                    <div class="earnings-label">总收益(元)</div>
+                    <div class="earnings-value">{{ earnings.total }}</div>
+                </div>
+                <button class="withdraw-btn" @click="withdraw">提现</button>
+            </div>
+            <div class="earnings-details">
+                <div class="earnings-detail-item">
+                    <div class="detail-label">可提现</div>
+                    <div class="detail-value">{{ earnings.available }}</div>
+                </div>
+                <div class="earnings-detail-item">
+                    <div class="detail-label">待结算</div>
+                    <div class="detail-value">{{ earnings.pending }}</div>
+                </div>
+                <div class="earnings-detail-item">
+                    <div class="detail-label">本月收益</div>
+                    <div class="detail-value">{{ earnings.thisMonth }}</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 功能菜单 -->
+        <div class="menu-section">
+            <div class="menu-list">
+                <div class="menu-item" 
+                     v-for="item in menuItems" 
+                     :key="item.id"
+                     @click="goToMenuItem(item)">
+                    <div class="menu-icon">
+                        <i :class="'bi ' + item.icon"></i>
+                    </div>
+                    <div class="menu-title">{{ item.title }}</div>
+                    <div class="menu-badge" v-if="item.badge > 0">{{ item.badge }}</div>
+                    <div class="menu-arrow">
+                        <i class="bi bi-chevron-right"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 退出登录按钮 -->
+        <button class="logout-button">退出登录</button>
+    </div>
+    
+    <!-- 底部导航栏组件 -->
+    <iframe src="../components/bottom-nav.html" class="bottom-nav-container" frameborder="0"></iframe>
+    
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="../js/profile.js"></script>
+</body>
+</html> 
