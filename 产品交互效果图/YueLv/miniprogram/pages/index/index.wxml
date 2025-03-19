@@ -1,0 +1,89 @@
+<!--index.wxml-->
+<navigation-bar title="约旅" back="{{false}}" color="white" background="transparent"></navigation-bar>
+<scroll-view class="scrollarea" scroll-y type="list" bindscrolltolower="loadMore" refresher-enabled="{{true}}" refresher-triggered="{{isRefreshing}}" bindrefresherrefresh="onRefresh">
+  <view class="container">
+    <!-- 顶部搜索栏 -->
+    <view class="search-container">
+      <search-bar 
+        placeholder="搜索景点、导游或活动" 
+        bind:search="onSearch" 
+        bind:cityChange="onCityChange"
+        default-city="{{currentCity}}"
+      ></search-bar>
+    </view>
+
+    <!-- 热门目的地轮播 -->
+    <view class="swiper-container">
+      <swiper 
+        class="destination-swiper" 
+        indicator-dots="{{true}}" 
+        autoplay="{{true}}" 
+        interval="{{3000}}" 
+        duration="{{500}}" 
+        circular="{{true}}"
+        indicator-color="rgba(255, 255, 255, 0.6)"
+        indicator-active-color="#ffffff"
+      >
+        <swiper-item wx:for="{{destinations}}" wx:key="id">
+          <view class="destination-card" bindtap="navigateToDestination" data-id="{{item.id}}">
+            <image src="{{item.image}}" mode="aspectFill"></image>
+            <view class="destination-info">
+              <text class="destination-name">{{item.name}}</text>
+              <text class="destination-desc">{{item.description}}</text>
+            </view>
+          </view>
+        </swiper-item>
+      </swiper>
+    </view>
+
+    <!-- 分类导航 -->
+    <view class="category-nav">
+      <view class="category-item" wx:for="{{categories}}" wx:key="id" bindtap="navigateToCategory" data-id="{{item.id}}">
+        <view class="category-icon">
+          <image src="{{item.icon}}" mode="aspectFit"></image>
+        </view>
+        <text class="category-name">{{item.name}}</text>
+      </view>
+    </view>
+
+    <!-- 网红推荐 -->
+    <view class="section influencer-section">
+      <view class="section-header">
+        <text class="section-title">网红推荐</text>
+        <text class="view-all" bindtap="viewAllInfluencers">查看全部 ></text>
+      </view>
+      <scroll-view scroll-x class="influencer-list">
+        <view class="influencer-item" wx:for="{{influencers}}" wx:key="id" bindtap="navigateToInfluencer" data-id="{{item.id}}">
+          <image class="influencer-avatar" src="{{item.avatar}}" mode="aspectFill"></image>
+          <text class="influencer-name">{{item.name}}</text>
+          <text class="influencer-followers">{{item.followers}}粉丝</text>
+        </view>
+      </scroll-view>
+    </view>
+
+    <!-- 热门行程 -->
+    <view class="section trip-section">
+      <view class="section-header">
+        <text class="section-title">热门景点</text>
+        <text class="view-all" bindtap="viewAllTrips">查看全部 ></text>
+      </view>
+      <view class="trip-list">
+        <trip-card 
+          wx:for="{{popularTrips}}" 
+          wx:key="id" 
+          trip="{{item}}"
+        ></trip-card>
+      </view>
+      <!-- 加载更多 -->
+      <view class="load-more" wx:if="{{hasMore && !isLoading}}">
+        <button class="load-more-btn" bindtap="loadMore">加载更多</button>
+      </view>
+      <view class="loading" wx:if="{{isLoading}}">
+        <text>加载中...</text>
+      </view>
+    </view>
+
+    <!-- 底部留白，为TabBar预留空间 -->
+    <view style="height: 50px;"></view>
+  </view>
+</scroll-view>

@@ -1,0 +1,224 @@
+/* influencer-list.wxss */
+page {
+  background-color: #f8f8f8;
+  height: 100%;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 20rpx;
+}
+
+/* 搜索框 */
+.search-container {
+  margin-bottom: 20rpx;
+}
+
+.search-bar {
+  height: 72rpx;
+  background-color: #f0f0f0;
+  border-radius: 36rpx;
+  display: flex;
+  align-items: center;
+  padding: 0 20rpx;
+}
+
+.search-icon {
+  width: 32rpx;
+  height: 32rpx;
+  margin-right: 16rpx;
+}
+
+.search-bar input {
+  flex: 1;
+  height: 100%;
+  font-size: 28rpx;
+}
+
+/* 分类标签 */
+.categories {
+  margin-bottom: 20rpx;
+}
+
+.categories-scroll {
+  white-space: nowrap;
+  padding: 20rpx 0;
+}
+
+.category-item {
+  display: inline-block;
+  padding: 12rpx 30rpx;
+  margin-right: 20rpx;
+  font-size: 28rpx;
+  color: #666;
+  background-color: #fff;
+  border-radius: 30rpx;
+}
+
+.category-item.active {
+  color: #fff;
+  background-color: #2979ff;
+  font-weight: 500;
+}
+
+/* 网红大V列表 */
+.influencer-list {
+  flex: 1;
+}
+
+.influencer-card {
+  background-color: #ffffff;
+  border-radius: 12rpx;
+  margin-bottom: 20rpx;
+  padding: 24rpx;
+}
+
+.influencer-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.influencer-avatar {
+  width: 88rpx;
+  height: 88rpx;
+  border-radius: 50%;
+  margin-right: 16rpx;
+}
+
+.influencer-info {
+  flex: 1;
+}
+
+.influencer-name {
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 6rpx;
+}
+
+.influencer-tag {
+  font-size: 24rpx;
+  color: #2979ff;
+  padding: 2rpx 12rpx;
+  background-color: rgba(41, 121, 255, 0.1);
+  border-radius: 4rpx;
+  display: inline-block;
+}
+
+.follow-btn {
+  padding: 10rpx 24rpx;
+  font-size: 26rpx;
+  color: #2979ff;
+  border: 1rpx solid #2979ff;
+  border-radius: 30rpx;
+}
+
+.follow-btn.following {
+  color: #999;
+  border-color: #e0e0e0;
+  background-color: #f5f5f5;
+}
+
+.influencer-stats {
+  display: flex;
+  margin-bottom: 20rpx;
+}
+
+.stat-item {
+  flex: 1;
+  text-align: center;
+  padding: 10rpx 0;
+}
+
+.stat-value {
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 4rpx;
+}
+
+.stat-label {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.influencer-desc {
+  font-size: 26rpx;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 20rpx;
+}
+
+.trip-previews {
+  display: flex;
+  overflow-x: auto;
+  margin: 0 -8rpx;
+}
+
+.trip-preview {
+  flex-shrink: 0;
+  width: 220rpx;
+  margin: 0 8rpx;
+}
+
+.trip-preview image {
+  width: 100%;
+  height: 140rpx;
+  border-radius: 8rpx;
+  margin-bottom: 8rpx;
+}
+
+.trip-preview-title {
+  font-size: 24rpx;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 4rpx;
+}
+
+.trip-preview-price {
+  font-size: 26rpx;
+  font-weight: 500;
+  color: #ff4500;
+}
+
+/* 加载更多 */
+.loading-more, .no-more {
+  text-align: center;
+  padding: 20rpx 0;
+  font-size: 24rpx;
+  color: #999999;
+}
+
+/* 加载中 */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+
+.loading-spinner {
+  width: 60rpx;
+  height: 60rpx;
+  border: 4rpx solid #f3f3f3;
+  border-top: 4rpx solid #2979ff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20rpx;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-container text {
+  font-size: 28rpx;
+  color: #666;
+} 

@@ -1,0 +1,168 @@
+/* my-trips.wxss */
+page {
+  background-color: #f8f8f8;
+  height: 100%;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 0 20rpx 20rpx;
+}
+
+/* 切换标签 */
+.tabs {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 88rpx;
+  background-color: #fff;
+  margin: 20rpx 0;
+  border-radius: 12rpx;
+}
+
+.tab-item {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 28rpx;
+  color: #666;
+  position: relative;
+}
+
+.tab-item.active {
+  color: #2979ff;
+  font-weight: 500;
+}
+
+.tab-item.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40rpx;
+  height: 4rpx;
+  background-color: #2979ff;
+  border-radius: 2rpx;
+}
+
+/* 行程列表容器 */
+.trips-list-container {
+  flex: 1;
+}
+
+/* 行程项样式 */
+.trip-item {
+  background-color: #ffffff;
+  border-radius: 12rpx;
+  margin-bottom: 20rpx;
+  padding: 24rpx;
+  display: flex;
+  position: relative;
+}
+
+.trip-image {
+  width: 180rpx;
+  height: 180rpx;
+  border-radius: 8rpx;
+  margin-right: 24rpx;
+}
+
+.trip-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.trip-title {
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #333333;
+  margin-bottom: 12rpx;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.trip-time {
+  font-size: 26rpx;
+  color: #666666;
+  margin-bottom: 12rpx;
+}
+
+.trip-status {
+  font-size: 26rpx;
+  font-weight: 500;
+  margin-bottom: 12rpx;
+}
+
+.trip-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.trip-participants {
+  display: flex;
+  align-items: center;
+  font-size: 24rpx;
+  color: #999999;
+}
+
+.trip-participants image {
+  width: 24rpx;
+  height: 24rpx;
+  margin-right: 8rpx;
+}
+
+.trip-price {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #ff4500;
+}
+
+/* 空状态 */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 120rpx 0;
+}
+
+.empty-icon {
+  width: 160rpx;
+  height: 160rpx;
+  margin-bottom: 20rpx;
+}
+
+.empty-text {
+  font-size: 28rpx;
+  color: #999999;
+  margin-bottom: 30rpx;
+}
+
+.explore-btn {
+  width: 240rpx;
+  height: 76rpx;
+  line-height: 76rpx;
+  background-color: #2979ff;
+  color: #ffffff;
+  font-size: 28rpx;
+  border-radius: 38rpx;
+}
+
+/* 加载中 */
+.loading {
+  text-align: center;
+  padding: 20rpx 0;
+  font-size: 26rpx;
+  color: #999999;
+} 

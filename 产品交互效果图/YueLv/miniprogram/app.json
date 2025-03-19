@@ -1,0 +1,64 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/logs/logs",
+    "pages/trips/trips",
+    "pages/profile/profile",
+    "pages/trip-detail/trip-detail",
+    "pages/booking/booking",
+    "pages/booking-success/booking-success",
+    "pages/orders/orders",
+    "pages/my-favorites/my-favorites",
+    "pages/my-trips/my-trips",
+    "pages/search-results/search-results",
+    "pages/influencer-list/influencer-list",
+    "pages/destination-detail/destination-detail",
+    "pages/login/login"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarTextStyle": "white",
+    "navigationStyle": "custom",
+    "backgroundColor": "#1e90ff"
+  },
+  "tabBar": {
+    "custom": false,
+    "color": "rgba(255, 255, 255, 0.9)",
+    "selectedColor": "#ffffff",
+    "backgroundColor": "rgba(30, 144, 255, 0.9)",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "images/tabbar/home.png",
+        "selectedIconPath": "images/tabbar/home-active.png"
+      },
+      {
+        "pagePath": "pages/trips/trips",
+        "text": "行程",
+        "iconPath": "images/tabbar/trips.png",
+        "selectedIconPath": "images/tabbar/trips-active.png"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "我的",
+        "iconPath": "images/tabbar/profile.png",
+        "selectedIconPath": "images/tabbar/profile-active.png"
+      }
+    ]
+  },
+  "style": "v2",
+  "rendererOptions": {
+    "skyline": {
+      "defaultDisplayBlock": true,
+      "disableABTest": true,
+      "sdkVersionBegin": "3.0.0",
+      "sdkVersionEnd": "15.255.255"
+    }
+  },
+  "componentFramework": "glass-easel",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents",
+  "usingComponents": {}
+}

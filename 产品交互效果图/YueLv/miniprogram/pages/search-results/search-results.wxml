@@ -1,0 +1,159 @@
+<!--search-results.wxml-->
+<navigation-bar title="搜索结果" back="{{true}}" color="black" background="#FFF"></navigation-bar>
+
+<view class="container">
+  <!-- 搜索框 -->
+  <view class="search-box">
+    <view class="search-bar">
+      <image class="search-icon" src="/static/images/icon/search.png" mode="aspectFit"></image>
+      <input type="text" value="{{keyword}}" placeholder="搜索目的地、行程" bindinput="onKeywordInput" bindconfirm="onSearch" confirm-type="search" />
+      <image wx:if="{{keyword}}" class="clear-icon" src="/static/images/icon/clear.png" mode="aspectFit" bindtap="clearKeyword"></image>
+    </view>
+    <view class="cancel-btn" bindtap="goBack">取消</view>
+  </view>
+
+  <!-- 搜索结果统计 -->
+  <view class="result-stats" wx:if="{{!loading && searchResults.length > 0}}">
+    共找到 {{searchResults.length}} 个相关结果
+  </view>
+  
+  <!-- 筛选条件 -->
+  <view class="filter-bar" wx:if="{{!loading && searchResults.length > 0}}">
+    <view class="filter-item {{activeFilter === 'all' ? 'active' : ''}}" bindtap="setFilter" data-filter="all">
+      <text>全部</text>
+    </view>
+    <view class="filter-item {{activeFilter === 'price' ? 'active' : ''}}" bindtap="setFilter" data-filter="price">
+      <text>价格</text>
+      <image class="sort-icon" src="/static/images/icon/{{priceSortAsc ? 'sort-asc' : 'sort-desc'}}.png" mode="aspectFit"></image>
+    </view>
+    <view class="filter-item {{activeFilter === 'popularity' ? 'active' : ''}}" bindtap="setFilter" data-filter="popularity">
+      <text>人气</text>
+      <image class="sort-icon" src="/static/images/icon/{{popularitySortAsc ? 'sort-asc' : 'sort-desc'}}.png" mode="aspectFit"></image>
+    </view>
+    <view class="filter-more" bindtap="showFilterPanel">
+      <text>筛选</text>
+      <image class="filter-icon" src="/static/images/icon/filter.png" mode="aspectFit"></image>
+    </view>
+  </view>
+
+  <!-- 搜索结果列表 -->
+  <scroll-view
+    class="results-list"
+    scroll-y
+    bindscrolltolower="loadMore"
+    refresher-enabled="{{true}}"
+    refresher-triggered="{{isRefreshing}}"
+    bindrefresherrefresh="onRefresh"
+    wx:if="{{!loading && searchResults.length > 0}}"
+  >
+    <view class="trip-item" wx:for="{{searchResults}}" wx:key="id" bindtap="viewTripDetail" data-id="{{item.id}}">
+      <image class="trip-image" src="{{item.image}}" mode="aspectFill"></image>
+      
+      <view class="trip-info">
+        <view class="trip-title">{{item.title}}</view>
+        
+        <view class="trip-location">
+          <image src="/static/images/icon/location.png" mode="aspectFit"></image>
+          <text>{{item.location}}</text>
+        </view>
+        
+        <view class="trip-stats">
+          <view class="trip-rating">
+            <image src="/static/images/icon/star.png" mode="aspectFit"></image>
+            <text>{{item.rating}}</text>
+          </view>
+          <view class="trip-duration">
+            <image src="/static/images/icon/calendar.png" mode="aspectFit"></image>
+            <text>{{item.duration}}天</text>
+          </view>
+        </view>
+        
+        <view class="trip-influencer" wx:if="{{item.influencer}}">
+          <image class="influencer-avatar" src="{{item.influencer.avatar}}" mode="aspectFill"></image>
+          <text>{{item.influencer.name}}</text>
+        </view>
+        
+        <view class="trip-bottom">
+          <view class="trip-price">¥{{item.price}}</view>
+          <view class="trip-participants">
+            <text>{{item.currentParticipants}}/{{item.maxParticipants}}人</text>
+          </view>
+        </view>
+      </view>
+    </view>
+    
+    <!-- 加载更多 -->
+    <view class="loading-more" wx:if="{{loadingMore}}">
+      <text>加载更多...</text>
+    </view>
+    
+    <!-- 没有更多数据 -->
+    <view class="no-more" wx:if="{{!hasMore && searchResults.length > 0}}">
+      <text>没有更多数据了</text>
+    </view>
+  </scroll-view>
+  
+  <!-- 空搜索结果 -->
+  <view class="empty-result" wx:if="{{!loading && searchResults.length === 0}}">
+    <image class="empty-icon" src="/static/images/icon/empty-search.png" mode="aspectFit"></image>
+    <view class="empty-text">没有找到符合条件的结果</view>
+    <view class="empty-tips">换个关键词试试吧</view>
+  </view>
+  
+  <!-- 加载中 -->
+  <view class="loading-container" wx:if="{{loading}}">
+    <view class="loading-spinner"></view>
+    <text>努力搜索中...</text>
+  </view>
+</view>
+
+<!-- 筛选面板 -->
+<view class="filter-panel-mask {{showFilterPanel ? 'show' : ''}}" bindtap="hideFilterPanel"></view>
+<view class="filter-panel {{showFilterPanel ? 'show' : ''}}">
+  <view class="filter-panel-header">
+    <text>筛选条件</text>
+    <view class="filter-panel-close" bindtap="hideFilterPanel">×</view>
+  </view>
+  
+  <view class="filter-section">
+    <view class="filter-section-title">价格区间</view>
+    <view class="price-range">
+      <input type="number" placeholder="最低价" value="{{minPrice}}" bindinput="onMinPriceInput" />
+      <view class="price-separator">-</view>
+      <input type="number" placeholder="最高价" value="{{maxPrice}}" bindinput="onMaxPriceInput" />
+    </view>
+  </view>
+  
+  <view class="filter-section">
+    <view class="filter-section-title">行程天数</view>
+    <view class="duration-options">
+      <view 
+        class="duration-option {{selectedDurations.indexOf(item.value) !== -1 ? 'selected' : ''}}" 
+        wx:for="{{durationOptions}}" wx:key="value"
+        bindtap="toggleDuration"
+        data-value="{{item.value}}"
+      >
+        <text>{{item.label}}</text>
+      </view>
+    </view>
+  </view>
+  
+  <view class="filter-section">
+    <view class="filter-section-title">出行类型</view>
+    <view class="type-options">
+      <view 
+        class="type-option {{selectedType === item.value ? 'selected' : ''}}" 
+        wx:for="{{typeOptions}}" wx:key="value"
+        bindtap="selectType"
+        data-value="{{item.value}}"
+      >
+        <text>{{item.label}}</text>
+      </view>
+    </view>
+  </view>
+  
+  <view class="filter-panel-footer">
+    <view class="reset-button" bindtap="resetFilters">重置</view>
+    <view class="apply-button" bindtap="applyFilters">确定</view>
+  </view>
+</view> 

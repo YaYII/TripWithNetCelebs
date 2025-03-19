@@ -1,0 +1,206 @@
+<!--destination-detail.wxml-->
+<navigation-bar title="{{destination.name}}" back="{{true}}" color="white" background="transparent"></navigation-bar>
+
+<view class="container">
+  <!-- 头部背景图 -->
+  <view class="header">
+    <image class="header-bg" src="{{destination.coverImage}}" mode="aspectFill"></image>
+    <view class="header-mask"></view>
+    <view class="destination-info">
+      <view class="destination-name">{{destination.name}}</view>
+      <view class="destination-desc">{{destination.description}}</view>
+      <view class="destination-meta">
+        <view class="meta-item">
+          <image src="/static/images/icon/traveler.png" mode="aspectFit"></image>
+          <text>{{destination.visitorCount}}人去过</text>
+        </view>
+        <view class="meta-item">
+          <image src="/static/images/icon/location.png" mode="aspectFit"></image>
+          <text>{{destination.location}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 标签栏 -->
+  <view class="tab-bar">
+    <view 
+      class="tab-item {{activeTab === 'intro' ? 'active' : ''}}" 
+      bindtap="switchTab" 
+      data-tab="intro"
+    >
+      目的地介绍
+    </view>
+    <view 
+      class="tab-item {{activeTab === 'trips' ? 'active' : ''}}" 
+      bindtap="switchTab" 
+      data-tab="trips"
+    >
+      相关行程
+    </view>
+    <view 
+      class="tab-item {{activeTab === 'photos' ? 'active' : ''}}" 
+      bindtap="switchTab" 
+      data-tab="photos"
+    >
+      图片欣赏
+    </view>
+  </view>
+  
+  <!-- 内容区域 -->
+  <scroll-view 
+    class="content-area" 
+    scroll-y 
+    scroll-into-view="{{scrollIntoView}}"
+    refresher-enabled="{{true}}" 
+    refresher-triggered="{{isRefreshing}}" 
+    bindrefresherrefresh="onRefresh"
+  >
+    <!-- 目的地介绍 -->
+    <view id="tab-intro" class="content-section {{activeTab === 'intro' ? 'active' : ''}}">
+      <!-- 最佳旅行时间 -->
+      <view class="section-block">
+        <view class="section-title">最佳旅行时间</view>
+        <view class="best-time">
+          <view 
+            class="month-item {{index + 1 >= destination.bestTimeStart && index + 1 <= destination.bestTimeEnd ? 'best' : ''}}" 
+            wx:for="{{months}}" 
+            wx:key="index"
+          >
+            {{item}}
+          </view>
+        </view>
+        <view class="best-time-desc">{{destination.bestTimeDesc}}</view>
+      </view>
+      
+      <!-- 天气情况 -->
+      <view class="section-block">
+        <view class="section-title">天气情况</view>
+        <view class="weather-chart">
+          <canvas canvas-id="weatherChart" class="weather-canvas"></canvas>
+        </view>
+        <view class="weather-desc">{{destination.weatherDesc}}</view>
+      </view>
+      
+      <!-- 地区特色 -->
+      <view class="section-block">
+        <view class="section-title">地区特色</view>
+        <view class="features">
+          <view class="feature-item" wx:for="{{destination.features}}" wx:key="title">
+            <image class="feature-icon" src="{{item.icon}}" mode="aspectFit"></image>
+            <view class="feature-info">
+              <view class="feature-title">{{item.title}}</view>
+              <view class="feature-desc">{{item.desc}}</view>
+            </view>
+          </view>
+        </view>
+      </view>
+      
+      <!-- 详细介绍 -->
+      <view class="section-block">
+        <view class="section-title">详细介绍</view>
+        <rich-text nodes="{{destination.detailContent}}"></rich-text>
+      </view>
+    </view>
+    
+    <!-- 相关行程 -->
+    <view id="tab-trips" class="content-section {{activeTab === 'trips' ? 'active' : ''}}">
+      <view class="trip-list">
+        <view class="trip-item" wx:for="{{relatedTrips}}" wx:key="id" bindtap="viewTripDetail" data-id="{{item.id}}">
+          <image class="trip-image" src="{{item.image}}" mode="aspectFill"></image>
+          
+          <view class="trip-info">
+            <view class="trip-title">{{item.title}}</view>
+            
+            <view class="trip-stats">
+              <view class="stat-item">
+                <image src="/static/images/icon/calendar.png" mode="aspectFit"></image>
+                <text>{{item.duration}}天</text>
+              </view>
+              <view class="stat-item">
+                <image src="/static/images/icon/star.png" mode="aspectFit"></image>
+                <text>{{item.rating}}</text>
+              </view>
+            </view>
+            
+            <view class="trip-influencer" wx:if="{{item.influencer}}">
+              <image class="influencer-avatar" src="{{item.influencer.avatar}}" mode="aspectFill"></image>
+              <text>{{item.influencer.name}}领队</text>
+            </view>
+            
+            <view class="trip-bottom">
+              <view class="trip-price">¥{{item.price}}</view>
+              <view class="book-btn">立即预订</view>
+            </view>
+          </view>
+        </view>
+      </view>
+      
+      <view wx:if="{{relatedTrips.length === 0}}" class="empty-trips">
+        <image src="/static/images/icon/empty-trips.png" mode="aspectFit"></image>
+        <text>暂无相关行程</text>
+      </view>
+    </view>
+    
+    <!-- 图片欣赏 -->
+    <view id="tab-photos" class="content-section {{activeTab === 'photos' ? 'active' : ''}}">
+      <view class="photos-grid">
+        <view 
+          class="photo-item" 
+          wx:for="{{destination.photos}}" 
+          wx:key="index" 
+          bindtap="previewImage" 
+          data-index="{{index}}"
+        >
+          <image src="{{item}}" mode="aspectFill"></image>
+        </view>
+      </view>
+      
+      <view wx:if="{{destination.photos.length === 0}}" class="empty-photos">
+        <image src="/static/images/icon/empty-photos.png" mode="aspectFit"></image>
+        <text>暂无图片</text>
+      </view>
+    </view>
+  </scroll-view>
+  
+  <!-- 底部操作栏 -->
+  <view class="footer-action">
+    <view class="action-btn favorite {{isFavorite ? 'active' : ''}}" bindtap="toggleFavorite">
+      <image src="/static/images/icon/{{isFavorite ? 'favorite-filled' : 'favorite'}}.png" mode="aspectFit"></image>
+      <text>{{isFavorite ? '已收藏' : '收藏'}}</text>
+    </view>
+    <view class="action-btn share" bindtap="shareDestination">
+      <image src="/static/images/icon/share.png" mode="aspectFit"></image>
+      <text>分享</text>
+    </view>
+    <view class="action-primary" bindtap="browseTrips">
+      <text>浏览相关行程</text>
+    </view>
+  </view>
+</view>
+
+<!-- 分享弹窗 -->
+<view class="share-modal {{showShareModal ? 'show' : ''}}">
+  <view class="share-panel">
+    <view class="share-title">分享至</view>
+    <view class="share-options">
+      <view class="share-option" bindtap="shareToWechat">
+        <image src="/static/images/icon/wechat.png" mode="aspectFit"></image>
+        <text>微信好友</text>
+      </view>
+      <view class="share-option" bindtap="shareToMoments">
+        <image src="/static/images/icon/moments.png" mode="aspectFit"></image>
+        <text>朋友圈</text>
+      </view>
+      <view class="share-option" bindtap="shareToWeibo">
+        <image src="/static/images/icon/weibo.png" mode="aspectFit"></image>
+        <text>微博</text>
+      </view>
+      <view class="share-option" bindtap="saveImage">
+        <image src="/static/images/icon/download.png" mode="aspectFit"></image>
+        <text>保存图片</text>
+      </view>
+    </view>
+    <view class="share-cancel" bindtap="closeShareModal">取消</view>
+  </view>
+</view> 

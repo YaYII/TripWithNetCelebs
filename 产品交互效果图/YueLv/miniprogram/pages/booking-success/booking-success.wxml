@@ -1,0 +1,40 @@
+<!--booking-success.wxml-->
+<navigation-bar title="预订成功" back="{{true}}" color="black" background="#FFF"></navigation-bar>
+<view class="container">
+  <view class="success-icon">
+    <image src="/static/images/icon/success.png" mode="aspectFit"></image>
+  </view>
+  <view class="success-title">预订成功!</view>
+  <view class="success-desc">您的订单已提交成功，感谢您的预订</view>
+  
+  <view class="order-info">
+    <view class="info-item">
+      <text class="item-label">订单编号</text>
+      <text class="item-value">{{orderId}}</text>
+    </view>
+    <view class="info-item">
+      <text class="item-label">订单金额</text>
+      <text class="item-value price">¥{{amount}}</text>
+    </view>
+    <view class="info-item">
+      <text class="item-label">支付状态</text>
+      <text class="item-value status">已支付</text>
+    </view>
+    <view class="info-item">
+      <text class="item-label">订单时间</text>
+      <text class="item-value">{{orderTime}}</text>
+    </view>
+  </view>
+  
+  <view class="notice">
+    <view class="notice-title">温馨提示</view>
+    <view class="notice-item">1. 请在出行前一天准备好有效证件</view>
+    <view class="notice-item">2. 行程开始前2小时，导游会与您联系确认集合地点</view>
+    <view class="notice-item">3. 如有任何问题，请联系客服电话：400-123-4567</view>
+  </view>
+  
+  <view class="button-group">
+    <button class="btn view-order" bindtap="viewOrder">查看订单</button>
+    <button class="btn back-home" bindtap="backToHome">返回首页</button>
+  </view>
+</view> 

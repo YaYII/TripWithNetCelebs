@@ -1,0 +1,408 @@
+/* search-results.wxss */
+page {
+  background-color: #f8f8f8;
+  height: 100%;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 20rpx;
+}
+
+/* 搜索框 */
+.search-box {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.search-bar {
+  flex: 1;
+  height: 72rpx;
+  background-color: #f0f0f0;
+  border-radius: 36rpx;
+  display: flex;
+  align-items: center;
+  padding: 0 20rpx;
+}
+
+.search-icon {
+  width: 32rpx;
+  height: 32rpx;
+  margin-right: 16rpx;
+}
+
+.search-bar input {
+  flex: 1;
+  height: 100%;
+  font-size: 28rpx;
+}
+
+.clear-icon {
+  width: 32rpx;
+  height: 32rpx;
+  margin-left: 16rpx;
+}
+
+.cancel-btn {
+  padding-left: 20rpx;
+  font-size: 28rpx;
+  color: #666;
+}
+
+/* 结果统计 */
+.result-stats {
+  font-size: 24rpx;
+  color: #999;
+  margin-bottom: 16rpx;
+}
+
+/* 筛选条件栏 */
+.filter-bar {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 8rpx;
+  padding: 0 20rpx;
+  height: 80rpx;
+  margin-bottom: 20rpx;
+}
+
+.filter-item {
+  display: flex;
+  align-items: center;
+  margin-right: 40rpx;
+  font-size: 26rpx;
+  color: #666;
+}
+
+.filter-item.active {
+  color: #2979ff;
+  font-weight: 500;
+}
+
+.sort-icon {
+  width: 20rpx;
+  height: 20rpx;
+  margin-left: 8rpx;
+}
+
+.filter-more {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  font-size: 26rpx;
+  color: #666;
+}
+
+.filter-icon {
+  width: 24rpx;
+  height: 24rpx;
+  margin-left: 8rpx;
+}
+
+/* 搜索结果列表 */
+.results-list {
+  flex: 1;
+}
+
+.trip-item {
+  background-color: #ffffff;
+  border-radius: 12rpx;
+  margin-bottom: 20rpx;
+  padding: 24rpx;
+  display: flex;
+}
+
+.trip-image {
+  width: 180rpx;
+  height: 180rpx;
+  border-radius: 8rpx;
+  margin-right: 24rpx;
+}
+
+.trip-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.trip-title {
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #333333;
+  margin-bottom: 12rpx;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.trip-location {
+  display: flex;
+  align-items: center;
+  font-size: 24rpx;
+  color: #666666;
+  margin-bottom: 12rpx;
+}
+
+.trip-location image {
+  width: 20rpx;
+  height: 20rpx;
+  margin-right: 6rpx;
+}
+
+.trip-stats {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12rpx;
+}
+
+.trip-rating, .trip-duration {
+  display: flex;
+  align-items: center;
+  font-size: 24rpx;
+  color: #666666;
+  margin-right: 24rpx;
+}
+
+.trip-rating image, .trip-duration image {
+  width: 20rpx;
+  height: 20rpx;
+  margin-right: 6rpx;
+}
+
+.trip-influencer {
+  display: flex;
+  align-items: center;
+  font-size: 24rpx;
+  color: #666666;
+  margin-bottom: 12rpx;
+}
+
+.influencer-avatar {
+  width: 32rpx;
+  height: 32rpx;
+  border-radius: 50%;
+  margin-right: 8rpx;
+}
+
+.trip-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.trip-price {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #ff4500;
+}
+
+.trip-participants {
+  font-size: 24rpx;
+  color: #999999;
+}
+
+/* 加载更多 */
+.loading-more, .no-more {
+  text-align: center;
+  padding: 20rpx 0;
+  font-size: 24rpx;
+  color: #999999;
+}
+
+/* 空搜索结果 */
+.empty-result {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  padding: 120rpx 0;
+}
+
+.empty-icon {
+  width: 160rpx;
+  height: 160rpx;
+  margin-bottom: 20rpx;
+}
+
+.empty-text {
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 12rpx;
+}
+
+.empty-tips {
+  font-size: 24rpx;
+  color: #999;
+}
+
+/* 加载中 */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+
+.loading-spinner {
+  width: 60rpx;
+  height: 60rpx;
+  border: 4rpx solid #f3f3f3;
+  border-top: 4rpx solid #2979ff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20rpx;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-container text {
+  font-size: 28rpx;
+  color: #666;
+}
+
+/* 筛选面板 */
+.filter-panel-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s;
+}
+
+.filter-panel-mask.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.filter-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 70%;
+  background-color: #fff;
+  z-index: 1001;
+  transform: translateX(100%);
+  transition: transform 0.3s;
+  display: flex;
+  flex-direction: column;
+}
+
+.filter-panel.show {
+  transform: translateX(0);
+}
+
+.filter-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.filter-panel-header text {
+  font-size: 30rpx;
+  font-weight: 500;
+}
+
+.filter-panel-close {
+  font-size: 40rpx;
+  color: #999;
+  line-height: 1;
+}
+
+.filter-section {
+  padding: 30rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.filter-section-title {
+  font-size: 28rpx;
+  font-weight: 500;
+  margin-bottom: 20rpx;
+}
+
+.price-range {
+  display: flex;
+  align-items: center;
+}
+
+.price-range input {
+  flex: 1;
+  height: 72rpx;
+  border: 1rpx solid #e0e0e0;
+  border-radius: 8rpx;
+  padding: 0 20rpx;
+  font-size: 26rpx;
+}
+
+.price-separator {
+  margin: 0 20rpx;
+  color: #999;
+}
+
+.duration-options, .type-options {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.duration-option, .type-option {
+  padding: 12rpx 24rpx;
+  border: 1rpx solid #e0e0e0;
+  border-radius: 8rpx;
+  font-size: 26rpx;
+  color: #666;
+  margin-right: 20rpx;
+  margin-bottom: 20rpx;
+}
+
+.duration-option.selected, .type-option.selected {
+  border-color: #2979ff;
+  color: #2979ff;
+  background-color: rgba(41, 121, 255, 0.05);
+}
+
+.filter-panel-footer {
+  display: flex;
+  padding: 30rpx;
+  margin-top: auto;
+  border-top: 1rpx solid #f0f0f0;
+}
+
+.reset-button, .apply-button {
+  flex: 1;
+  height: 80rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8rpx;
+  font-size: 28rpx;
+}
+
+.reset-button {
+  background-color: #f5f5f5;
+  color: #666;
+  margin-right: 20rpx;
+}
+
+.apply-button {
+  background-color: #2979ff;
+  color: #fff;
+} 

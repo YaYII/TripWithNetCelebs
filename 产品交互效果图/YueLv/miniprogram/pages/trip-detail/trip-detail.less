@@ -1,0 +1,391 @@
+/* trip-detail.wxss */
+page {
+  background-color: #f8f8f8;
+  padding-bottom: 110rpx; /* 为底部预订栏预留空间 */
+}
+
+.container {
+  padding: 0 0 30rpx 0;
+}
+
+/* Banner轮播 */
+.banner-swiper {
+  width: 100%;
+  height: 500rpx;
+}
+
+.banner-image {
+  width: 100%;
+  height: 100%;
+}
+
+/* 行程基本信息区域 */
+.trip-info-section {
+  padding: 30rpx;
+  background-color: #ffffff;
+  margin-bottom: 20rpx;
+}
+
+.trip-title-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24rpx;
+}
+
+.trip-title {
+  flex: 1;
+  font-size: 36rpx;
+  font-weight: 600;
+  color: #333333;
+}
+
+.favorite-button {
+  width: 60rpx;
+  height: 60rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.favorite-icon {
+  width: 40rpx;
+  height: 40rpx;
+}
+
+/* 网红导游信息 */
+.influencer-info {
+  display: flex;
+  align-items: center;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+  margin-bottom: 20rpx;
+}
+
+.influencer-avatar {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 40rpx;
+  overflow: hidden;
+  margin-right: 20rpx;
+}
+
+.influencer-avatar image {
+  width: 100%;
+  height: 100%;
+}
+
+.influencer-details {
+  flex: 1;
+}
+
+.influencer-name {
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #333333;
+  margin-bottom: 8rpx;
+}
+
+.influencer-stats {
+  display: flex;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  font-size: 24rpx;
+  color: #999999;
+  margin-right: 20rpx;
+}
+
+.stat-icon {
+  width: 24rpx;
+  height: 24rpx;
+  margin-right: 6rpx;
+}
+
+/* 行程基本参数 */
+.trip-meta {
+  display: flex;
+  justify-content: space-between;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+  margin-bottom: 20rpx;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  font-size: 26rpx;
+  color: #666666;
+}
+
+.meta-icon {
+  width: 32rpx;
+  height: 32rpx;
+  margin-right: 8rpx;
+}
+
+/* 活动参与情况 */
+.trip-stats {
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+  margin-bottom: 20rpx;
+}
+
+.stat-row {
+  display: flex;
+  margin-bottom: 16rpx;
+}
+
+.stat-row:last-child {
+  margin-bottom: 0;
+}
+
+.stat-col {
+  flex: 1;
+}
+
+.stat-label {
+  font-size: 24rpx;
+  color: #999999;
+  margin-bottom: 8rpx;
+}
+
+.stat-value {
+  display: flex;
+  align-items: center;
+  font-size: 28rpx;
+  color: #333333;
+}
+
+/* 评分 */
+.trip-rating {
+  display: flex;
+  align-items: center;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+  margin-bottom: 20rpx;
+}
+
+.rating-stars {
+  display: flex;
+  margin-right: 12rpx;
+}
+
+.star-icon {
+  width: 32rpx;
+  height: 32rpx;
+  margin-right: 4rpx;
+}
+
+.rating-value {
+  font-size: 28rpx;
+  color: #ff9500;
+  font-weight: 500;
+  margin-right: 8rpx;
+}
+
+.rating-count {
+  font-size: 24rpx;
+  color: #999999;
+}
+
+/* 行程描述 */
+.trip-desc {
+  font-size: 28rpx;
+  color: #666666;
+  line-height: 1.6;
+}
+
+/* 行程安排部分 */
+.schedule-section, .cost-section {
+  background-color: #ffffff;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333333;
+  margin-bottom: 24rpx;
+}
+
+.day-item {
+  margin-bottom: 30rpx;
+}
+
+.day-item:last-child {
+  margin-bottom: 0;
+}
+
+.day-header {
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #333333;
+  margin-bottom: 16rpx;
+}
+
+.activity-item {
+  display: flex;
+  margin-bottom: 16rpx;
+  padding-left: 20rpx;
+}
+
+.activity-time {
+  width: 120rpx;
+  font-size: 26rpx;
+  color: #2979ff;
+  font-weight: 500;
+}
+
+.activity-content {
+  flex: 1;
+  font-size: 26rpx;
+  color: #666666;
+  line-height: 1.5;
+}
+
+/* 费用详情部分 */
+.cost-category {
+  background-color: #f8f8f8;
+  border-radius: 12rpx;
+  padding: 24rpx;
+  margin-bottom: 24rpx;
+}
+
+.cost-category-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16rpx;
+}
+
+.category-title {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #333333;
+}
+
+.total-cost {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #ff4500;
+}
+
+.estimated-cost {
+  font-size: 28rpx;
+  color: #666666;
+}
+
+.cost-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 16rpx 0;
+  border-bottom: 1rpx solid #eeeeee;
+}
+
+.cost-item:last-child {
+  border-bottom: none;
+}
+
+.cost-info {
+  flex: 1;
+}
+
+.cost-name {
+  font-size: 28rpx;
+  color: #333333;
+  margin-bottom: 6rpx;
+}
+
+.cost-desc {
+  font-size: 24rpx;
+  color: #999999;
+}
+
+.cost-price {
+  font-size: 28rpx;
+  color: #666666;
+  white-space: nowrap;
+}
+
+.cost-notes {
+  margin-top: 30rpx;
+}
+
+.notes-title {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #333333;
+  margin-bottom: 16rpx;
+}
+
+.notes-list {
+  background-color: #f8f8f8;
+  border-radius: 12rpx;
+  padding: 20rpx;
+}
+
+.note-item {
+  font-size: 26rpx;
+  color: #666666;
+  margin-bottom: 12rpx;
+  position: relative;
+  padding-left: 30rpx;
+}
+
+.note-item:before {
+  content: "•";
+  position: absolute;
+  left: 10rpx;
+  color: #2979ff;
+}
+
+.note-item:last-child {
+  margin-bottom: 0;
+}
+
+/* 底部预订栏 */
+.booking-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  height: 100rpx;
+  padding: 0 30rpx;
+  background-color: #ffffff;
+  box-shadow: 0 -2rpx 10rpx rgba(0, 0, 0, 0.05);
+  z-index: 10;
+}
+
+.price-section {
+  flex: 1;
+}
+
+.price-label {
+  font-size: 24rpx;
+  color: #999999;
+  margin-right: 8rpx;
+}
+
+.price-value {
+  font-size: 36rpx;
+  font-weight: 600;
+  color: #ff4500;
+}
+
+.book-button {
+  width: 240rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  background-color: #2979ff;
+  color: #ffffff;
+  font-size: 30rpx;
+  font-weight: 500;
+  border-radius: 40rpx;
+  text-align: center;
+} 

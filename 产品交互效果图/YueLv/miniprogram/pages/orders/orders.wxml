@@ -1,0 +1,81 @@
+<!--orders.wxml-->
+<navigation-bar title="我的订单" back="{{true}}" color="black" background="#FFF"></navigation-bar>
+<view class="container">
+  <!-- 订单状态标签页 -->
+  <view class="tab-header">
+    <view 
+      class="tab-item {{currentTab === index ? 'active' : ''}}" 
+      wx:for="{{tabs}}" 
+      wx:key="index" 
+      bindtap="switchTab"
+      data-index="{{index}}"
+    >
+      <text>{{item}}</text>
+      <view class="tab-line" wx:if="{{currentTab === index}}"></view>
+    </view>
+  </view>
+
+  <!-- 订单列表 -->
+  <scroll-view 
+    class="order-list-container" 
+    scroll-y 
+    bindscrolltolower="loadMore" 
+    refresher-enabled="{{true}}" 
+    refresher-triggered="{{isRefreshing}}" 
+    bindrefresherrefresh="onRefresh"
+  >
+    <block wx:if="{{orders.length > 0}}">
+      <view class="order-item" wx:for="{{orders}}" wx:key="id" bindtap="viewOrderDetail" data-id="{{item.id}}">
+        <view class="order-header">
+          <view class="order-id">订单号：{{item.id}}</view>
+          <view class="order-status {{item.statusClass}}">{{item.statusText}}</view>
+        </view>
+        <view class="order-content">
+          <image class="trip-image" src="{{item.tripImage}}" mode="aspectFill"></image>
+          <view class="order-info">
+            <view class="trip-title">{{item.tripTitle}}</view>
+            <view class="trip-time">出行时间：{{item.departureDate}}</view>
+            <view class="trip-quantity">{{item.personCount}}人</view>
+          </view>
+        </view>
+        <view class="order-footer">
+          <view class="order-price">
+            <text>总价：</text>
+            <text class="price">¥{{item.totalPrice}}</text>
+          </view>
+          <view class="order-actions">
+            <button 
+              class="action-btn {{item.status === 'unpaid' ? 'primary' : 'default'}}" 
+              catchtap="handleOrderAction" 
+              data-id="{{item.id}}" 
+              data-action="{{item.primaryAction}}"
+            >
+              {{item.primaryActionText}}
+            </button>
+            <button 
+              class="action-btn default" 
+              wx:if="{{item.secondaryActionText}}" 
+              catchtap="handleOrderAction" 
+              data-id="{{item.id}}" 
+              data-action="{{item.secondaryAction}}"
+            >
+              {{item.secondaryActionText}}
+            </button>
+          </view>
+        </view>
+      </view>
+    </block>
+    
+    <!-- 空状态 -->
+    <view class="empty-state" wx:if="{{orders.length === 0}}">
+      <image class="empty-icon" src="/static/images/icon/empty-order.png" mode="aspectFit"></image>
+      <view class="empty-text">暂无订单</view>
+      <button class="explore-btn" bindtap="goToExplore">去发现行程</button>
+    </view>
+    
+    <!-- 加载更多 -->
+    <view class="loading" wx:if="{{isLoading}}">
+      <text>加载中...</text>
+    </view>
+  </scroll-view>
+</view> 

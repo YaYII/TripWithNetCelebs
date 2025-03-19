@@ -1,0 +1,200 @@
+<!--trip-detail.wxml-->
+<navigation-bar title="行程详情" back="{{true}}" color="black" background="transparent"></navigation-bar>
+
+<!-- 内容区域 -->
+<view class="container">
+  <!-- Banner轮播 -->
+  <swiper class="banner-swiper" 
+    indicator-dots="{{true}}" 
+    autoplay="{{true}}" 
+    interval="{{3000}}" 
+    duration="{{500}}" 
+    circular="{{true}}"
+    indicator-color="rgba(255, 255, 255, 0.6)"
+    indicator-active-color="#ffffff"
+  >
+    <swiper-item wx:for="{{trip.images}}" wx:key="index">
+      <image class="banner-image" src="{{item}}" mode="aspectFill"></image>
+    </swiper-item>
+  </swiper>
+
+  <!-- 行程基本信息 -->
+  <view class="trip-info-section">
+    <view class="trip-title-container">
+      <view class="trip-title">{{trip.title}}</view>
+      <view class="favorite-button {{isFavorite ? 'active' : ''}}" bindtap="toggleFavorite">
+        <image class="favorite-icon" src="{{isFavorite ? '/static/images/icon/heart-filled.png' : '/static/images/icon/heart.png'}}" mode="aspectFit"></image>
+      </view>
+    </view>
+
+    <!-- 网红导游信息 -->
+    <view class="influencer-info">
+      <view class="influencer-avatar">
+        <image src="{{trip.influencer.avatar}}" mode="aspectFill"></image>
+      </view>
+      <view class="influencer-details">
+        <view class="influencer-name">{{trip.influencer.name}}</view>
+        <view class="influencer-stats">
+          <view class="stat-item">
+            <image class="stat-icon" src="/static/images/icon/followers.png" mode="aspectFit"></image>
+            <text>{{trip.influencer.followers}}粉丝</text>
+          </view>
+          <view class="stat-item">
+            <image class="stat-icon" src="/static/images/icon/trips.png" mode="aspectFit"></image>
+            <text>{{trip.influencer.totalTrips}}次带队</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 行程基本参数 -->
+    <view class="trip-meta">
+      <view class="meta-item">
+        <image class="meta-icon" src="/static/images/icon/time.png" mode="aspectFit"></image>
+        <text>{{trip.duration}}</text>
+      </view>
+      <view class="meta-item">
+        <image class="meta-icon" src="/static/images/icon/location.png" mode="aspectFit"></image>
+        <text>{{trip.location}}</text>
+      </view>
+      <view class="meta-item">
+        <image class="meta-icon" src="/static/images/icon/group.png" mode="aspectFit"></image>
+        <text>{{trip.groupSize}}</text>
+      </view>
+    </view>
+
+    <!-- 活动参与情况 -->
+    <view class="trip-stats">
+      <view class="stat-row">
+        <view class="stat-col">
+          <view class="stat-label">已报名/总名额</view>
+          <view class="stat-value">
+            <image class="stat-icon" src="/static/images/icon/users.png" mode="aspectFit"></image>
+            <text>{{trip.currentParticipants}}/{{trip.maxParticipants}}</text>
+          </view>
+        </view>
+        <view class="stat-col">
+          <view class="stat-label">查看人数</view>
+          <view class="stat-value">
+            <image class="stat-icon" src="/static/images/icon/views.png" mode="aspectFit"></image>
+            <text>{{trip.viewCount}}</text>
+          </view>
+        </view>
+      </view>
+      <view class="stat-row">
+        <view class="stat-col">
+          <view class="stat-label">出发日期</view>
+          <view class="stat-value">
+            <image class="stat-icon" src="/static/images/icon/calendar.png" mode="aspectFit"></image>
+            <text>{{trip.departureDate}}</text>
+          </view>
+        </view>
+        <view class="stat-col">
+          <view class="stat-label">倒计时</view>
+          <view class="stat-value">
+            <image class="stat-icon" src="/static/images/icon/countdown.png" mode="aspectFit"></image>
+            <text>{{trip.daysLeft}}天</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 评分 -->
+    <view class="trip-rating">
+      <view class="rating-stars">
+        <block wx:for="{{5}}" wx:key="index">
+          <image 
+            class="star-icon" 
+            src="{{index < Math.floor(trip.rating) ? '/static/images/icon/star-filled.png' : '/static/images/icon/star.png'}}" 
+            mode="aspectFit"
+          ></image>
+        </block>
+      </view>
+      <text class="rating-value">{{trip.rating}}</text>
+      <text class="rating-count">({{trip.ratingCount}}评价)</text>
+    </view>
+
+    <!-- 行程描述 -->
+    <view class="trip-desc">
+      <text>{{trip.description}}</text>
+    </view>
+  </view>
+
+  <!-- 行程安排 -->
+  <view class="schedule-section">
+    <view class="section-title">行程安排</view>
+    <view class="schedule-list">
+      <view class="day-item" wx:for="{{trip.schedule}}" wx:key="day" wx:for-index="dayIndex">
+        <view class="day-header">第{{dayIndex + 1}}天：{{item.title}}</view>
+        <view class="activity-list">
+          <view class="activity-item" wx:for="{{item.activities}}" wx:key="time" wx:for-item="activity">
+            <view class="activity-time">{{activity.time}}</view>
+            <view class="activity-content">{{activity.description}}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 费用详情 -->
+  <view class="cost-section">
+    <view class="section-title">费用详情</view>
+    
+    <!-- 必需费用 -->
+    <view class="cost-category">
+      <view class="cost-category-header">
+        <text class="category-title">必需费用</text>
+        <text class="total-cost">¥{{trip.price}}</text>
+      </view>
+      <view class="cost-item">
+        <view class="cost-info">
+          <view class="cost-name">报名费</view>
+          <view class="cost-desc">费用说明：仅是参团费用，不含餐饮等额外支出</view>
+        </view>
+        <view class="cost-price">¥{{trip.price}}</view>
+      </view>
+    </view>
+    
+    <!-- 预计额外支出 -->
+    <view class="cost-category">
+      <view class="cost-category-header">
+        <text class="category-title">预计额外支出</text>
+        <text class="estimated-cost">约¥300-500/人</text>
+      </view>
+      <view class="cost-item">
+        <view class="cost-info">
+          <view class="cost-name">餐饮费用</view>
+          <view class="cost-desc">景区内用餐，价格区间：¥30-80/餐</view>
+        </view>
+        <view class="cost-price">约¥150-300</view>
+      </view>
+      <view class="cost-item">
+        <view class="cost-info">
+          <view class="cost-name">游乐项目</view>
+          <view class="cost-desc">园区内付费项目，自愿参与</view>
+        </view>
+        <view class="cost-price">约¥100-200</view>
+      </view>
+    </view>
+    
+    <!-- 费用说明 -->
+    <view class="cost-notes">
+      <view class="notes-title">费用说明</view>
+      <view class="notes-list">
+        <view class="note-item">报名费为必需支付费用，包含基础行程中的所有项目</view>
+        <view class="note-item">额外支出为预估费用，实际花费根据个人消费情况而定</view>
+        <view class="note-item">建议携带适量现金和移动支付工具</view>
+        <view class="note-item">部分商家可能不支持刷卡，请提前准备</view>
+      </view>
+    </view>
+  </view>
+</view>
+
+<!-- 底部预订栏 -->
+<view class="booking-bar">
+  <view class="price-section">
+    <text class="price-label">价格</text>
+    <text class="price-value">¥{{trip.price}}</text>
+  </view>
+  <button class="book-button" bindtap="goToBooking">立即报名</button>
+</view> 

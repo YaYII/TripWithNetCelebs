@@ -1,0 +1,171 @@
+/* login.wxss */
+.container {
+  padding: 40rpx;
+  background-color: #fff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.login-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60rpx 0;
+}
+
+.logo {
+  width: 160rpx;
+  height: 160rpx;
+  margin-bottom: 30rpx;
+}
+
+.app-name {
+  font-size: 48rpx;
+  font-weight: bold;
+  color: #2979ff;
+  margin-bottom: 20rpx;
+}
+
+.slogan {
+  font-size: 28rpx;
+  color: #999;
+}
+
+.login-form {
+  margin-top: 60rpx;
+}
+
+.input-group {
+  margin-bottom: 40rpx;
+}
+
+.input-label {
+  font-size: 28rpx;
+  color: #333;
+  margin-bottom: 16rpx;
+}
+
+.input-field {
+  height: 90rpx;
+  border-bottom: 1px solid #eee;
+  font-size: 32rpx;
+  padding: 0 10rpx;
+}
+
+.verify-group {
+  position: relative;
+}
+
+.verify-btn {
+  position: absolute;
+  right: 0;
+  bottom: 10rpx;
+  background: transparent;
+  color: #2979ff;
+  font-size: 28rpx;
+  padding: 0 20rpx;
+  height: 70rpx;
+  line-height: 70rpx;
+  border: none;
+  width: auto;
+  min-width: 180rpx;
+  text-align: center;
+}
+
+.verify-btn::after {
+  border: none;
+}
+
+.verify-btn.counting {
+  color: #999;
+}
+
+.login-btn {
+  margin-top: 80rpx;
+  background-color: #2979ff;
+  color: #fff;
+  height: 90rpx;
+  line-height: 90rpx;
+  border-radius: 45rpx;
+  font-size: 32rpx;
+  width: 100%;
+  letter-spacing: 2rpx;
+}
+
+.login-btn.disabled {
+  background-color: #b5d1ff;
+}
+
+.agreement {
+  display: flex;
+  align-items: center;
+  margin-top: 40rpx;
+  padding: 0 20rpx;
+}
+
+.agreement-checkbox {
+  transform: scale(0.8);
+  margin-right: 10rpx;
+}
+
+.agreement-text {
+  font-size: 24rpx;
+  color: #666;
+  flex: 1;
+}
+
+.agreement-link {
+  color: #2979ff;
+  display: inline;
+}
+
+.other-login {
+  margin-top: 100rpx;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-bottom: 60rpx;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  margin-bottom: 50rpx;
+}
+
+.divider-line {
+  flex: 1;
+  height: 1px;
+  background-color: #eee;
+}
+
+.divider-text {
+  color: #999;
+  font-size: 24rpx;
+  padding: 0 20rpx;
+}
+
+.login-methods {
+  display: flex;
+  justify-content: center;
+}
+
+.login-method {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 40rpx;
+}
+
+.login-method image {
+  width: 80rpx;
+  height: 80rpx;
+  margin-bottom: 16rpx;
+}
+
+.login-method text {
+  font-size: 24rpx;
+  color: #666;
+} 

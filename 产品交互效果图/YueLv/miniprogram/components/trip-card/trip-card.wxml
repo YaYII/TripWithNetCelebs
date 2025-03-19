@@ -1,0 +1,20 @@
+<view class="trip-card" bindtap="navigateToDetail">
+  <view class="trip-image-container">
+    <image class="trip-image" src="{{trip.image}}" mode="aspectFill"></image>
+    <view class="trip-overlay">
+      <view class="trip-title">{{trip.title}}</view>
+      <view class="trip-desc">{{trip.description}}</view>
+    </view>
+  </view>
+  <view class="trip-meta">
+    <view class="price">¥{{trip.price}}</view>
+    <view class="duration">
+      <image class="icon" src="/static/images/icon/time.png" mode="aspectFit"></image>
+      <text>{{trip.duration}}</text>
+    </view>
+    <view class="view-count">
+      <image class="icon" src="/static/images/icon/view.png" mode="aspectFit"></image>
+      <text>{{formattedViewCount}}</text>
+    </view>
+  </view>
+</view> 

@@ -1,0 +1,33 @@
+<view class="search-bar">
+  <view class="city-selector" bindtap="toggleCitySelector">
+    <text class="city-text">{{selectedCity}}</text>
+    <view class="dropdown-icon">▼</view>
+  </view>
+  <view class="search-input-wrapper">
+    <input 
+      type="text" 
+      class="search-input" 
+      placeholder="{{placeholder}}" 
+      value="{{searchValue}}" 
+      confirm-type="search"
+      bindconfirm="onConfirm"
+      bindinput="onInput"
+    />
+    <view class="search-icon" bindtap="onSearch">
+      <image src="/static/images/icon/search.png" mode="aspectFit" class="icon-img"></image>
+    </view>
+  </view>
+  <!-- 城市选择下拉菜单 -->
+  <view class="city-dropdown {{showCitySelector ? 'show' : ''}}" wx:if="{{showCitySelector}}">
+    <view 
+      class="city-item {{selectedCity === city ? 'active' : ''}}" 
+      wx:for="{{cities}}" 
+      wx:key="index" 
+      wx:for-item="city"
+      bindtap="selectCity"
+      data-city="{{city}}"
+    >
+      {{city}}
+    </view>
+  </view>
+</view> 

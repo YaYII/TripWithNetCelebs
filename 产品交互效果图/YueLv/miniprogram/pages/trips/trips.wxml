@@ -1,0 +1,168 @@
+<!--trips.wxml-->
+<navigation-bar title="行程" back="{{false}}" color="black" background="#FFF"></navigation-bar>
+<view class="container">
+  <!-- 顶部搜索栏 -->
+  <view class="search-container">
+    <search-bar 
+      placeholder="搜索景点、导游或活动" 
+      bind:search="onSearch" 
+      bind:cityChange="onCityChange"
+      default-city="{{currentCity}}"
+    ></search-bar>
+  </view>
+
+  <!-- 分类标签栏 -->
+  <scroll-view scroll-x class="category-tabs">
+    <view 
+      class="tab-item {{currentTab === index ? 'active' : ''}}" 
+      wx:for="{{tabs}}" 
+      wx:key="index" 
+      bindtap="switchTab"
+      data-index="{{index}}"
+    >
+      {{item}}
+    </view>
+  </scroll-view>
+
+  <!-- 排序和筛选栏 -->
+  <view class="filter-bar">
+    <view 
+      class="filter-item {{sortType === 'recommend' ? 'active' : ''}}" 
+      bindtap="sortByRecommend"
+    >
+      推荐
+    </view>
+    <view 
+      class="filter-item {{sortType === 'price' ? 'active' : ''}}" 
+      bindtap="sortByPrice"
+    >
+      价格
+      <view 
+        class="sort-icon {{sortType === 'price' && priceSort === 'asc' ? 'asc' : ''}} {{sortType === 'price' && priceSort === 'desc' ? 'desc' : ''}}"
+      ></view>
+    </view>
+    <view 
+      class="filter-item {{sortType === 'popularity' ? 'active' : ''}}" 
+      bindtap="sortByPopularity"
+    >
+      人气
+    </view>
+    <view class="filter-item" bindtap="openFilter">
+      筛选
+      <image class="filter-icon" src="/static/images/icon/filter.png" mode="aspectFit"></image>
+    </view>
+  </view>
+
+  <!-- 行程列表 -->
+  <scroll-view 
+    class="trip-list-container" 
+    scroll-y 
+    bindscrolltolower="loadMore" 
+    refresher-enabled="{{true}}" 
+    refresher-triggered="{{isRefreshing}}" 
+    bindrefresherrefresh="onRefresh"
+  >
+    <view class="trip-list" wx:if="{{trips.length > 0}}">
+      <trip-card 
+        wx:for="{{trips}}" 
+        wx:key="id" 
+        trip="{{item}}"
+      ></trip-card>
+    </view>
+    
+    <!-- 空状态 -->
+    <view class="empty-tip" wx:if="{{trips.length === 0}}">
+      <image class="empty-icon" src="/static/images/icon/empty-trips.png" mode="aspectFit"></image>
+      <text>暂无符合条件的行程</text>
+    </view>
+    
+    <!-- 加载更多 -->
+    <view class="load-more" wx:if="{{hasMore && !isLoading && trips.length > 0}}">
+      <button class="load-more-btn" bindtap="loadMore">加载更多</button>
+    </view>
+    <view class="loading" wx:if="{{isLoading}}">
+      <text>加载中...</text>
+    </view>
+  </scroll-view>
+
+  <!-- 筛选弹窗 -->
+  <view class="filter-popup {{showFilterPopup ? 'show' : ''}}">
+    <view class="filter-popup-mask" bindtap="closeFilter"></view>
+    <view class="filter-popup-content">
+      <view class="filter-popup-header">
+        <text>筛选</text>
+        <text class="close-icon" bindtap="closeFilter">×</text>
+      </view>
+      
+      <!-- 价格区间 -->
+      <view class="filter-section">
+        <view class="filter-section-title">价格区间</view>
+        <view class="price-range">
+          <view 
+            class="price-range-item {{priceRange === 'all' ? 'active' : ''}}" 
+            bindtap="setPriceRange" 
+            data-range="all"
+          >全部</view>
+          <view 
+            class="price-range-item {{priceRange === '0-300' ? 'active' : ''}}" 
+            bindtap="setPriceRange" 
+            data-range="0-300"
+          >¥300以下</view>
+          <view 
+            class="price-range-item {{priceRange === '300-500' ? 'active' : ''}}" 
+            bindtap="setPriceRange" 
+            data-range="300-500"
+          >¥300-500</view>
+          <view 
+            class="price-range-item {{priceRange === '500-1000' ? 'active' : ''}}" 
+            bindtap="setPriceRange" 
+            data-range="500-1000"
+          >¥500-1000</view>
+          <view 
+            class="price-range-item {{priceRange === '1000+' ? 'active' : ''}}" 
+            bindtap="setPriceRange" 
+            data-range="1000+"
+          >¥1000以上</view>
+        </view>
+      </view>
+      
+      <!-- 行程天数 -->
+      <view class="filter-section">
+        <view class="filter-section-title">行程天数</view>
+        <view class="duration-range">
+          <view 
+            class="duration-item {{durationRange === 'all' ? 'active' : ''}}" 
+            bindtap="setDurationRange" 
+            data-range="all"
+          >全部</view>
+          <view 
+            class="duration-item {{durationRange === '1' ? 'active' : ''}}" 
+            bindtap="setDurationRange" 
+            data-range="1"
+          >1天</view>
+          <view 
+            class="duration-item {{durationRange === '2-3' ? 'active' : ''}}" 
+            bindtap="setDurationRange" 
+            data-range="2-3"
+          >2-3天</view>
+          <view 
+            class="duration-item {{durationRange === '4-7' ? 'active' : ''}}" 
+            bindtap="setDurationRange" 
+            data-range="4-7"
+          >4-7天</view>
+          <view 
+            class="duration-item {{durationRange === '7+' ? 'active' : ''}}" 
+            bindtap="setDurationRange" 
+            data-range="7+"
+          >7天以上</view>
+        </view>
+      </view>
+      
+      <!-- 按钮组 -->
+      <view class="filter-buttons">
+        <view class="reset-btn" bindtap="resetFilter">重置</view>
+        <view class="confirm-btn" bindtap="applyFilter">确定</view>
+      </view>
+    </view>
+  </view>
+</view> 

@@ -1,0 +1,241 @@
+/**index.wxss**/
+/* 整体页面样式 */
+page {
+  height: 100vh;
+  background: linear-gradient(135deg, #1e90ff, #70a1ff);
+}
+
+.scrollarea {
+  height: 100%;
+  -webkit-overflow-scrolling: touch;
+}
+
+.container {
+  padding: 0 0 20rpx 0;
+}
+
+/* 搜索栏样式 */
+.search-container {
+  background: transparent;
+  margin-bottom: 0;
+  padding: 140rpx 30rpx 30rpx 30rpx;
+  border-bottom: none;
+}
+
+/* 轮播图样式 */
+.swiper-container {
+  width: 100%;
+  height: 360rpx;
+  margin: 60rpx 30rpx 40rpx 30rpx;
+  box-sizing: border-box;
+}
+
+.destination-swiper {
+  width: 100%;
+  height: 100%;
+  border-radius: 40rpx;
+  overflow: hidden;
+  box-shadow: 0 8rpx 48rpx rgba(0, 0, 0, 0.15);
+}
+
+.destination-card {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 40rpx;
+  overflow: hidden;
+}
+
+.destination-card image {
+  width: 100%;
+  height: 100%;
+  transition: transform 0.3s ease;
+}
+
+.destination-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 48rpx 40rpx;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0));
+}
+
+.destination-name {
+  display: block;
+  font-size: 42rpx;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 8rpx;
+  text-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.2);
+}
+
+.destination-desc {
+  display: block;
+  font-size: 28rpx;
+  color: rgba(255, 255, 255, 0.9);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  text-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.2);
+}
+
+/* 分类导航样式 */
+.category-nav {
+  display: flex;
+  justify-content: space-between;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  margin: 20rpx 30rpx 40rpx 30rpx;
+  padding: 30rpx 20rpx;
+  border-radius: 40rpx;
+  box-shadow: 0 8rpx 48rpx rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.category-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 20%;
+  transition: transform 0.2s ease;
+}
+
+.category-icon {
+  width: 100rpx;
+  height: 100rpx;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 16rpx;
+  box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.2s ease;
+}
+
+.category-icon image {
+  width: 60rpx;
+  height: 60rpx;
+}
+
+.category-name {
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.9);
+  text-align: center;
+  font-weight: 500;
+}
+
+/* 网红推荐和热门行程部分 */
+.section {
+  margin: 0 30rpx 40rpx 30rpx;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 40rpx;
+  padding: 32rpx;
+  box-shadow: 0 8rpx 48rpx rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #ffffff;
+  text-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.1);
+}
+
+.view-all {
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+/* 网红推荐列表 */
+.influencer-list {
+  white-space: nowrap;
+  margin: 0 -10rpx;
+}
+
+.influencer-item {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 10rpx;
+  width: 240rpx;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(5px);
+  border-radius: 24rpx;
+  padding: 20rpx 0;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.influencer-avatar {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 60rpx;
+  margin-bottom: 12rpx;
+  border: 2rpx solid rgba(255, 255, 255, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.influencer-name {
+  font-size: 28rpx;
+  color: #ffffff;
+  text-align: center;
+  margin-bottom: 6rpx;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 80%;
+  font-weight: 600;
+}
+
+.influencer-followers {
+  font-size: 22rpx;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* 热门行程列表 */
+.trip-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+/* 加载更多 */
+.load-more {
+  display: flex;
+  justify-content: center;
+  margin-top: 20rpx;
+}
+
+.load-more-btn {
+  font-size: 28rpx;
+  color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 16rpx 40rpx;
+  border-radius: 32rpx;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  margin-top: 20rpx;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 28rpx;
+}

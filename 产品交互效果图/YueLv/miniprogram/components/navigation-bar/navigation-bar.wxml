@@ -1,0 +1,11 @@
+<view class="navigation-bar" style="padding-top: {{statusBarHeight}}px; height: {{navBarHeight}}px; background-color: {{background}};">
+  <view class="nav-content">
+    <view class="back-icon" wx:if="{{back}}" bindtap="goBack">
+      <view class="icon-wrap">
+        <view class="icon-arrow" style="border-color: {{color}};"></view>
+      </view>
+    </view>
+    <view class="title" style="color: {{color}};">{{title}}</view>
+  </view>
+</view>
+<view style="height: {{statusBarHeight + navBarHeight}}px;"></view>

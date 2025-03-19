@@ -1,0 +1,93 @@
+<!--profile.wxml-->
+<navigation-bar title="个人中心" back="{{false}}" color="black" background="transparent"></navigation-bar>
+<view class="container">
+  <!-- 用户信息卡片 -->
+  <view class="user-card">
+    <view class="user-info">
+      <view class="avatar-container">
+        <image class="avatar" src="{{userInfo.avatarUrl || '/images/default-avatar.png'}}" mode="aspectFill"></image>
+      </view>
+      <view class="user-details">
+        <view class="nickname">{{userInfo.nickName || '未登录'}}</view>
+        <view class="user-id" wx:if="{{userInfo.nickName}}">ID: {{userId}}</view>
+      </view>
+    </view>
+    <view class="login-button" wx:if="{{!userInfo.nickName}}" bindtap="goToLogin">
+      <view class="button-text">点击登录</view>
+      <view class="button-icon">></view>
+    </view>
+  </view>
+
+  <!-- 我的订单 -->
+  <view class="section orders-section">
+    <view class="section-header">
+      <view class="section-title">我的订单</view>
+      <view class="view-all" bindtap="viewAllOrders">全部订单 ></view>
+    </view>
+    <view class="order-items">
+      <view class="order-item" bindtap="viewOrders" data-status="unpaid">
+        <image class="order-icon" src="{{'/images/icon/unpaid.png' || '/static/images/icon/unpaid.png'}}" mode="aspectFit"></image>
+        <view class="order-name">待付款</view>
+        <view class="order-badge" wx:if="{{orderCounts.unpaid > 0}}">{{orderCounts.unpaid}}</view>
+      </view>
+      <view class="order-item" bindtap="viewOrders" data-status="untravel">
+        <image class="order-icon" src="{{'/images/icon/untravel.png' || '/static/images/icon/untravel.png'}}" mode="aspectFit"></image>
+        <view class="order-name">待出行</view>
+        <view class="order-badge" wx:if="{{orderCounts.untravel > 0}}">{{orderCounts.untravel}}</view>
+      </view>
+      <view class="order-item" bindtap="viewOrders" data-status="completed">
+        <image class="order-icon" src="{{'/images/icon/completed.png' || '/static/images/icon/completed.png'}}" mode="aspectFit"></image>
+        <view class="order-name">已完成</view>
+      </view>
+      <view class="order-item" bindtap="viewOrders" data-status="refund">
+        <image class="order-icon" src="{{'/images/icon/refund.png' || '/static/images/icon/refund.png'}}" mode="aspectFit"></image>
+        <view class="order-name">退款/售后</view>
+        <view class="order-badge" wx:if="{{orderCounts.refund > 0}}">{{orderCounts.refund}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 我的行程 -->
+  <view class="section trips-section">
+    <view class="section-header">
+      <view class="section-title">我的行程</view>
+      <view class="view-all" bindtap="viewMyTrips">查看全部 ></view>
+    </view>
+    <view class="trips-preview">
+      <view class="empty-trips" wx:if="{{!userInfo.nickName || myTrips.length === 0}}">
+        <image class="empty-icon" src="{{'/images/icon/empty-trips.png' || '/static/images/icon/empty-trips.png'}}" mode="aspectFit"></image>
+        <view class="empty-text">暂无行程，快去探索吧</view>
+        <button class="explore-btn" bindtap="goToExplore">去发现行程</button>
+      </view>
+      <block wx:else>
+        <view class="trip-item" wx:for="{{myTrips}}" wx:key="id" bindtap="viewTripDetail" data-id="{{item.id}}">
+          <image class="trip-image" src="{{item.image}}" mode="aspectFill"></image>
+          <view class="trip-info">
+            <view class="trip-title">{{item.title}}</view>
+            <view class="trip-time">{{item.time}}</view>
+            <view class="trip-status {{item.status === 'upcoming' ? 'upcoming' : ''}}">{{item.statusText}}</view>
+          </view>
+        </view>
+      </block>
+    </view>
+  </view>
+
+  <!-- 功能菜单 -->
+  <view class="section menu-section">
+    <view class="menu-item" bindtap="navigateTo" data-url="/pages/my-favorites/my-favorites">
+      <image class="menu-icon" src="{{'/images/icon/favorite.png' || '/static/images/icon/favorite.png'}}" mode="aspectFit"></image>
+      <view class="menu-name">我的收藏</view>
+      <view class="menu-arrow">></view>
+    </view>
+    <view class="menu-item" bindtap="contactService">
+      <image class="menu-icon" src="{{'/images/icon/service.png' || '/static/images/icon/service.png'}}" mode="aspectFit"></image>
+      <view class="menu-name">联系客服</view>
+      <view class="menu-arrow">></view>
+    </view>
+    <view class="menu-item" bindtap="navigateTo" data-url="/pages/settings/settings">
+      <image class="menu-icon" src="{{'/images/icon/settings.png' || '/static/images/icon/settings.png'}}" mode="aspectFit"></image>
+      <view class="menu-name">设置</view>
+      <view class="menu-arrow">></view>
+    </view>
+  </view>
+</view> 
