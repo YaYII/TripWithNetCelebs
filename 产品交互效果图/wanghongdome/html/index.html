@@ -78,15 +78,15 @@
         
         <!-- 数据概览 -->
         <div class="data-overview">
-            <div class="data-card">
+            <div class="data-card" @click="goToFansServed">
                 <div class="data-value">{{ formatNumber(influencer.followers) }}</div>
-                <div class="data-label">粉丝数</div>
+                <div class="data-label">服务粉丝数 <i class="bi bi-chevron-right"></i></div>
             </div>
-            <div class="data-card">
+            <div class="data-card" @click="goToEarnings">
                 <div class="data-value">{{ formatNumber(influencer.totalEarnings) }}</div>
                 <div class="data-label">总收益(元)</div>
             </div>
-            <div class="data-card">
+            <div class="data-card" @click="goToTrips">
                 <div class="data-value">{{ influencer.completedTrips }}</div>
                 <div class="data-label">已完成行程</div>
             </div>
@@ -136,9 +136,7 @@
                     </div>
                     <div class="trip-stats">
                         <div class="trip-commission">佣金: ¥{{ trip.commission }}</div>
-                        <div class="trip-participants">
-                            <span class="current">{{ trip.currentParticipants }}</span>/<span class="max">{{ trip.maxParticipants }}</span>
-                        </div>
+                        
                     </div>
                 </div>
             </div>
@@ -147,11 +145,11 @@
         <!-- 热门目的地 -->
         <div class="section-header">
             <h2>热门目的地</h2>
-            <a href="#" class="view-all">查看全部 <i class="bi bi-chevron-right"></i></a>
+            <a @click="goToAllDestinations" class="view-all">查看全部 <i class="bi bi-chevron-right"></i></a>
         </div>
         
         <div class="destination-list">
-            <div class="destination-card" v-for="destination in popularDestinations" :key="destination.id">
+            <div class="destination-card" v-for="destination in popularDestinations" :key="destination.id" @click="viewDestinationTrips(destination.id)">
                 <div class="destination-image">
                     <img :src="destination.image" :alt="destination.name">
                 </div>

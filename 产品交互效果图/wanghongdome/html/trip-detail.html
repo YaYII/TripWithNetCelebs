@@ -9,119 +9,350 @@
     <link rel="stylesheet" href="../css/common.css">
     <link rel="stylesheet" href="../css/trip-detail.css">
     <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/button-fix.css">
 </head>
 <body>
-    <div id="app" class="page-content">
-        <!-- 行程图片轮播 -->
-        <div class="trip-images">
-            <div class="swiper">
+    <div id="app" class="page-container">
+        <!-- 加载中 -->
+        <div class="loading-overlay" v-if="isLoading">
+            <div class="loading-spinner"></div>
+            <div class="loading-text">加载中...</div>
+        </div>
+        
+        <!-- 顶部导航栏 -->
+        <header class="header">
+            <div class="back-button" @click="goBack">
+                <i class="bi bi-chevron-left"></i>
+            </div>
+            <h1 class="page-title"></h1>
+            <div class="share-button" @click="shareTrip">
+                <i class="bi bi-share"></i>
+            </div>
+        </header>
+        
+        <!-- 主要内容 -->
+        <div class="page-content" v-if="trip">
+            <!-- 行程图片轮播 -->
+            <div class="trip-images-swiper swiper">
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide" v-for="(image, index) in trip.images" :key="index">
-                        <img :src="image" :alt="trip.title + ' 图片 ' + (index + 1)">
+                    <div class="swiper-slide" v-for="image in trip.images" :key="image" @click="viewImage(image)">
+                        <img :src="image" :alt="trip.title" class="trip-image">
                     </div>
                 </div>
                 <div class="swiper-pagination"></div>
             </div>
-            <div class="back-btn" @click="goBack">
-                <i class="bi bi-arrow-left"></i>
-            </div>
-            <div class="share-btn" @click="shareTrip">
-                <i class="bi bi-share"></i>
-            </div>
-        </div>
-        
-        <!-- 行程标题和基本信息 -->
-        <div class="trip-header">
-            <div class="trip-title">{{ trip.title }}</div>
-            <div>
-                <span class="trip-status" :class="trip.status.type">{{ trip.status.text }}</span>
-            </div>
-            <div class="trip-info">
-                <div class="trip-info-item">
-                    <i class="bi bi-geo-alt"></i>
-                    <span>{{ trip.destination }}</span>
-                </div>
-                <div class="trip-info-item">
-                    <i class="bi bi-calendar-event"></i>
-                    <span>{{ trip.date }}</span>
-                </div>
-                <div class="trip-info-item">
-                    <i class="bi bi-clock"></i>
-                    <span>{{ trip.duration }}</span>
-                </div>
-            </div>
-        </div>
-        
-        <!-- 佣金信息 -->
-        <div class="commission-section">
-            <div class="commission-title">预计佣金</div>
-            <div class="commission-amount">
-                <div class="total-commission">¥{{ trip.totalCommission }}</div>
-                <div class="commission-detail">
-                    <span>基础：¥{{ trip.baseCommission }}</span>
-                    <span>奖励：¥{{ trip.bonusCommission }}</span>
-                </div>
-            </div>
-            <ul class="commission-rules">
-                <li v-for="rule in trip.commissionRules">{{ rule }}</li>
-            </ul>
-        </div>
-        
-        <!-- 行程内容 -->
-        <div class="trip-content">
-            <!-- 行程描述 -->
-            <div class="section-title">行程介绍</div>
-            <div class="trip-description">{{ trip.description }}</div>
             
-            <!-- 行程安排 -->
-            <div class="section-title">行程安排</div>
-            <div class="schedule-list">
-                <div class="schedule-item" v-for="item in trip.schedule">
-                    <div class="schedule-time">{{ item.time }}</div>
-                    <div class="schedule-content">
-                        <div class="schedule-activity">{{ item.activity }}</div>
-                        <div class="schedule-description">{{ item.description }}</div>
+            <!-- 行程标题 -->
+            <div class="trip-header">
+                <h2 class="trip-title">{{ trip.title }}</h2>
+                <div class="trip-status" :class="trip.status.type">{{ trip.status.text }}</div>
+            </div>
+            
+            <!-- 行程基本信息 -->
+            <div class="info-simple-card">
+                <div class="info-simple-item destination-item">
+                    <div class="info-icon-circle">
+                        <i class="bi bi-geo-alt"></i>
+                    </div>
+                    <div class="info-simple-content">
+                        <div class="info-simple-label">目的地</div>
+                        <div class="info-simple-value">{{ trip.destination }}</div>
+                    </div>
+                </div>
+                
+                <div class="info-simple-item date-item">
+                    <div class="info-icon-circle">
+                        <i class="bi bi-calendar-event"></i>
+                    </div>
+                    <div class="info-simple-content">
+                        <div class="info-simple-label">日期</div>
+                        <div class="info-simple-value">{{ startDate }} <span class="date-simple-separator">至</span> {{ endDate }}</div>
+                    </div>
+                </div>
+                
+                <div class="info-simple-item duration-item">
+                    <div class="info-icon-circle">
+                        <i class="bi bi-clock"></i>
+                    </div>
+                    <div class="info-simple-content">
+                        <div class="info-simple-label">行程天数</div>
+                        <div class="info-simple-value">
+                            <span class="days-highlight">{{ totalDays }}</span>
+                            <span class="days-simple-unit">天</span>
+                        </div>
                     </div>
                 </div>
             </div>
             
-            <!-- 报名要求 -->
-            <div class="section-title">报名要求</div>
-            <ul class="requirements-list">
-                <li v-for="req in trip.requirements">{{ req }}</li>
-            </ul>
-            
-            <!-- 报名信息 -->
-            <div class="section-title">报名信息</div>
-            <div class="enrollment-info">
-                <div class="enrollment-info-item">
-                    <div class="enrollment-label">报名截止</div>
-                    <div class="enrollment-value">{{ trip.enrollmentDeadline }}</div>
+            <!-- 佣金信息 -->
+            <div class="commission-card">
+                <div class="commission-header">
+                    <h3>预计佣金</h3>
+                    <div class="commission-amount">¥{{ expectedCommission }}</div>
                 </div>
-                <div class="enrollment-info-item">
-                    <div class="enrollment-label">报名人数</div>
-                    <div class="enrollment-value">{{ trip.currentParticipants }}/{{ trip.maxParticipants }}</div>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill" :style="{width: (trip.currentParticipants / trip.maxParticipants * 100) + '%'}"></div>
+                
+                <div class="commission-details">
+                    <div class="detail-item">
+                        <div class="detail-label">基础佣金</div>
+                        <div class="detail-value">¥{{ trip.baseCommission }}</div>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <div class="detail-label">额外奖励</div>
+                        <div class="detail-value">¥{{ trip.bonusCommission }}</div>
+                    </div>
+                    
+                    <div class="detail-item highlight">
+                        <div class="detail-label">佣金提成</div>
+                        <div class="detail-value">{{ commissionPercent }}%</div>
+                    </div>
                 </div>
             </div>
+            
+            <!-- 行程内容 -->
+            <div class="content-card">
+                <h3>行程介绍</h3>
+                <p class="description">{{ trip.description }}</p>
+                
+                <!-- 行程亮点 -->
+                <div class="highlights">
+                    <h4>行程亮点</h4>
+                    <ul class="highlight-list">
+                        <li v-for="highlight in trip.highlights" :key="highlight">
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span>{{ highlight }}</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- 行程安排 -->
+                <div class="schedule">
+                    <h4>行程安排</h4>
+                    <div class="schedule-timeline">
+                        <div class="day-item" v-for="(item, index) in trip.schedule" :key="index">
+                            <div class="day-marker">
+                                <div class="day-circle">{{ index + 1 }}</div>
+                                <div class="day-line" v-if="index < trip.schedule.length - 1"></div>
+                            </div>
+                            <div class="day-content">
+                                <div class="day-title">{{ item.time }}</div>
+                                <ul class="day-activities">
+                                    <li>{{ item.activity }}: {{ item.description }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 参与要求 -->
+                <div class="requirements">
+                    <h4>参与要求</h4>
+                    <div class="requirements-grid">
+                        <div class="requirement-item" v-for="req in trip.requirements" :key="req">
+                            {{ req }}
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 包含与不包含 -->
+                <div class="inclusions-exclusions">
+                    <div class="inclusions">
+                        <h4><i class="bi bi-check-circle"></i> 费用包含</h4>
+                        <ul>
+                            <li v-for="item in trip.inclusions" :key="item">{{ item }}</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="exclusions">
+                        <h4><i class="bi bi-x-circle"></i> 费用不包含</h4>
+                        <ul>
+                            <li v-for="item in trip.exclusions" :key="item">{{ item }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 行程统计 -->
+            <div class="stats-card">
+                <!-- 当用户已报名且有网红报名时显示当前报名人数 -->
+                <div class="stat-item" v-if="isEnrolled && trip.hasInfluencer">
+                    <div class="stat-value">{{ trip.currentParticipants }}/{{ trip.maxParticipants }}</div>
+                    <div class="stat-label">当前报名</div>
+                </div>
+                
+                <!-- 当用户未报名时显示已报名状态 -->
+                <div class="stat-item" v-else-if="!isEnrolled && trip.hasInfluencer">
+                    <div class="stat-value">已有人报名</div>
+                    <div class="stat-label">报名后可查看详情</div>
+                </div>
+                
+                <!-- 当没有网红报名时显示提示 -->
+                <div class="stat-item" v-else>
+                    <div class="stat-value">暂无网红报名</div>
+                    <div class="stat-label">报名状态</div>
+                </div>
+                
+                <!-- 当用户已报名且有网红报名时显示剩余名额 -->
+                <div class="stat-item" v-if="isEnrolled && trip.hasInfluencer">
+                    <div class="stat-value">{{ remainingSpots }}</div>
+                    <div class="stat-label">剩余名额</div>
+                </div>
+                
+                <div class="stat-item" v-if="trip.deadline">
+                    <div class="stat-value">{{ deadline }}</div>
+                    <div class="stat-label">报名截止</div>
+                </div>
+            </div>
+            
+            <!-- 参与者列表 (仅已报名用户可见) -->
+            <!-- <div class="participants-card" v-if="isEnrolled">
+                <div class="participants-header">
+                    <h3>已报名参与者</h3>
+                    <button class="view-all-button" @click="viewParticipants">
+                        查看全部 <i class="bi bi-chevron-right"></i>
+                    </button>
+                </div>
+                
+                <div class="participants-preview">
+                    <div class="participant-avatar" v-for="i in 5" :key="i">
+                        <img :src="`../images/avatars/avatar${i}.jpg`" alt="参与者头像">
+                    </div>
+                    <div class="more-participants" v-if="trip.currentParticipants > 5">
+                        +{{ trip.currentParticipants - 5 }}
+                    </div>
+                </div>
+            </div> -->
         </div>
         
-        <!-- 底部操作栏 -->
-        <div class="bottom-bar">
-            <!-- 未报名状态 -->
-            <button v-if="!isApplied" 
-                    class="apply-btn" 
-                    :class="{ 'disabled': trip.isFull }" 
-                    @click="applyForTrip">
-                {{ trip.isFull ? '名额已满' : '立即报名' }}
-            </button>
+        <!-- 底部行动栏 -->
+        <div class="bottom-action-bar" v-if="trip && !isCompleted">
+            <div class="status-info" v-if="isEnrolled">
+                <div class="status-icon">
+                    <i class="bi bi-check-circle-fill"></i>
+                </div>
+                <div class="status-text">已报名</div>
+            </div>
             
-            <!-- 已报名状态 -->
-            <div v-else class="action-buttons">
-                <button class="view-order-btn" @click="viewOrder">查看行程人员</button>
-                <button class="cancel-btn" @click="cancelTrip">取消报名</button>
+            <!-- 已报名状态显示 -->
+            <template v-if="isEnrolled">
+                <!-- 查看参与人员按钮 -->
+                <button class="action-button enrolled" @click="viewParticipants">
+                    <div class="button-content-inline">
+                        <span class="button-text">查看参与人员</span>
+                        <div class="enrollment-badge">
+                            <i class="bi bi-people-fill"></i> {{ trip.currentParticipants }}/{{ trip.maxParticipants }}
+                        </div>
+                    </div>
+                </button>
+                
+                <!-- 取消报名按钮 -->
+                <button class="order-button" @click="cancelTrip">
+                    取消报名
+                </button>
+            </template>
+            
+            <!-- 未报名状态显示 -->
+            <template v-else>
+                <button class="action-button apply" 
+                       :disabled="isApplied || (remainingSpots === 0) || !trip.hasInfluencer"
+                       @click="applyForTrip()">
+                    <span v-if="!isApplied">
+                        {{ remainingSpots === 0 ? '名额已满' : (trip.hasInfluencer ? '立即报名' : '暂无网红报名') }}
+                    </span>
+                    <span v-else>
+                        <i class="bi bi-arrow-repeat spin"></i> 处理中...
+                    </span>
+                </button>
+                
+                <button class="order-button" @click="viewOrders()">
+                    查询行程
+                </button>
+            </template>
+        </div>
+        
+        <!-- 已结束行程提示 -->
+        <div class="bottom-action-bar completed" v-if="trip && isCompleted">
+            <div class="completed-notice">
+                <i class="bi bi-info-circle"></i>
+                此行程已结束，无法报名或取消
+            </div>
+            <button class="action-button view-record" @click="viewTripRecord(trip.id)">
+                查看行程记录
+            </button>
+        </div>
+        
+        <!-- 模态框 -->
+        <div class="modal-overlay" v-if="isModalVisible" @click="closeModal">
+            <div class="modal-content" @click.stop>
+                <!-- 分享模态框 -->
+                <div class="share-modal" v-if="selectedModal === 'share'">
+                    <div class="modal-header">
+                        <h3>分享行程</h3>
+                        <button class="close-button" @click="closeModal">
+                            <i class="bi bi-x-lg"></i>
+                        </button>
+                    </div>
+                    <div class="share-options">
+                        <div class="share-option">
+                            <div class="share-icon wechat">
+                                <i class="bi bi-wechat"></i>
+                            </div>
+                            <div class="share-label">微信</div>
+                        </div>
+                        <div class="share-option">
+                            <div class="share-icon moments">
+                                <i class="bi bi-chat-dots"></i>
+                            </div>
+                            <div class="share-label">朋友圈</div>
+                        </div>
+                    </div>
+                    <div class="share-link">
+                        <input type="text" :value="`https://wanghongtrip.com/trip/${trip.id}`" readonly>
+                        <button class="copy-button">复制链接</button>
+                    </div>
+                </div>
+                
+                <!-- 成功模态框 -->
+                <div class="success-modal" v-if="selectedModal === 'success'">
+                    <div class="success-icon">
+                        <i class="bi bi-check-circle-fill"></i>
+                    </div>
+                    <h3>报名成功</h3>
+                    <p>您已成功报名参加此行程！</p>
+                    <div class="success-actions">
+                        <button class="primary-button" @click="viewOrders()">
+                            查看订单
+                        </button>
+                        <button class="secondary-button" @click="closeModal">
+                            返回行程
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 取消确认模态框 -->
+                <div class="cancel-modal" v-if="selectedModal === 'cancel'">
+                    <div class="warning-icon">
+                        <i class="bi bi-exclamation-triangle-fill"></i>
+                    </div>
+                    <h3>确认取消</h3>
+                    <p>您确定要取消报名吗？取消后如需参加需要重新报名。</p>
+                    <div class="cancel-actions">
+                        <button class="danger-button" @click="confirmCancel">
+                            确认取消
+                        </button>
+                        <button class="secondary-button" @click="closeModal">
+                            再想想
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 图片查看模态框 -->
+                <div class="image-modal" v-if="selectedModal === 'image'">
+                    <button class="close-button" @click="closeModal">
+                        <i class="bi bi-x-lg"></i>
+                    </button>
+                    <img :src="selectedImage" :alt="trip.title" class="full-image">
+                </div>
             </div>
         </div>
     </div>

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>控制面板 - 约旅网红平台</title>
+    <link rel="stylesheet" href="css/backend.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css">
+    <script src="libs1/vue.global.prod.min.js"></script>
+    <script src="libs1/chart.min.js"></script>
+    <style>
+        /* iframe导航样式 */
+        #nav-frame {
+            width: 240px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            border: none;
+            z-index: 200;
+        }
+        /* 调整主内容区域 */
+        .main-content {
+            margin-left: 240px;
+            padding-top: 70px; /* 为顶部导航栏留出空间 */
+        }
+        
+        /* 顶部导航iframe样式 */
+        #top-nav-frame {
+            height: 70px;
+            width: calc(100% - 240px);
+            position: fixed;
+            top: 0;
+            left: 240px;
+            border: none;
+            z-index: 100;
+        }
+        
+        /* 移动端响应式调整 */
+        @media (max-width: 992px) {
+            #nav-frame {
+                width: 70px;
+            }
+            #top-nav-frame {
+                width: calc(100% - 70px);
+                left: 70px;
+            }
+            .main-content {
+                margin-left: 70px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="app" class="admin-container">
+        <!-- 使用iframe加载侧边导航栏 -->
+        <iframe id="nav-frame" src="components/iframe-sidebar.html" frameborder="0"></iframe>
+        
+        <!-- 使用iframe加载顶部导航栏 -->
+        <iframe id="top-nav-frame" src="components/iframe-topnav.html" frameborder="0"></iframe>
+
+        <!-- 主内容区 -->
+        <div class="main-content">
+            <!-- 数据概览卡片 -->
+            <div class="dashboard-stats">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background-color: #4caf50;">
+                        <i class="ri-route-line"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>{{ stats.activeTrips }}</h3>
+                        <p>有效行程</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background-color: #2196f3;">
+                        <i class="ri-user-follow-line"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>{{ stats.currentParticipants }}</h3>
+                        <p>当前报名人数</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background-color: #ff9800;">
+                        <i class="ri-group-line"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>{{ stats.influencers }}</h3>
+                        <p>网红用户</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background-color: #e91e63;">
+                        <i class="ri-building-2-line"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>{{ stats.agencies }}</h3>
+                        <p>合作旅行社</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 图表区域 -->
+            <div class="dashboard-charts">
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h3>行程报名趋势 (近30天)</h3>
+                        <div class="chart-actions">
+                            <button class="btn-icon" @click="refreshCharts">
+                                <i class="ri-refresh-line"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="chart-body">
+                        <canvas id="enrollmentChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h3>行程类型分布</h3>
+                        <div class="chart-actions">
+                            <button class="btn-icon" @click="refreshCharts">
+                                <i class="ri-refresh-line"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="chart-body">
+                        <canvas id="tripTypeChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 快捷操作和通知 -->
+            <div class="dashboard-actions">
+                <div class="action-container">
+                    <div class="action-header">
+                        <h3>快捷操作</h3>
+                    </div>
+                    <div class="action-body">
+                        <a href="trip-create.html" class="action-button">
+                            <i class="ri-add-circle-line"></i>
+                            <span>创建新行程</span>
+                        </a>
+                        <a href="influencer-list.html" class="action-button">
+                            <i class="ri-user-add-line"></i>
+                            <span>添加网红</span>
+                        </a>
+                        <a href="agency-list.html" class="action-button">
+                            <i class="ri-building-line"></i>
+                            <span>添加旅行社</span>
+                        </a>
+                        <a href="trip-list.html" class="action-button">
+                            <i class="ri-line-chart-line"></i>
+                            <span>查看统计报表</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="action-container">
+                    <div class="action-header">
+                        <h3>最近通知</h3>
+                    </div>
+                    <div class="notification-list">
+                        <div class="notification-item" v-for="notification in notifications">
+                            <div class="notification-icon" :class="notification.type">
+                                <i :class="getNotificationIcon(notification.type)"></i>
+                            </div>
+                            <div class="notification-content">
+                                <p class="notification-message">{{ notification.message }}</p>
+                                <p class="notification-time">{{ notification.time }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 最近行程 -->
+            <div class="recent-trips">
+                <div class="section-header">
+                    <h3>最近行程</h3>
+                    <a href="trip-list.html" class="view-all">查看全部 <i class="ri-arrow-right-line"></i></a>
+                </div>
+                <div class="recent-trips-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>标题</th>
+                                <th>目的地</th>
+                                <th>开始日期</th>
+                                <th>状态</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="trip in recentTrips">
+                                <td>{{ trip.id }}</td>
+                                <td>{{ trip.title }}</td>
+                                <td>{{ trip.destination }}</td>
+                                <td>{{ trip.date }}</td>
+                                <td>
+                                    <span class="trip-status" :class="{'active': trip.isActive}">
+                                        {{ trip.isActive ? '已生效' : '未生效' }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <a :href="'trip-detail.html?id=' + trip.id" class="btn btn-sm btn-info">
+                                        <i class="ri-eye-line"></i>
+                                    </a>
+                                    <a :href="'trip-edit.html?id=' + trip.id" class="btn btn-sm btn-primary">
+                                        <i class="ri-edit-line"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/dashboard.js"></script>
+</body>
+</html> 

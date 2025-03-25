@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>系统设置 - 约旅网红平台后台</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="libs1/fontawesome/css/all.min.css">
+    <!-- 后台公共样式 -->
+    <link rel="stylesheet" href="css/backend.css">
+    <!-- 系统设置页样式 -->
+    <link rel="stylesheet" href="css/settings.css">
+</head>
+<body>
+    <div id="app">
+        <!-- 侧边栏 -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-img">
+                    <img src="img/logo.png" alt="约旅网红平台" style="width: 40px; height: 40px;">
+                </div>
+                <h3>约旅网红平台</h3>
+            </div>
+            <ul class="sidebar-menu">
+                <li>
+                    <a href="index.html">
+                        <i class="fas fa-home"></i> 控制面板
+                    </a>
+                </li>
+                <li>
+                    <a href="trip-list.html">
+                        <i class="fas fa-route"></i> 行程管理
+                    </a>
+                </li>
+                <li>
+                    <a href="influencer-list.html">
+                        <i class="fas fa-user-friends"></i> 网红管理
+                    </a>
+                </li>
+                <li>
+                    <a href="agency-list.html">
+                        <i class="fas fa-building"></i> 旅行社管理
+                    </a>
+                </li>
+                <li>
+                    <a href="data-analysis.html">
+                        <i class="fas fa-chart-line"></i> 数据分析
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="settings.html">
+                        <i class="fas fa-cog"></i> 系统设置
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 主要内容区 -->
+        <div class="main">
+            <!-- 顶部导航栏 -->
+            <div class="navbar">
+                <div class="navbar-left">
+                    <button class="toggle-sidebar">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="breadcrumb">
+                        <a href="index.html">首页</a> / 
+                        <span>系统设置</span>
+                    </div>
+                </div>
+                <div class="navbar-right">
+                    <div class="user-menu">
+                        <img src="images/admin-avatar.jpg" alt="管理员" class="avatar">
+                        <span>管理员</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 内容区域 -->
+            <div class="content">
+                <h1 class="page-title">系统设置</h1>
+
+                <!-- 设置选项卡 -->
+                <div class="settings-tabs">
+                    <div class="tab" 
+                         :class="{ active: activeTab === 'basic' }" 
+                         @click="activeTab = 'basic'">
+                        <i class="fas fa-sliders-h"></i> 基本设置
+                    </div>
+                    <div class="tab" 
+                         :class="{ active: activeTab === 'commission' }" 
+                         @click="activeTab = 'commission'">
+                        <i class="fas fa-percentage"></i> 佣金设置
+                    </div>
+                    <div class="tab" 
+                         :class="{ active: activeTab === 'notification' }" 
+                         @click="activeTab = 'notification'">
+                        <i class="fas fa-bell"></i> 通知设置
+                    </div>
+                    <div class="tab" 
+                         :class="{ active: activeTab === 'security' }" 
+                         @click="activeTab = 'security'">
+                        <i class="fas fa-shield-alt"></i> 安全设置
+                    </div>
+                    <div class="tab" 
+                         :class="{ active: activeTab === 'account' }" 
+                         @click="activeTab = 'account'">
+                        <i class="fas fa-user-cog"></i> 账号设置
+                    </div>
+                </div>
+
+                <!-- 基本设置 -->
+                <div class="settings-panel" v-show="activeTab === 'basic'">
+                    <h2 class="panel-title">基本设置</h2>
+                    
+                    <div class="settings-form">
+                        <div class="form-group">
+                            <label>平台名称</label>
+                            <input type="text" v-model="settings.basic.platformName" class="form-control">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>平台简介</label>
+                            <textarea v-model="settings.basic.platformDesc" class="form-control" rows="3"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>联系电话</label>
+                            <input type="text" v-model="settings.basic.contactPhone" class="form-control">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>联系邮箱</label>
+                            <input type="email" v-model="settings.basic.contactEmail" class="form-control">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>客服工作时间</label>
+                            <input type="text" v-model="settings.basic.serviceHours" class="form-control">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>网站备案号</label>
+                            <input type="text" v-model="settings.basic.icp" class="form-control">
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button class="btn btn-primary" @click="saveSettings('basic')">保存设置</button>
+                            <button class="btn btn-default" @click="resetSettings('basic')">重置</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 佣金设置 -->
+                <div class="settings-panel" v-show="activeTab === 'commission'">
+                    <h2 class="panel-title">佣金设置</h2>
+                    
+                    <div class="settings-form">
+                        <div class="form-group">
+                            <label>默认佣金比例（%）</label>
+                            <input type="number" v-model="settings.commission.defaultRate" class="form-control" min="0" max="100">
+                            <div class="form-help">设置平台默认佣金比例，可在每个行程中单独调整</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>最低佣金比例（%）</label>
+                            <input type="number" v-model="settings.commission.minRate" class="form-control" min="0" max="100">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>最高佣金比例（%）</label>
+                            <input type="number" v-model="settings.commission.maxRate" class="form-control" min="0" max="100">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>结算周期（天）</label>
+                            <input type="number" v-model="settings.commission.settlementDays" class="form-control" min="1">
+                            <div class="form-help">行程结束后多少天进行佣金结算</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>佣金支付方式</label>
+                            <div class="checkbox-group">
+                                <label>
+                                    <input type="checkbox" v-model="settings.commission.paymentMethods" value="bank"> 银行转账
+                                </label>
+                                <label>
+                                    <input type="checkbox" v-model="settings.commission.paymentMethods" value="alipay"> 支付宝
+                                </label>
+                                <label>
+                                    <input type="checkbox" v-model="settings.commission.paymentMethods" value="wechat"> 微信支付
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button class="btn btn-primary" @click="saveSettings('commission')">保存设置</button>
+                            <button class="btn btn-default" @click="resetSettings('commission')">重置</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 通知设置 -->
+                <div class="settings-panel" v-show="activeTab === 'notification'">
+                    <h2 class="panel-title">通知设置</h2>
+                    
+                    <div class="settings-form">
+                        <div class="form-group">
+                            <label>管理员接收通知</label>
+                            <div class="toggle-group">
+                                <span>邮件通知</span>
+                                <label class="toggle">
+                                    <input type="checkbox" v-model="settings.notification.adminEmail">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="toggle-group">
+                                <span>短信通知</span>
+                                <label class="toggle">
+                                    <input type="checkbox" v-model="settings.notification.adminSms">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>网红接收通知</label>
+                            <div class="toggle-group">
+                                <span>行程邀请</span>
+                                <label class="toggle">
+                                    <input type="checkbox" v-model="settings.notification.influencerInvitation">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="toggle-group">
+                                <span>行程变更</span>
+                                <label class="toggle">
+                                    <input type="checkbox" v-model="settings.notification.influencerTripChange">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="toggle-group">
+                                <span>佣金到账</span>
+                                <label class="toggle">
+                                    <input type="checkbox" v-model="settings.notification.influencerCommission">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>旅行社接收通知</label>
+                            <div class="toggle-group">
+                                <span>新订单</span>
+                                <label class="toggle">
+                                    <input type="checkbox" v-model="settings.notification.agencyNewOrder">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="toggle-group">
+                                <span>网红确认</span>
+                                <label class="toggle">
+                                    <input type="checkbox" v-model="settings.notification.agencyInfluencerConfirm">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button class="btn btn-primary" @click="saveSettings('notification')">保存设置</button>
+                            <button class="btn btn-default" @click="resetSettings('notification')">重置</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 安全设置 -->
+                <div class="settings-panel" v-show="activeTab === 'security'">
+                    <h2 class="panel-title">安全设置</h2>
+                    
+                    <div class="settings-form">
+                        <div class="form-group">
+                            <label>登录安全</label>
+                            <div class="toggle-group">
+                                <span>两步验证</span>
+                                <label class="toggle">
+                                    <input type="checkbox" v-model="settings.security.twoFactorAuth">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="toggle-group">
+                                <span>登录IP限制</span>
+                                <label class="toggle">
+                                    <input type="checkbox" v-model="settings.security.ipRestriction">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>密码安全</label>
+                            <div class="toggle-group">
+                                <span>强密码要求</span>
+                                <label class="toggle">
+                                    <input type="checkbox" v-model="settings.security.strongPassword">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="toggle-group">
+                                <span>定期更换密码</span>
+                                <label class="toggle">
+                                    <input type="checkbox" v-model="settings.security.passwordExpiry">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>密码有效期（天）</label>
+                            <input type="number" v-model="settings.security.passwordExpiryDays" class="form-control" min="30" :disabled="!settings.security.passwordExpiry">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>登录失败锁定</label>
+                            <div class="input-group">
+                                <span>失败</span>
+                                <input type="number" v-model="settings.security.loginAttempts" class="form-control" min="1" max="10">
+                                <span>次后锁定账户</span>
+                                <input type="number" v-model="settings.security.lockoutMinutes" class="form-control" min="5">
+                                <span>分钟</span>
+                            </div>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button class="btn btn-primary" @click="saveSettings('security')">保存设置</button>
+                            <button class="btn btn-default" @click="resetSettings('security')">重置</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 账号设置 -->
+                <div class="settings-panel" v-show="activeTab === 'account'">
+                    <h2 class="panel-title">账号设置</h2>
+                    
+                    <div class="settings-form">
+                        <div class="form-group">
+                            <label>修改管理员密码</label>
+                            <input type="password" v-model="adminAccount.currentPassword" class="form-control" placeholder="当前密码">
+                            <input type="password" v-model="adminAccount.newPassword" class="form-control" placeholder="新密码">
+                            <input type="password" v-model="adminAccount.confirmPassword" class="form-control" placeholder="确认新密码">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>管理员邮箱</label>
+                            <input type="email" v-model="adminAccount.email" class="form-control">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>管理员手机</label>
+                            <input type="text" v-model="adminAccount.phone" class="form-control">
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button class="btn btn-primary" @click="updateAdminAccount">更新账号信息</button>
+                            <button class="btn btn-default" @click="resetAdminAccount">重置</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vue.js -->
+    <script src="libs1/vue.min.js"></script>
+    <!-- 页面脚本 -->
+    <script src="js/settings.js"></script>
+</body>
+</html> 

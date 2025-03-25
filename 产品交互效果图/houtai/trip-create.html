@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>创建新行程 - 约旅网红平台</title>
+    <link rel="stylesheet" href="css/backend.css">
+    <link rel="stylesheet" href="css/trip-form.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css">
+    <!-- 引入Vue.js -->
+    <script src="libs1/vue.global.prod.min.js"></script>
+    <!-- 引入富文本编辑器 -->
+    <link href="libs1/quill/quill.snow.css" rel="stylesheet">
+    <script src="libs1/quill/quill.min.js"></script>
+    <!-- 引入Swiper -->
+    <link rel="stylesheet" href="libs1/swiper-bundle.min.css">
+    <script src="libs1/swiper-bundle.min.js"></script>
+    <style>
+        /* iframe导航样式 */
+        #nav-frame {
+            width: 240px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            border: none;
+            z-index: 200;
+        }
+        /* 调整主内容区域 */
+        .main-content {
+            margin-left: 240px;
+            padding-top: 70px; /* 为顶部导航栏留出空间 */
+        }
+        
+        /* 顶部导航iframe样式 */
+        #top-nav-frame {
+            height: 70px;
+            width: calc(100% - 240px);
+            position: fixed;
+            top: 0;
+            left: 240px;
+            border: none;
+            z-index: 100;
+        }
+        
+        /* 移动端响应式调整 */
+        @media (max-width: 992px) {
+            #nav-frame {
+                width: 70px;
+            }
+            #top-nav-frame {
+                width: calc(100% - 70px);
+                left: 70px;
+            }
+            .main-content {
+                margin-left: 70px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="app" class="admin-container">
+        <!-- 使用iframe加载侧边导航栏 -->
+        <iframe id="nav-frame" src="components/iframe-sidebar.html" frameborder="0"></iframe>
+        
+        <!-- 使用iframe加载顶部导航栏 -->
+        <iframe id="top-nav-frame" src="components/iframe-topnav.html" frameborder="0"></iframe>
+        
+        <!-- 主内容区 -->
+        <div class="main-content">
+            <!-- 表单操作栏 -->
+            <div class="form-actions-bar">
+                <div class="form-navigation">
+                    <button @click="prevStep" :disabled="currentStep === 1" class="nav-btn">
+                        <i class="ri-arrow-left-line"></i> 上一步
+                    </button>
+                    <div class="step-indicator">
+                        <div v-for="step in 4" :key="step" 
+                              :class="['step-dot', { active: step <= currentStep, completed: step < currentStep }]">
+                            {{ step }}
+                        </div>
+                    </div>
+                    <button @click="nextStep" :disabled="currentStep === 4" class="nav-btn">
+                        下一步 <i class="ri-arrow-right-line"></i>
+                    </button>
+                </div>
+                <div class="form-buttons">
+                    <button @click="previewTrip" class="btn btn-secondary">
+                        <i class="ri-eye-line"></i> 预览
+                    </button>
+                    <button @click="saveAsDraft" class="btn btn-secondary">
+                        <i class="ri-draft-line"></i> 保存草稿
+                    </button>
+                    <button @click="publishTrip" class="btn btn-primary" :disabled="!canPublish">
+                        <i class="ri-save-line"></i> 发布行程
+                    </button>
+                </div>
+            </div>
+
+            <!-- 通知信息条 -->
+            <div class="notice-bar">
+                <i class="ri-information-line"></i>
+                <span>您可以随时保存草稿，已填写的内容将自动保存。</span>
+                <button class="close-notice">
+                    <i class="ri-close-line"></i>
+                </button>
+            </div>
+            
+            <!-- 表单容器 -->
+            <div class="content-card">
+                <div class="form-container">
+                    <!-- 表单步骤导航 -->
+                    <div class="step-tabs">
+                        <div @click="currentStep = 1" :class="['step-tab', { active: currentStep === 1 }]">
+                            <i class="ri-information-line"></i>
+                            <span>基本信息</span>
+                        </div>
+                        <div @click="currentStep = 2" :class="['step-tab', { active: currentStep === 2 }]">
+                            <i class="ri-calendar-check-line"></i>
+                            <span>行程规划</span>
+                        </div>
+                        <div @click="currentStep = 3" :class="['step-tab', { active: currentStep === 3 }]">
+                            <i class="ri-price-tag-3-line"></i>
+                            <span>合作条件</span>
+                        </div>
+                        <div @click="currentStep = 4" :class="['step-tab', { active: currentStep === 4 }]">
+                            <i class="ri-upload-cloud-line"></i>
+                            <span>资料上传</span>
+                        </div>
+                    </div>
+                    
+                    <!-- 表单步骤内容区 -->
+                    <div class="step-content">
+                        <!-- 步骤一：基本信息 -->
+                        <div v-show="currentStep === 1" class="step-pane active">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="tripName">行程名称 <span class="required">*</span></label>
+                                    <input type="text" id="tripName" v-model="tripData.title" placeholder="请输入行程名称，不超过30个字符" maxlength="30">
+                                    <div class="field-hint">简洁明了的名称有助于网红更快找到您的行程</div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row two-columns">
+                                <div class="form-group">
+                                    <label for="tripType">行程类型 <span class="required">*</span></label>
+                                    <select id="tripType" v-model="tripData.type">
+                                        <option value="">请选择行程类型</option>
+                                        <option value="domestic">国内游</option>
+                                        <option value="international">国际游</option>
+                                        <option value="island">海岛游</option>
+                                        <option value="customized">定制游</option>
+                                        <option value="theme">主题游</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="tripTheme">行程主题</label>
+                                    <select id="tripTheme" v-model="tripData.theme">
+                                        <option value="">请选择行程主题</option>
+                                        <option value="photography">摄影打卡</option>
+                                        <option value="food">美食探索</option>
+                                        <option value="culture">文化体验</option>
+                                        <option value="adventure">户外探险</option>
+                                        <option value="luxury">奢华度假</option>
+                                        <option value="family">亲子游</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row two-columns">
+                                <div class="form-group">
+                                    <label for="destination">行程目的地 <span class="required">*</span></label>
+                                    <input type="text" id="destination" v-model="tripData.destination" placeholder="请输入目的地">
+                                </div>
+                                <div class="form-group">
+                                    <label for="date">行程日期 <span class="required">*</span></label>
+                                    <input type="date" id="date" v-model="tripData.date">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row two-columns">
+                                <div class="form-group">
+                                    <label for="duration">行程时长 (天) <span class="required">*</span></label>
+                                    <input type="number" id="duration" v-model="tripData.duration" min="1">
+                                </div>
+                                <div class="form-group">
+                                    <label>行程状态标签</label>
+                                    <div class="checkbox-group">
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" v-model="tripData.statusLabels.isHot"> 热门
+                                        </label>
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" v-model="tripData.statusLabels.isLimited"> 限量
+                                        </label>
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" v-model="tripData.statusLabels.isPromotion"> 特惠
+                                        </label>
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" v-model="tripData.statusLabels.isNew"> 新品
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="description">行程描述 <span class="required">*</span></label>
+                                    <div id="description-editor"></div>
+                                    <div class="field-hint">详细介绍行程特点、适合人群、预期体验等</div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>行程图片 <span class="required">*</span></label>
+                                    <div class="image-upload-container">
+                                        <div class="image-preview-area">
+                                            <div v-for="(image, index) in tripData.images" :key="index" class="image-preview-item">
+                                                <img :src="image.url" alt="行程图片预览">
+                                                <button @click="removeImage(index)" class="remove-image-btn">
+                                                    <i class="ri-delete-bin-line"></i>
+                                                </button>
+                                            </div>
+                                            <div class="image-upload-btn" @click="triggerImageUpload">
+                                                <i class="ri-upload-cloud-line"></i>
+                                                <p>添加图片</p>
+                                            </div>
+                                        </div>
+                                        <input type="file" ref="imageUpload" @change="handleImageUpload" accept="image/*" multiple style="display: none">
+                                    </div>
+                                    <div class="field-hint">建议上传高清图片，尺寸比例16:9，最多可上传8张</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 步骤二至四的内容区域将在后续深入开发 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 预览面板 -->
+        <div class="preview-panel" :class="{ 'preview-active': showPreview }">
+            <div class="preview-header">
+                <h3>行程预览</h3>
+                <button @click="togglePreview" class="btn-close-preview">
+                    <i class="ri-close-line"></i>
+                </button>
+            </div>
+            <div class="preview-content">
+                <div class="preview-trip-card">
+                    <div class="preview-image" :style="{ backgroundImage: `url(${previewImage})` }">
+                        <div class="preview-status-tags">
+                            <span v-if="tripData.statusLabels.isHot" class="preview-tag hot">热门</span>
+                            <span v-if="tripData.statusLabels.isLimited" class="preview-tag limited">限量</span>
+                            <span v-if="tripData.statusLabels.isNew" class="preview-tag new">新品</span>
+                            <span v-if="tripData.statusLabels.isPromotion" class="preview-tag promotion">特惠</span>
+                        </div>
+                    </div>
+                    <div class="preview-trip-info">
+                        <h2 class="preview-trip-title">{{ tripData.title || '行程标题' }}</h2>
+                        <div class="preview-trip-meta">
+                            <span><i class="ri-map-pin-line"></i> {{ tripData.destination || '目的地' }}</span>
+                            <span><i class="ri-calendar-line"></i> {{ formatDate(tripData.date) || '开始日期' }}</span>
+                            <span><i class="ri-time-line"></i> {{ tripData.duration || '0' }}天</span>
+                        </div>
+                        <div class="preview-trip-commission">
+                            <span class="commission-label">佣金：</span>
+                            <span class="commission-value">¥{{ calculateTotalCommission() || '0' }}</span>
+                        </div>
+                        <div class="preview-deadline">
+                            <span>报名截止：{{ formatDate(tripData.enrollmentDeadline) || '截止日期' }}</span>
+                            <span>人数：{{ tripData.minParticipants || '0' }}-{{ tripData.maxParticipants || '0' }}人</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/trip-form.js"></script>
+    <script src="js/trip-create.js"></script>
+</body>
+</html> 

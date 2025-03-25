@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>行程管理 - 约旅网红平台</title>
+    <link rel="stylesheet" href="css/backend.css">
+    <link rel="stylesheet" href="css/trip-list.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css">
+    <!-- 引入Vue.js -->
+    <script src="libs1/vue.global.prod.min.js"></script>
+    <style>
+        /* iframe导航样式 */
+        #nav-frame {
+            width: 240px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            border: none;
+            z-index: 200;
+        }
+        /* 调整主内容区域 */
+        .main-content {
+            margin-left: 240px;
+            padding-top: 70px; /* 为顶部导航栏留出空间 */
+        }
+        
+        /* 顶部导航iframe样式 */
+        #top-nav-frame {
+            height: 70px;
+            width: calc(100% - 240px);
+            position: fixed;
+            top: 0;
+            left: 240px;
+            border: none;
+            z-index: 100;
+        }
+        
+        /* 移动端响应式调整 */
+        @media (max-width: 992px) {
+            #nav-frame {
+                width: 70px;
+            }
+            #top-nav-frame {
+                width: calc(100% - 70px);
+                left: 70px;
+            }
+            .main-content {
+                margin-left: 70px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="app" class="admin-container">
+        <!-- 使用iframe加载侧边导航栏 -->
+        <iframe id="nav-frame" src="components/iframe-sidebar.html" frameborder="0"></iframe>
+        
+        <!-- 使用iframe加载顶部导航栏 -->
+        <iframe id="top-nav-frame" src="components/iframe-topnav.html" frameborder="0"></iframe>
+
+        <!-- 主内容区 -->
+        <div class="main-content">
+            <!-- 筛选条件栏 -->
+            <div class="filter-bar">
+                <div class="filter-section">
+                    <div class="filter-group">
+                        <label>状态：</label>
+                        <select v-model="filters.status">
+                            <option value="">全部</option>
+                            <option value="active">已生效</option>
+                            <option value="inactive">未生效</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label>归属：</label>
+                        <select v-model="filters.ownerType">
+                            <option value="">全部</option>
+                            <option value="platform">平台承担</option>
+                            <option value="agency">旅行社承担</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label>时间：</label>
+                        <select v-model="filters.timeStatus">
+                            <option value="">全部</option>
+                            <option value="upcoming">未开始</option>
+                            <option value="ongoing">进行中</option>
+                            <option value="ended">已结束</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label>目的地：</label>
+                        <select v-model="filters.destination">
+                            <option value="">全部</option>
+                            <option v-for="destination in destinations" :value="destination">{{ destination }}</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="search-section">
+                    <input type="text" v-model="searchTerm" placeholder="搜索行程ID或标题...">
+                    <button class="btn btn-primary" @click="searchTrips">
+                        <i class="ri-search-line"></i> 搜索
+                    </button>
+                    <a href="trip-create.html" class="btn btn-success">
+                        <i class="ri-add-line"></i> 新建行程
+                    </a>
+                </div>
+            </div>
+            
+            <!-- 行程列表 -->
+            <div class="trips-table">
+                <table v-if="filteredTrips.length > 0">
+                    <thead>
+                        <tr>
+                            <th>行程ID</th>
+                            <th>行程标题</th>
+                            <th>目的地</th>
+                            <th>开始日期</th>
+                            <th>行程时长</th>
+                            <th>参与人数</th>
+                            <th>报名截止</th>
+                            <th>状态</th>
+                            <th>归属</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="trip in filteredTrips" :key="trip.id">
+                            <td>{{ trip.id }}</td>
+                            <td>{{ trip.title }}</td>
+                            <td>{{ trip.destination }}</td>
+                            <td>{{ trip.date }}</td>
+                            <td>{{ trip.duration }}天</td>
+                            <td>{{ trip.currentParticipants }}/{{ trip.maxParticipants }}</td>
+                            <td>{{ trip.enrollmentDeadline }}</td>
+                            <td>
+                                <span class="status-badge" :class="{'active': trip.isActive}">
+                                    {{ trip.isActive ? '已生效' : '未生效' }}
+                                </span>
+                            </td>
+                            <td>{{ trip.ownerType === 'platform' ? '平台' : '旅行社' }}</td>
+                            <td class="actions">
+                                <a :href="'trip-detail.html?id=' + trip.id" class="btn btn-sm btn-info">
+                                    <i class="ri-eye-line"></i>
+                                </a>
+                                <a :href="'trip-edit.html?id=' + trip.id" class="btn btn-sm btn-primary">
+                                    <i class="ri-edit-line"></i>
+                                </a>
+                                <button class="btn btn-sm" :class="trip.isActive ? 'btn-warning' : 'btn-success'" @click="toggleTripStatus(trip)">
+                                    <i :class="trip.isActive ? 'ri-close-circle-line' : 'ri-checkbox-circle-line'"></i>
+                                </button>
+                                <button class="btn btn-sm btn-secondary" @click="duplicateTrip(trip)">
+                                    <i class="ri-file-copy-line"></i>
+                                </button>
+                                <button class="btn btn-sm btn-danger" @click="deleteTrip(trip)" v-if="!trip.isActive">
+                                    <i class="ri-delete-bin-line"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div v-else class="no-data">
+                    <i class="ri-inbox-line"></i>
+                    <p>暂无符合条件的行程数据</p>
+                </div>
+            </div>
+            
+            <!-- 分页控件 -->
+            <div class="pagination" v-if="totalPages > 1">
+                <button @click="goToPage(currentPage - 1)" :disabled="currentPage === 1" class="btn-page">
+                    <i class="ri-arrow-left-s-line"></i>
+                </button>
+                <template v-for="page in paginationNumbers">
+                    <button v-if="page !== '...'" @click="goToPage(page)" :class="{'active': currentPage === page}" class="btn-page">{{ page }}</button>
+                    <span v-else class="page-ellipsis">{{ page }}</span>
+                </template>
+                <button @click="goToPage(currentPage + 1)" :disabled="currentPage === totalPages" class="btn-page">
+                    <i class="ri-arrow-right-s-line"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="js/trip-list.js"></script>
+</body>
+</html> 

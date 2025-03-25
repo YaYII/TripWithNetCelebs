@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网红详情 - 约旅网红平台后台</title>
+    <link rel="stylesheet" href="css/backend.css">
+    <link rel="stylesheet" href="css/influencer-detail.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css">
+    <script src="libs1/vue.global.prod.min.js"></script>
+    <style>
+        /* iframe导航样式 */
+        #nav-frame {
+            width: 240px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            border: none;
+            z-index: 200;
+        }
+        /* 调整主内容区域 */
+        .main-content {
+            margin-left: 240px;
+            padding-top: 70px; /* 为顶部导航栏留出空间 */
+        }
+        
+        /* 顶部导航iframe样式 */
+        #top-nav-frame {
+            height: 70px;
+            width: calc(100% - 240px);
+            position: fixed;
+            top: 0;
+            left: 240px;
+            border: none;
+            z-index: 100;
+        }
+        
+        /* 移动端响应式调整 */
+        @media (max-width: 992px) {
+            #nav-frame {
+                width: 70px;
+            }
+            #top-nav-frame {
+                width: calc(100% - 70px);
+                left: 70px;
+            }
+            .main-content {
+                margin-left: 70px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="app" class="admin-container">
+        <!-- 使用iframe加载侧边导航栏 -->
+        <iframe id="nav-frame" src="components/iframe-sidebar.html" frameborder="0"></iframe>
+        
+        <!-- 使用iframe加载顶部导航栏 -->
+        <iframe id="top-nav-frame" src="components/iframe-topnav.html" frameborder="0"></iframe>
+
+        <!-- 主内容区 -->
+        <div class="main-content">
+            <div class="content-wrapper">
+                <!-- 操作栏 -->
+                <!-- 网红详情内容 -->
+                <div class="influencer-detail-container" v-if="influencer">
+                    <!-- 基本信息卡片 -->
+                    <div class="detail-card">
+                        <div class="card-header">
+                            <h3>基本信息</h3>
+                            <div class="card-actions">
+                                <a :href="'influencer-edit.html?id=' + influencer.id" class="btn btn-primary">
+                                    <i class="fas fa-edit"></i> 编辑资料
+                                </a>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="influencer-profile">
+                                <div class="profile-avatar">
+                                    <img :src="influencer.avatar" :alt="influencer.nickname">
+                                    <div class="status-badge" :class="influencer.status">
+                                        {{ getStatusText(influencer.status) }}
+                                    </div>
+                                </div>
+                                <div class="profile-info">
+                                    <h2 class="nickname">{{ influencer.nickname }}</h2>
+                                    <p class="id-info">ID: {{ influencer.id }}</p>
+                                    <div class="info-items">
+                                        <div class="info-item">
+                                            <i class="fas fa-user"></i>
+                                            <span>{{ influencer.realName }}</span>
+                                        </div>
+                                        <div class="info-item">
+                                            <i class="fas fa-mobile-alt"></i>
+                                            <span>{{ influencer.phone }}</span>
+                                        </div>
+                                        <div class="info-item">
+                                            <i class="fas fa-birthday-cake"></i>
+                                            <span>{{ influencer.birthdate }}</span>
+                                        </div>
+                                        <div class="info-item">
+                                            <i class="fas fa-venus-mars"></i>
+                                            <span>{{ influencer.gender === 'male' ? '男' : '女' }}</span>
+                                        </div>
+                                        <div class="info-item">
+                                            <i class="fas fa-map-marker-alt"></i>
+                                            <span>{{ influencer.location }}</span>
+                                        </div>
+                                        <div class="info-item">
+                                            <i class="fas fa-envelope"></i>
+                                            <span>{{ influencer.email }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="tags">
+                                        <span v-for="tag in influencer.tags" class="tag">{{ tag }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 平台信息卡片 -->
+                    <div class="detail-card">
+                        <div class="card-header">
+                            <h3>平台信息</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="platforms-container">
+                                <div v-for="platform in influencer.platforms" class="platform-item" :class="platform.type">
+                                    <div class="platform-icon">
+                                        <i :class="getPlatformIcon(platform.type)"></i>
+                                    </div>
+                                    <div class="platform-details">
+                                        <h4>{{ getPlatformName(platform.type) }}</h4>
+                                        <div class="platform-info">
+                                            <p><strong>账号:</strong> {{ platform.account }}</p>
+                                            <p><strong>粉丝数:</strong> {{ formatNumber(platform.fansCount) }}</p>
+                                            <p><strong>作品数:</strong> {{ platform.postsCount }}</p>
+                                            <p><strong>主要内容:</strong> {{ platform.contentType }}</p>
+                                            <p><strong>账号链接:</strong> <a :href="platform.link" target="_blank">{{ platform.link }}</a></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 行程记录卡片 -->
+                    <div class="detail-card">
+                        <div class="card-header">
+                            <h3>参与行程记录</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="trips-table-container">
+                                <table v-if="influencer.trips && influencer.trips.length > 0">
+                                    <thead>
+                                        <tr>
+                                            <th>行程ID</th>
+                                            <th>行程名称</th>
+                                            <th>目的地</th>
+                                            <th>开始日期</th>
+                                            <th>状态</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="trip in influencer.trips">
+                                            <td>{{ trip.id }}</td>
+                                            <td>{{ trip.title }}</td>
+                                            <td>{{ trip.destination }}</td>
+                                            <td>{{ trip.startDate }}</td>
+                                            <td>
+                                                <span class="trip-status" :class="trip.status">
+                                                    {{ getTripStatusText(trip.status) }}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <a :href="'trip-detail.html?id=' + trip.id" class="btn btn-sm btn-info">
+                                                    <i class="fas fa-eye"></i> 查看
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div v-else class="no-data">
+                                    <i class="fas fa-route"></i>
+                                    <p>暂无参与行程记录</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 内容表现卡片 -->
+                    <div class="detail-card">
+                        <div class="card-header">
+                            <h3>内容表现</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="performance-stats">
+                                <div class="stat-box">
+                                    <div class="stat-value">{{ influencer.performance.totalPosts }}</div>
+                                    <div class="stat-label">发布作品</div>
+                                </div>
+                                <div class="stat-box">
+                                    <div class="stat-value">{{ formatNumber(influencer.performance.avgLikes) }}</div>
+                                    <div class="stat-label">平均点赞</div>
+                                </div>
+                                <div class="stat-box">
+                                    <div class="stat-value">{{ formatNumber(influencer.performance.avgComments) }}</div>
+                                    <div class="stat-label">平均评论</div>
+                                </div>
+                                <div class="stat-box">
+                                    <div class="stat-value">{{ influencer.performance.engagementRate }}%</div>
+                                    <div class="stat-label">互动率</div>
+                                </div>
+                            </div>
+                            <div class="performance-content">
+                                <h4>热门内容</h4>
+                                <div class="content-items">
+                                    <div v-for="content in influencer.performance.topContents" class="content-item">
+                                        <div class="content-thumbnail">
+                                            <img :src="content.thumbnail" :alt="content.title">
+                                        </div>
+                                        <div class="content-info">
+                                            <h5>{{ content.title }}</h5>
+                                            <p class="content-platform">
+                                                <i :class="getPlatformIcon(content.platform)"></i> 
+                                                {{ getPlatformName(content.platform) }}
+                                            </p>
+                                            <p class="content-stats">
+                                                <span><i class="fas fa-heart"></i> {{ formatNumber(content.likes) }}</span>
+                                                <span><i class="fas fa-comment"></i> {{ formatNumber(content.comments) }}</span>
+                                                <span><i class="fas fa-share"></i> {{ formatNumber(content.shares) }}</span>
+                                            </p>
+                                            <a :href="content.link" target="_blank" class="btn btn-sm btn-outline">
+                                                <i class="fas fa-external-link-alt"></i> 查看原文
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 审核记录卡片 -->
+                    <div class="detail-card">
+                        <div class="card-header">
+                            <h3>审核记录</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="timeline">
+                                <div v-for="record in influencer.verificationRecords" class="timeline-item">
+                                    <div class="timeline-point" :class="record.action"></div>
+                                    <div class="timeline-content">
+                                        <div class="timeline-date">{{ record.date }}</div>
+                                        <div class="timeline-title">{{ getActionText(record.action) }}</div>
+                                        <div class="timeline-description">{{ record.remark }}</div>
+                                        <div class="timeline-operator">操作人: {{ record.operator }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 加载中 -->
+                <div class="loading-container" v-if="loading">
+                    <div class="spinner"></div>
+                    <p>加载中...</p>
+                </div>
+
+                <!-- 错误信息 -->
+                <div class="error-container" v-if="error">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <p>{{ error }}</p>
+                    <button class="btn btn-primary" @click="loadInfluencer">重试</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/influencer-detail.js"></script>
+</body>
+</html> 

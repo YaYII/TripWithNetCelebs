@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>约旅网红客户端 - 登录</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/login.css">
+</head>
+<body>
+    <div id="app" class="page-content">
+        <div class="login-container">
+            <!-- Logo 区域 -->
+            <div class="logo-container">
+                <img src="../img/logo.png" alt="约旅" class="logo">
+                <h1 class="app-name">约旅网红端</h1>
+                <p class="app-slogan">旅行变现新方式</p>
+            </div>
+            
+            <!-- 登录选项区域 -->
+            <div class="login-options">
+                <button class="login-btn wechat-btn" @click="handleWechatLogin">
+                    <i class="bi bi-wechat"></i>
+                    <span>微信一键登录</span>
+                </button>
+                
+                <div class="login-divider">
+                    <span>其他登录方式</span>
+                </div>
+                
+                <button class="login-btn phone-btn" @click="handlePhoneLogin">
+                    <i class="bi bi-phone"></i>
+                    <span>手机号登录</span>
+                </button>
+            </div>
+            
+            <!-- 游客模式 -->
+            <!-- <div class="visitor-login">
+                <a href="#" @click.prevent="handleVisitorLogin">游客浏览</a>
+            </div> -->
+            
+            <!-- 隐私协议 -->
+            <div class="privacy-policy">
+                <p>登录即表示您同意 <a href="#">《用户协议》</a>和<a href="#">《隐私政策》</a></p>
+            </div>
+        </div>
+        
+        <!-- 手机号登录弹窗 -->
+        <div class="modal" v-if="showPhoneLoginModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>手机号登录</h3>
+                    <i class="bi bi-x-lg" @click="closePhoneLoginModal"></i>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group">
+                        <div class="phone-prefix">+86</div>
+                        <input type="tel" v-model="phoneNumber" placeholder="请输入手机号" maxlength="11" class="phone-input">
+                    </div>
+                    <div class="input-group verification-group">
+                        <input type="text" v-model="verificationCode" placeholder="请输入验证码" maxlength="6" class="verification-input">
+                        <button class="verification-btn" :disabled="cooldownTime > 0" @click="sendVerificationCode">
+                            {{ cooldownTime > 0 ? `${cooldownTime}s后重新发送` : '获取验证码' }}
+                        </button>
+                    </div>
+                    <button class="submit-btn" :disabled="!canSubmit" @click="submitPhoneLogin">登录</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 加载中遮罩 -->
+        <div class="loading-mask" v-if="isLoading">
+            <div class="loading-spinner"></div>
+            <div class="loading-text">{{ loadingText }}</div>
+        </div>
+    </div>
+    
+    <script src="../libs/vue.global.prod.min.js"></script>
+    <script src="../js/login.js"></script>
+</body>
+</html> 

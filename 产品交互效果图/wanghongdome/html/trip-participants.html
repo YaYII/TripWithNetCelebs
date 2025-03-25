@@ -3,147 +3,142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>行程报名情况 - 网红旅行</title>
+    <title>行程参与者 - 网红旅行</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link rel="stylesheet" href="../css/common.css">
-    <link rel="stylesheet" href="../css/trip-participants.css">
     <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/trip-participants.css">
+    <link rel="stylesheet" href="../css/button-fix.css">
 </head>
 <body>
-    <div id="app" class="page-content">
+    <div id="app" class="page-container">
+        <!-- 加载中 -->
+        <div class="loading-overlay" v-if="isLoading">
+            <div class="loading-spinner"></div>
+            <div class="loading-text">加载中...</div>
+        </div>
+        
         <!-- 顶部导航栏 -->
         <header class="header">
-            <div class="back-btn" @click="goBack">
-                <i class="bi bi-arrow-left"></i>
+            <div class="back-button" @click="goBack">
+                <i class="bi bi-chevron-left"></i>
             </div>
-            <h1 class="page-title">行程报名情况</h1>
-            <div style="width: 24px;"></div>
+            <h1 class="page-title">行程参与者</h1>
+            <div class="placeholder"></div>
         </header>
         
-        <!-- 加载状态 -->
-        <div class="loading-state" v-if="loading">
-            <div class="loading-spinner"></div>
-        </div>
-        
-        <!-- 行程信息 -->
-        <div class="trip-info-card" v-if="!loading">
-            <div class="trip-title">{{ trip.title }}</div>
-            <div class="trip-meta">
-                <div class="trip-meta-item">
-                    <i class="bi bi-geo-alt"></i>
-                    <span>{{ trip.destination }}</span>
+        <!-- 主要内容 -->
+        <div class="page-content" v-if="trip">
+            <!-- 行程简要信息 -->
+            <div class="trip-info-card">
+                <div class="trip-image">
+                    <img :src="trip.image" :alt="trip.title">
                 </div>
-                <div class="trip-meta-item">
-                    <i class="bi bi-calendar-event"></i>
-                    <span>{{ trip.date }}</span>
+                <div class="trip-details">
+                    <div class="trip-title">{{ trip.title }}</div>
+                    <div class="trip-date">
+                        <i class="bi bi-calendar3"></i> {{ trip.date }}
+                    </div>
                 </div>
-                <div class="trip-meta-item">
-                    <i class="bi bi-clock"></i>
-                    <span>{{ trip.duration }}</span>
-                </div>
-            </div>
-            <div class="enrollment-summary">
-                <div class="enrollment-count">
-                    <div class="count-label">已报名</div>
-                    <div class="count-value">{{ trip.currentParticipants }}</div>
-                </div>
-                <div class="enrollment-count">
-                    <div class="count-label">总名额</div>
-                    <div class="count-value">{{ trip.maxParticipants }}</div>
-                </div>
-                <div class="enrollment-count">
-                    <div class="count-label">已支付</div>
-                    <div class="count-value">{{ paidParticipants }}</div>
-                </div>
-                <div class="enrollment-count">
-                    <div class="count-label">待支付</div>
-                    <div class="count-value">{{ trip.currentParticipants - paidParticipants }}</div>
-                </div>
-            </div>
-            <div class="progress-container">
-                <div class="progress-label">报名进度</div>
-                <div class="progress-bar">
-                    <div class="progress-fill" :style="{width: (trip.currentParticipants / trip.maxParticipants * 100) + '%'}"></div>
-                </div>
-                <div class="progress-text">
-                    <span>{{ Math.round(trip.currentParticipants / trip.maxParticipants * 100) }}%</span>
-                    <span>{{ trip.currentParticipants }}/{{ trip.maxParticipants }}</span>
-                </div>
-            </div>
-            <div class="deadline-info">
-                <i class="bi bi-alarm"></i>
-                <span>报名截止：{{ trip.enrollmentDeadline }}</span>
-                <span class="countdown" v-if="daysUntilDeadline > 0">（还剩 {{ daysUntilDeadline }} 天）</span>
-                <span class="countdown expired" v-else>（已截止）</span>
-            </div>
-        </div>
-        
-        <!-- 标签栏 -->
-        <div class="tab-bar" v-if="!loading">
-            <div v-for="tab in tabs" 
-                 :key="tab.id" 
-                 class="tab-item" 
-                 :class="{ active: activeTab === tab.id }"
-                 @click="switchTab(tab.id)">
-                {{ tab.name }}
-                <span class="tab-count" v-if="getTabCount(tab.id) > 0">{{ getTabCount(tab.id) }}</span>
-            </div>
-        </div>
-        
-        <!-- 参与者列表 -->
-        <div class="participants-list" v-if="!loading">
-            <!-- 空状态 -->
-            <div class="empty-state" v-if="!hasParticipants">
-                <div class="empty-icon">
-                    <i class="bi bi-people"></i>
-                </div>
-                <div class="empty-text">暂无{{ getTabEmptyText() }}</div>
-                <button class="empty-action" @click="shareTrip">分享行程</button>
             </div>
             
-            <!-- 参与者卡片 -->
-            <div class="participant-card" v-for="participant in filteredParticipants" :key="participant.id">
-                <div class="participant-avatar">
-                    <img :src="participant.avatar" :alt="participant.name">
-                    <div class="participant-status" :class="getStatusClass(participant.status)">
-                        {{ getStatusText(participant.status) }}
+            <!-- 参与统计 -->
+            <div class="participants-stats">
+                <div class="stat-item" v-if="hasInfluencer">
+                    <div class="stat-value">{{ trip.currentParticipants }}/{{ trip.maxParticipants }}</div>
+                    <div class="stat-label">当前报名</div>
+                </div>
+                <div class="stat-item" v-else>
+                    <div class="stat-value">暂无</div>
+                    <div class="stat-label">网红报名</div>
+                </div>
+                <div class="stat-item" v-if="hasInfluencer">
+                    <div class="stat-value">{{ trip.enrolledPercentage }}%</div>
+                    <div class="stat-label">报名率</div>
+                </div>
+                <div class="stat-item" v-if="remainingDays >= 0">
+                    <div class="stat-value">{{ remainingDays }}</div>
+                    <div class="stat-label">剩余天数</div>
+                </div>
+                <div class="stat-item" v-else>
+                    <div class="stat-value">已结束</div>
+                    <div class="stat-label">行程状态</div>
+                </div>
+            </div>
+            
+            <!-- 参与者列表 -->
+            <div class="participants-list">
+                <div class="section-header">
+                    <h2>参与者列表</h2>
+                    <div class="participant-count" v-if="hasInfluencer && isEnrolled">共 {{ participants.length }} 人</div>
+                </div>
+                
+                <!-- 筛选标签 (可选功能) -->
+                <div class="filter-tags" v-if="hasInfluencer && hasFilters && isEnrolled">
+                    <div class="filter-tag" :class="{ active: activeFilter === 'all' }" @click="filterParticipants('all')">
+                        全部
+                    </div>
+                    <div class="filter-tag" :class="{ active: activeFilter === 'confirmed' }" @click="filterParticipants('confirmed')">
+                        已确认
+                    </div>
+                    <div class="filter-tag" :class="{ active: activeFilter === 'pending' }" @click="filterParticipants('pending')">
+                        待确认
                     </div>
                 </div>
-                <div class="participant-info">
-                    <div class="participant-name">{{ participant.name }}</div>
-                    <div class="participant-meta">
-                        <div class="participant-meta-item">
-                            <i class="bi bi-telephone"></i>
-                            <span>{{ maskPhone(participant.phone) }}</span>
+                
+                <!-- 参与者列表内容 -->
+                <div class="participant-container">
+                    <!-- 未报名提示 -->
+                    <div class="empty-state" v-if="hasInfluencer && !isEnrolled">
+                        <div class="empty-icon">
+                            <i class="bi bi-shield-lock"></i>
                         </div>
-                        <div class="participant-meta-item">
-                            <i class="bi bi-clock-history"></i>
-                            <span>{{ participant.enrollTime }}</span>
+                        <div class="empty-text">您尚未报名此行程，无法查看详细参与者信息</div>
+                    </div>
+                    
+                    <!-- 网红未报名提示 -->
+                    <div class="empty-state" v-else-if="!hasInfluencer">
+                        <div class="empty-icon">
+                            <i class="bi bi-people"></i>
+                        </div>
+                        <div class="empty-text">暂无网红报名，无法查看参与者信息</div>
+                    </div>
+                    
+                    <!-- 参与者列表 -->
+                    <div class="participant-item" v-for="participant in filteredParticipants" :key="participant.id" v-else-if="isEnrolled && hasInfluencer">
+                        <div class="participant-avatar">
+                            <img :src="participant.avatar" :alt="participant.name">
+                        </div>
+                        <div class="participant-info">
+                            <div class="participant-name">{{ participant.name }}</div>
+                            <div class="participant-contact">
+                                <i class="bi bi-telephone"></i> {{ formatPhone(participant.phone) }}
+                            </div>
+                        </div>
+                        <div class="participant-status" :class="participant.status">
+                            {{ participant.statusText }}
                         </div>
                     </div>
-                </div>
-                <div class="participant-actions">
-                    <button class="action-btn" @click="contactParticipant(participant.id)">
-                        <i class="bi bi-chat-dots"></i>
-                        <span>联系</span>
-                    </button>
+                
+                    <!-- 无参与者提示 -->
+                    <div class="empty-state" v-else-if="isEnrolled && hasInfluencer && filteredParticipants.length === 0">
+                        <div class="empty-icon">
+                            <i class="bi bi-people"></i>
+                        </div>
+                        <div class="empty-text">暂无参与者报名</div>
+                    </div>
                 </div>
             </div>
         </div>
         
-        <!-- 底部操作栏 -->
-        <div class="bottom-bar" v-if="!loading">
-            <button class="share-btn" @click="shareTrip">
-                <i class="bi bi-share"></i>
-                <span>分享行程</span>
+        <!-- 底部操作栏
+        <div class="bottom-action-bar">
+            <button class="action-button" @click="viewTripDetail">
+                返回行程详情
             </button>
-            <button class="notify-btn" @click="notifyParticipants">
-                <i class="bi bi-bell"></i>
-                <span>通知所有人</span>
-            </button>
-        </div>
+        </div> -->
     </div>
-   
+    
     <script src="../libs/vue.global.prod.min.js"></script>
     <script src="../js/trip-participants.js"></script>
 </body>

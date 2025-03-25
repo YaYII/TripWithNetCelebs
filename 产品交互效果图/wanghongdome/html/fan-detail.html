@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>粉丝详情 - 网红旅行</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/fan-detail.css">
+</head>
+<body>
+    <div id="app" class="page-container">
+        <!-- 顶部导航栏 -->
+        <div class="nav-header">
+            <div class="nav-left" @click="goBack">
+                <i class="bi bi-arrow-left"></i>
+            </div>
+            <div class="nav-title">粉丝详情</div>
+            <div class="nav-right"></div>
+        </div>
+        
+        <!-- 粉丝信息 -->
+        <div class="fan-profile">
+            <div class="fan-avatar">
+                <img :src="fan.avatar" :alt="fan.name">
+            </div>
+            <div class="fan-info">
+                <h2 class="fan-name">{{ fan.name }}</h2>
+                <div class="fan-stats">
+                    <div class="fan-stat-item">
+                        <div class="stat-value">{{ fan.serviceCount }}</div>
+                        <div class="stat-label">服务次数</div>
+                    </div>
+                    <div class="fan-stat-item">
+                        <div class="stat-value">{{ fan.firstServiceDate ? formatDate(fan.firstServiceDate) : '无' }}</div>
+                        <div class="stat-label">首次服务</div>
+                    </div>
+                    <div class="fan-stat-item">
+                        <div class="stat-value">{{ fan.lastServiceDate ? formatDate(fan.lastServiceDate) : '无' }}</div>
+                        <div class="stat-label">最近服务</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 服务记录标题 -->
+        <div class="section-title">
+            <h3>服务记录</h3>
+            <span class="record-count">共 {{ serviceRecords.length }} 条</span>
+        </div>
+        
+        <!-- 服务记录时间线 -->
+        <div class="timeline-container" v-if="serviceRecords.length > 0">
+            <div class="timeline-item" v-for="record in serviceRecords" :key="record.id">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="timeline-header">
+                        <span class="timeline-date">{{ formatDate(record.date) }}</span>
+                        <span class="timeline-status" :class="record.status">{{ getStatusText(record.status) }}</span>
+                    </div>
+                    <div class="timeline-trip">
+                        <div class="trip-image">
+                            <img :src="record.tripImage" :alt="record.tripName">
+                        </div>
+                        <div class="trip-info">
+                            <div class="trip-name">{{ record.tripName }}</div>
+                            <div class="trip-meta">
+                                <span class="trip-location">
+                                    <i class="bi bi-geo-alt"></i>
+                                    {{ record.location }}
+                                </span>
+                                <span class="trip-duration">
+                                    <i class="bi bi-calendar3"></i>
+                                    {{ record.duration }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-feedback" v-if="record.rating">
+                        <div class="rating">
+                            <span class="rating-label">粉丝评分:</span>
+                            <div class="rating-stars">
+                                <i class="bi bi-star-fill" v-for="n in Math.floor(record.rating)" :key="'star-' + n"></i>
+                                <i class="bi bi-star-half" v-if="record.rating % 1 >= 0.5"></i>
+                                <i class="bi bi-star" v-for="n in Math.floor(5 - record.rating)" :key="'empty-' + n"></i>
+                            </div>
+                            <span class="rating-value">{{ record.rating.toFixed(1) }}</span>
+                        </div>
+                        <div class="feedback-text" v-if="record.feedback">
+                            <span class="feedback-label">评价:</span>
+                            <span class="feedback-content">{{ record.feedback }}</span>
+                        </div>
+                    </div>
+                    <div class="timeline-actions">
+                        <button class="action-btn" @click="viewTripDetail(record.tripId)">
+                            <i class="bi bi-info-circle"></i>
+                            查看行程
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 空状态 -->
+        <div class="empty-state" v-else>
+            <img src="../img/placeholder-logo.png" alt="暂无服务记录" class="empty-icon">
+            <p class="empty-text">暂无服务记录</p>
+        </div>
+        
+        <!-- 加载中状态 -->
+        <div class="loading-container" v-if="isLoading">
+            <div class="loading-spinner"></div>
+            <p class="loading-text">加载中...</p>
+        </div>
+    </div>
+    
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="../js/fan-detail.js"></script>
+</body>
+</html> 

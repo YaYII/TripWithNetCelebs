@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>服务粉丝列表 - 网红旅行</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/fans-served.css">
+</head>
+<body>
+    <div id="app" class="page-container">
+        <!-- 顶部导航栏 -->
+        <div class="nav-header">
+            <div class="nav-left" @click="goBack">
+                <i class="bi bi-arrow-left"></i>
+            </div>
+            <div class="nav-title">服务粉丝列表</div>
+            <div class="nav-right"></div>
+        </div>
+        
+        <!-- 数据概览 -->
+        <div class="stats-overview">
+            <div class="stat-card">
+                <div class="stat-value">{{ fansCount }}</div>
+                <div class="stat-label">累计服务粉丝</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">{{ totalServiceCount }}</div>
+                <div class="stat-label">累计服务次数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">{{ averageRating.toFixed(1) }}</div>
+                <div class="stat-label">平均评分</div>
+            </div>
+        </div>
+        
+        <!-- 搜索区域 -->
+        <div class="search-container">
+            <div class="search-box">
+                <i class="bi bi-search search-icon"></i>
+                <input 
+                    type="text" 
+                    class="search-input" 
+                    placeholder="搜索粉丝昵称" 
+                    v-model="searchText"
+                    @input="filterFans"
+                >
+                <i class="bi bi-x-circle search-clear" v-if="searchText" @click="clearSearch"></i>
+            </div>
+        </div>
+        
+        <!-- 列表筛选标签 -->
+        <div class="filter-tabs">
+            <div 
+                class="filter-tab" 
+                :class="{ active: activeTab === 'all' }"
+                @click="switchTab('all')"
+            >全部</div>
+            <div 
+                class="filter-tab" 
+                :class="{ active: activeTab === 'multiple' }"
+                @click="switchTab('multiple')"
+            >多次服务</div>
+            <div 
+                class="filter-tab" 
+                :class="{ active: activeTab === 'recent' }"
+                @click="switchTab('recent')"
+            >最近服务</div>
+        </div>
+        
+        <!-- 粉丝列表 -->
+        <div class="fans-list" v-if="filteredFans.length > 0">
+            <div class="fan-item" v-for="fan in filteredFans" :key="fan.id" @click="viewFanDetail(fan.id)">
+                <div class="fan-avatar">
+                    <img :src="fan.avatar" :alt="fan.name">
+                    <div class="service-count" v-if="fan.serviceCount > 1">{{ fan.serviceCount }}</div>
+                </div>
+                <div class="fan-info">
+                    <div class="fan-name">{{ fan.name }}</div>
+                    <div class="fan-meta">
+                        <span class="service-date">上次服务: {{ formatDate(fan.lastServiceDate) }}</span>
+                        <span class="trip-name">{{ fan.lastTripName }}</span>
+                    </div>
+                </div>
+                <div class="fan-arrow">
+                    <i class="bi bi-chevron-right"></i>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 空状态 -->
+        <div class="empty-state" v-else>
+            <img src="../img/placeholder-logo.png" alt="暂无数据" class="empty-icon">
+            <p class="empty-text">{{ emptyStateText }}</p>
+        </div>
+        
+        <!-- 加载中状态 -->
+        <div class="loading-container" v-if="isLoading">
+            <div class="loading-spinner"></div>
+            <p class="loading-text">加载中...</p>
+        </div>
+    </div>
+    
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="../js/fans-served.js"></script>
+</body>
+</html> 

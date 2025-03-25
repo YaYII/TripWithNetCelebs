@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>行程详情 - 约旅网红平台后台</title>
+    <link rel="stylesheet" href="css/backend.css">
+    <link rel="stylesheet" href="css/trip-detail.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css">
+    <!-- 引入Vue.js -->
+    <script src="libs1/vue.global.prod.min.js"></script>
+    <!-- 引入Swiper -->
+    <link rel="stylesheet" href="libs1/swiper-bundle.min.css">
+    <script src="libs1/swiper-bundle.min.js"></script>
+    <style>
+        /* iframe导航样式 */
+        #nav-frame {
+            width: 240px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            border: none;
+            z-index: 200;
+        }
+        /* 调整主内容区域 */
+        .main-content {
+            margin-left: 240px;
+            padding-top: 70px; /* 为顶部导航栏留出空间 */
+        }
+        
+        /* 顶部导航iframe样式 */
+        #top-nav-frame {
+            height: 70px;
+            width: calc(100% - 240px);
+            position: fixed;
+            top: 0;
+            left: 240px;
+            border: none;
+            z-index: 100;
+        }
+        
+        /* 移动端响应式调整 */
+        @media (max-width: 992px) {
+            #nav-frame {
+                width: 70px;
+            }
+            #top-nav-frame {
+                width: calc(100% - 70px);
+                left: 70px;
+            }
+            .main-content {
+                margin-left: 70px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="app" class="admin-container">
+        <!-- 使用iframe加载侧边导航栏 -->
+        <iframe id="nav-frame" src="components/iframe-sidebar.html" frameborder="0"></iframe>
+        
+        <!-- 使用iframe加载顶部导航栏 -->
+        <iframe id="top-nav-frame" src="components/iframe-topnav.html" frameborder="0"></iframe>
+
+        <!-- 主内容区 -->
+        <div class="main-content">
+            <!-- 操作栏 -->
+            <div class="detail-actions-bar">
+                <div class="breadcrumb">
+                    <a href="trip-list.html"><i class="ri-arrow-left-line"></i> 返回列表</a> / 行程详情
+                </div>
+                <div class="action-buttons">
+                    <button @click="editTrip" class="btn btn-primary">
+                        <i class="ri-edit-line"></i> 编辑行程
+                    </button>
+                    <button v-if="!tripData.isActive" @click="activateTrip" class="btn btn-success">
+                        <i class="ri-checkbox-circle-line"></i> 生效行程
+                    </button>
+                    <button v-else @click="deactivateTrip" class="btn btn-warning">
+                        <i class="ri-close-circle-line"></i> 取消生效
+                    </button>
+                    <button @click="copyTrip" class="btn btn-info">
+                        <i class="ri-file-copy-line"></i> 复制行程
+                    </button>
+                </div>
+            </div>
+
+            <!-- 内容区 -->
+            <div class="content-grid">
+                <!-- 加载状态 -->
+                <div v-if="loading" class="loading-overlay">
+                    <div class="loading-spinner"></div>
+                    <p>正在加载行程数据...</p>
+                </div>
+
+                <!-- 错误提示 -->
+                <div v-if="error" class="error-message">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <p>{{ error }}</p>
+                    <button @click="loadTripData" class="btn btn-primary">重试</button>
+                </div>
+
+                <!-- 行程基本信息 -->
+                <div v-if="!loading && !error" class="detail-card basic-info">
+                    <div class="card-header">
+                        <h3><i class="ri-information-line"></i> 基本信息</h3>
+                        <span :class="['status-badge', { active: tripData.isActive }]">
+                            {{ tripData.isActive ? '已生效' : '未生效' }}
+                        </span>
+                    </div>
+                    <div class="card-body">
+                        <div class="image-gallery" v-if="tripData.images && tripData.images.length">
+                            <div class="swiper-container">
+                                <div class="swiper-wrapper">
+                                    <div class="swiper-slide" v-for="(image, index) in tripData.images" :key="index">
+                                        <img :src="image.url" :alt="tripData.title + ' 图片 ' + (index+1)">
+                                    </div>
+                                </div>
+                                <div class="swiper-pagination"></div>
+                                <div class="swiper-button-prev"></div>
+                                <div class="swiper-button-next"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="info-grid">
+                            <div class="info-title">
+                                <h1>{{ tripData.title }}</h1>
+                                <div class="status-tags">
+                                    <span v-if="tripData.statusLabels && tripData.statusLabels.isHot" class="tag hot">热门</span>
+                                    <span v-if="tripData.statusLabels && tripData.statusLabels.isLimited" class="tag limited">限量</span>
+                                    <span v-if="tripData.statusLabels && tripData.statusLabels.isNew" class="tag new">新品</span>
+                                    <span v-if="tripData.statusLabels && tripData.statusLabels.isPromotion" class="tag promotion">特惠</span>
+                                </div>
+                            </div>
+                            
+                            <div class="info-group">
+                                <div class="info-item">
+                                    <span class="info-label"><i class="ri-map-pin-line"></i> 目的地</span>
+                                    <span class="info-value">{{ tripData.destination }}</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label"><i class="ri-calendar-line"></i> 开始日期</span>
+                                    <span class="info-value">{{ formatDate(tripData.date) }}</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label"><i class="ri-time-line"></i> 行程时长</span>
+                                    <span class="info-value">{{ tripData.duration }} 天</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label"><i class="ri-calendar-close-line"></i> 报名截止日期</span>
+                                    <span class="info-value">{{ formatDate(tripData.enrollmentDeadline) }}</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label"><i class="ri-user-follow-line"></i> 参与人数</span>
+                                    <span class="info-value">{{ tripData.currentParticipants }}/{{ tripData.maxParticipants }}</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label"><i class="ri-building-line"></i> 行程归属</span>
+                                    <span class="info-value">{{ tripData.ownerType === 'platform' ? '平台承担' : '旅行社承担' }}</span>
+                                </div>
+                            </div>
+                            
+                            <div class="description-box">
+                                <h4>行程描述</h4>
+                                <div class="description-content" v-html="tripData.description"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 行程安排 -->
+                <div v-if="!loading && !error" class="detail-card schedule">
+                    <div class="card-header">
+                        <h3><i class="ri-calendar-line"></i> 行程安排</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="schedule-timeline">
+                            <div v-for="(day, dayIndex) in tripData.schedule" :key="dayIndex" class="timeline-day">
+                                <div class="day-title">第{{ dayIndex + 1 }}天</div>
+                                <div class="day-activities">
+                                    <div v-for="(activity, actIndex) in day.activities" :key="actIndex" class="activity-item">
+                                        <div class="activity-time">{{ activity.time }}</div>
+                                        <div class="activity-content">
+                                            <h4 class="activity-name">{{ activity.name }}</h4>
+                                            <p class="activity-description">{{ activity.description }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 行程亮点与要求 -->
+                <div v-if="!loading && !error" class="detail-card highlights-requirements">
+                    <div class="card-header">
+                        <h3><i class="ri-star-line"></i> 亮点与要求</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="details-grid">
+                            <div class="detail-section">
+                                <h4>行程亮点</h4>
+                                <ul class="detail-list">
+                                    <li v-for="(highlight, index) in tripData.highlights" :key="index">
+                                        {{ highlight.content }}
+                                    </li>
+                                    <li v-if="!tripData.highlights || !tripData.highlights.length" class="empty-list">
+                                        暂无行程亮点
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="detail-section">
+                                <h4>报名要求</h4>
+                                <ul class="detail-list">
+                                    <li v-for="(requirement, index) in tripData.requirements" :key="index">
+                                        {{ requirement.content }}
+                                    </li>
+                                    <li v-if="!tripData.requirements || !tripData.requirements.length" class="empty-list">
+                                        暂无报名要求
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 费用包含与不包含 -->
+                <div v-if="!loading && !error" class="detail-card inclusions-exclusions">
+                    <div class="card-header">
+                        <h3><i class="ri-money-dollar-circle-line"></i> 费用说明</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="details-grid">
+                            <div class="detail-section">
+                                <h4>费用包含</h4>
+                                <ul class="detail-list">
+                                    <li v-for="(inclusion, index) in tripData.inclusions" :key="index">
+                                        {{ inclusion.content }}
+                                    </li>
+                                    <li v-if="!tripData.inclusions || !tripData.inclusions.length" class="empty-list">
+                                        暂无费用包含项目
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="detail-section">
+                                <h4>费用不包含</h4>
+                                <ul class="detail-list">
+                                    <li v-for="(exclusion, index) in tripData.exclusions" :key="index">
+                                        {{ exclusion.content }}
+                                    </li>
+                                    <li v-if="!tripData.exclusions || !tripData.exclusions.length" class="empty-list">
+                                        暂无费用不包含项目
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 佣金信息 -->
+                <div v-if="!loading && !error" class="detail-card commission">
+                    <div class="card-header">
+                        <h3><i class="ri-money-cny-circle-line"></i> 佣金信息</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="commission-summary">
+                            <div class="commission-item">
+                                <span class="commission-label">基础佣金</span>
+                                <span class="commission-value">¥{{ tripData.baseCommission || 0 }}</span>
+                            </div>
+                            <div class="commission-item">
+                                <span class="commission-label">额外奖励</span>
+                                <span class="commission-value">¥{{ tripData.bonusCommission || 0 }}</span>
+                            </div>
+                            <div class="commission-item total">
+                                <span class="commission-label">总佣金</span>
+                                <span class="commission-value">¥{{ calculateTotalCommission() }}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="commission-rules">
+                            <h4>佣金规则</h4>
+                            <ul class="detail-list">
+                                <li v-for="(rule, index) in tripData.commissionRules" :key="index">
+                                    {{ rule.content }}
+                                </li>
+                                <li v-if="!tripData.commissionRules || !tripData.commissionRules.length" class="empty-list">
+                                    暂无佣金规则
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 归属信息 -->
+                <div v-if="!loading && !error" class="detail-card ownership">
+                    <div class="card-header">
+                        <h3><i class="ri-user-settings-line"></i> 归属信息</h3>
+                    </div>
+                    <div class="card-body">
+                        <div v-if="tripData.ownerType === 'platform'" class="owner-info">
+                            <h4>平台负责信息</h4>
+                            <div class="info-group">
+                                <div class="info-item">
+                                    <span class="info-label">负责人</span>
+                                    <span class="info-value">{{ tripData.platformOwner?.name || '暂无' }}</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">联系方式</span>
+                                    <span class="info-value">{{ tripData.platformOwner?.contact || '暂无' }}</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">部门</span>
+                                    <span class="info-value">{{ tripData.platformOwner?.department || '暂无' }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div v-if="tripData.ownerType === 'agency'" class="owner-info">
+                            <h4>旅行社信息</h4>
+                            <div class="info-group">
+                                <div class="info-item">
+                                    <span class="info-label">旅行社名称</span>
+                                    <span class="info-value">{{ tripData.agency?.name || '暂无' }}</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">联系方式</span>
+                                    <span class="info-value">{{ tripData.agency?.contact || '暂无' }}</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">资质证明</span>
+                                    <span class="info-value">{{ tripData.agency?.license || '暂无' }}</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">地址</span>
+                                    <span class="info-value">{{ tripData.agency?.address || '暂无' }}</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">网红端展示</span>
+                                    <span class="info-value">{{ tripData.showAgencyInfo ? '是' : '否' }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 修改历史 -->
+                <div v-if="!loading && !error" class="detail-card history">
+                    <div class="card-header">
+                        <h3><i class="ri-history-line"></i> 修改历史</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="history-list">
+                            <div v-for="(record, index) in tripData.history" :key="index" class="history-item">
+                                <div class="history-info">
+                                    <span class="history-time">{{ formatDateTime(record.timestamp) }}</span>
+                                    <span class="history-user">{{ record.operator }}</span>
+                                </div>
+                                <div class="history-content">{{ record.description }}</div>
+                            </div>
+                            <div v-if="!tripData.history || !tripData.history.length" class="empty-history">
+                                暂无修改历史记录
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/trip-detail.js"></script>
+</body>
+</html> 

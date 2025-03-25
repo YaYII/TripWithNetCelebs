@@ -1,0 +1,505 @@
+/**
+ * 旅行社管理列表页样式
+ * @description 定义了旅行社管理列表页面的所有组件样式
+ */
+
+/* 筛选栏 */
+.filter-bar {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px;
+}
+
+.filter-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.filter-group {
+    display: flex;
+    align-items: center;
+}
+
+.filter-group label {
+    margin-right: 8px;
+    color: #555;
+    font-size: 14px;
+}
+
+.filter-group select {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+    min-width: 120px;
+}
+
+.search-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.search-input {
+    display: flex;
+    position: relative;
+    width: 300px;
+}
+
+.search-input input {
+    padding: 10px 15px;
+    padding-right: 40px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    width: 100%;
+}
+
+.search-btn {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    border: none;
+    background: none;
+    padding: 0 15px;
+    color: #666;
+    cursor: pointer;
+}
+
+.search-btn:hover {
+    color: #2196f3;
+}
+
+.add-btn {
+    padding: 10px 20px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.3s ease;
+}
+
+.add-btn i {
+    margin-right: 8px;
+}
+
+.add-btn:hover {
+    background-color: #43a047;
+}
+
+/* 旅行社列表 */
+.agency-list {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.agency-list table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.agency-list th,
+.agency-list td {
+    padding: 15px 20px;
+    text-align: left;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.agency-list th {
+    background-color: #f9f9f9;
+    font-weight: 600;
+    color: #555;
+}
+
+.agency-list tbody tr:hover {
+    background-color: #f9f9f9;
+}
+
+.th-id {
+    width: 80px;
+}
+
+.th-info {
+    width: 30%;
+}
+
+.th-type {
+    width: 12%;
+}
+
+.th-level {
+    width: 10%;
+}
+
+.th-trips {
+    width: 10%;
+}
+
+.th-status {
+    width: 10%;
+}
+
+.th-actions {
+    width: 15%;
+}
+
+.td-info {
+    max-width: 300px;
+}
+
+.agency-info {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-right: 15px;
+    flex-shrink: 0;
+    background-color: #f5f5f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.logo i {
+    font-size: 30px;
+    color: #ccc;
+}
+
+.details {
+    overflow: hidden;
+}
+
+.name {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.contact, 
+.license {
+    color: #666;
+    font-size: 13px;
+    margin-bottom: 3px;
+}
+
+.type-badge {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #e3f2fd;
+    color: #2196f3;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    text-align: center;
+}
+
+.level-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+/* 由于CSS选择器不能以数字开头，使用属性选择器 */
+.level-badge[class*="5a"] {
+    background-color: #ffd700;
+    color: #856404;
+}
+
+.level-badge[class*="4a"] {
+    background-color: #ffe57f;
+    color: #856404;
+}
+
+.level-badge[class*="3a"] {
+    background-color: #fff8e1;
+    color: #856404;
+}
+
+.level-badge[class*="2a"] {
+    background-color: #f5f5f5;
+    color: #666;
+}
+
+.level-badge[class*="1a"] {
+    background-color: #f5f5f5;
+    color: #666;
+}
+
+.level-badge.none {
+    background-color: #eeeeee;
+    color: #999;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    text-align: center;
+}
+
+.status-badge.active {
+    background-color: #e8f5e9;
+    color: #4caf50;
+}
+
+.status-badge.pending {
+    background-color: #fff8e1;
+    color: #ffa000;
+}
+
+.status-badge.rejected {
+    background-color: #ffebee;
+    color: #f44336;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 5px;
+}
+
+.btn {
+    padding: 6px 10px;
+    border-radius: 4px;
+    color: white;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.btn-sm {
+    padding: 5px 8px;
+    font-size: 12px;
+}
+
+.btn-info {
+    background-color: #03a9f4;
+}
+
+.btn-info:hover {
+    background-color: #039be5;
+}
+
+.btn-primary {
+    background-color: #2196f3;
+}
+
+.btn-primary:hover {
+    background-color: #1e88e5;
+}
+
+.btn-success {
+    background-color: #4caf50;
+}
+
+.btn-success:hover {
+    background-color: #43a047;
+}
+
+.btn-warning {
+    background-color: #ff9800;
+}
+
+.btn-warning:hover {
+    background-color: #f57c00;
+}
+
+.btn-danger {
+    background-color: #f44336;
+}
+
+.btn-danger:hover {
+    background-color: #e53935;
+}
+
+.loading {
+    text-align: center;
+    padding: 40px 0;
+    color: #666;
+}
+
+.spinner {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    border-top-color: #2196f3;
+    animation: spin 1s ease-in-out infinite;
+    margin-bottom: 10px;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.no-data {
+    text-align: center;
+    padding: 40px 0;
+    color: #999;
+}
+
+.no-data i {
+    font-size: 48px;
+    margin-bottom: 15px;
+    color: #ddd;
+}
+
+.no-data p {
+    font-size: 16px;
+    margin: 0;
+}
+
+.error-message {
+    text-align: center;
+    padding: 20px;
+    color: #f44336;
+}
+
+.error-message i {
+    font-size: 24px;
+    margin-right: 10px;
+}
+
+/* 分页 */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.prev-btn,
+.next-btn {
+    padding: 8px 15px;
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.3s ease;
+}
+
+.prev-btn:hover:not(:disabled),
+.next-btn:hover:not(:disabled) {
+    background-color: #e0e0e0;
+}
+
+.prev-btn:disabled,
+.next-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.prev-btn i {
+    margin-right: 5px;
+}
+
+.next-btn i {
+    margin-left: 5px;
+}
+
+.page-info {
+    margin: 0 15px;
+    font-size: 14px;
+    color: #666;
+}
+
+.page-info span {
+    color: #2196f3;
+    font-weight: 600;
+}
+
+/* 响应式布局 */
+@media (max-width: 1200px) {
+    .filter-section {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .filter-group {
+        width: 100%;
+    }
+    
+    .filter-group select {
+        flex: 1;
+    }
+    
+    .search-section {
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+    }
+    
+    .search-input {
+        width: 100%;
+    }
+    
+    .action-buttons {
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 768px) {
+    .filter-bar {
+        padding: 15px;
+    }
+    
+    .agency-list th,
+    .agency-list td {
+        padding: 10px 15px;
+    }
+    
+    .th-type,
+    .th-level,
+    .th-trips {
+        display: none;
+    }
+    
+    .td-info {
+        max-width: 150px;
+    }
+} 

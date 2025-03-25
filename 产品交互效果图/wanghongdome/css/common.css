@@ -131,7 +131,7 @@ body {
 }
 
 /* 筛选标签 */
-.filter-bar {
+.filter-bar1 {
     position: sticky;
     top: 56px;
     width: 100%;
@@ -140,6 +140,7 @@ body {
     z-index: 90;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
+
 
 .filter-scroll {
     display: flex;
@@ -302,19 +303,22 @@ body {
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: rgba(0, 0, 0, 0.7);
+    transform: translate(-50%, -50%) scale(0.8);
+    background-color: rgba(0, 0, 0, 0.75);
     color: white;
-    padding: 12px 24px;
-    border-radius: 24px;
-    font-size: 14px;
-    z-index: 1000;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 15px;
+    max-width: 85%;
+    text-align: center;
+    z-index: 10000;
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.3s, transform 0.3s;
 }
 
 .toast.show {
     opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
 }
 
 /* 加载动画 */

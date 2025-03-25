@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>行程记录 - 网红旅行</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css">
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/trip-record.css">
+    <link rel="stylesheet" href="../css/components.css">
+</head>
+<body>
+    <div id="app" class="page-content">
+        <!-- 行程图片轮播 -->
+        <div class="trip-images">
+            <div class="swiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide" v-for="(image, index) in trip.images" :key="index">
+                        <img :src="image" :alt="trip.title + ' 图片 ' + (index + 1)">
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+            <div class="back-btn" @click="goBack">
+                <i class="bi bi-arrow-left"></i>
+            </div>
+            <div class="share-btn" @click="shareTrip">
+                <i class="bi bi-share"></i>
+            </div>
+            <!-- 已结束标记 -->
+            <div class="completed-tag">已结束</div>
+        </div>
+        
+        <!-- 行程标题和基本信息 -->
+        <div class="trip-header">
+            <div class="trip-title">{{ trip.title }}</div>
+            <div class="trip-info">
+                <div class="trip-info-item">
+                    <i class="bi bi-geo-alt"></i>
+                    <span>{{ trip.destination }}</span>
+                </div>
+                <div class="trip-info-item">
+                    <i class="bi bi-calendar-event"></i>
+                    <span>{{ trip.date }}</span>
+                </div>
+                <div class="trip-info-item">
+                    <i class="bi bi-clock"></i>
+                    <span>{{ trip.duration }}</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 统计数据 -->
+        <div class="stats-section">
+            <div class="stat-item">
+                <div class="stat-value">{{ trip.totalParticipants }}</div>
+                <div class="stat-label">参与人数</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">{{ trip.contentCount }}</div>
+                <div class="stat-label">内容产出</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">{{ trip.totalCommission }}元</div>
+                <div class="stat-label">获得佣金</div>
+            </div>
+        </div>
+        
+        <!-- 行程评价 -->
+        <div class="rating-section">
+            <div class="section-title">行程评价</div>
+            <div class="rating-overview">
+                <div class="rating-score">{{ trip.rating.toFixed(1) }}</div>
+                <div class="rating-stars">
+                    <i class="bi bi-star-fill" v-for="n in Math.floor(trip.rating)" :key="'star-' + n"></i>
+                    <i class="bi bi-star-half" v-if="trip.rating % 1 >= 0.5"></i>
+                    <i class="bi bi-star" v-for="n in Math.floor(5 - trip.rating)" :key="'empty-' + n"></i>
+                </div>
+                <div class="rating-count">{{ trip.ratingCount }}人评价</div>
+            </div>
+            <div class="rating-tags">
+                <div class="rating-tag" v-for="tag in trip.ratingTags" :key="tag.name">
+                    {{ tag.name }} {{ tag.count }}
+                </div>
+            </div>
+        </div>
+        
+        <!-- 内容产出 -->
+        <div class="content-section">
+            <div class="section-title">内容产出</div>
+            <div class="content-list" v-if="trip.contents.length > 0">
+                <div class="content-item" v-for="content in trip.contents" :key="content.id">
+                    <div class="content-header">
+                        <div class="content-creator">
+                            <img :src="content.creatorAvatar" :alt="content.creatorName" class="creator-avatar">
+                            <div class="creator-info">
+                                <div class="creator-name">{{ content.creatorName }}</div>
+                                <div class="content-platform">{{ content.platform }}</div>
+                            </div>
+                        </div>
+                        <div class="content-stats">
+                            <div class="content-stat">
+                                <i class="bi bi-heart"></i>
+                                <span>{{ formatNumber(content.likes) }}</span>
+                            </div>
+                            <div class="content-stat">
+                                <i class="bi bi-chat"></i>
+                                <span>{{ formatNumber(content.comments) }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content-thumbnail" @click="viewContent(content.url)">
+                        <img :src="content.thumbnail" :alt="content.title">
+                        <div class="content-play-icon" v-if="content.type === 'video'">
+                            <i class="bi bi-play-circle-fill"></i>
+                        </div>
+                    </div>
+                    <div class="content-title">{{ content.title }}</div>
+                    <div class="content-date">{{ content.date }}</div>
+                </div>
+            </div>
+            <div class="empty-content" v-else>
+                <i class="bi bi-camera"></i>
+                <p>暂无内容产出</p>
+            </div>
+        </div>
+        
+        <!-- 行程内容 -->
+        <div class="trip-content">
+            <!-- 行程描述 -->
+            <div class="section-title">行程介绍</div>
+            <div class="trip-description">{{ trip.description }}</div>
+            
+            <!-- 行程安排 -->
+            <div class="section-title">行程安排</div>
+            <div class="schedule-list">
+                <div class="schedule-item" v-for="item in trip.schedule">
+                    <div class="schedule-time">{{ item.time }}</div>
+                    <div class="schedule-content">
+                        <div class="schedule-activity">{{ item.activity }}</div>
+                        <div class="schedule-description">{{ item.description }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 评价和反馈 -->
+        <div class="feedback-section" v-if="trip.feedback">
+            <div class="section-title">我的评价</div>
+            <div class="my-feedback">
+                <div class="feedback-rating">
+                    <span class="feedback-rating-label">总体评分：</span>
+                    <div class="feedback-rating-stars">
+                        <i class="bi bi-star-fill" v-for="n in trip.feedback.rating" :key="'my-star-' + n"></i>
+                        <i class="bi bi-star" v-for="n in 5 - trip.feedback.rating" :key="'my-empty-' + n"></i>
+                    </div>
+                </div>
+                <div class="feedback-content">
+                    <p>{{ trip.feedback.content }}</p>
+                </div>
+                <div class="feedback-date">{{ trip.feedback.date }}</div>
+            </div>
+        </div>
+        
+        <!-- 底部按钮 -->
+        <div class="bottom-bar">
+            <button class="primary-btn" @click="goToSimilarTrips">查看相似行程</button>
+        </div>
+    </div>
+    
+    <script src="../libs/vue.global.prod.min.js"></script>
+    <script src="../libs1/swiper-bundle.min.js"></script>
+    <script src="../js/trip-record.js"></script>
+</body>
+</html> 

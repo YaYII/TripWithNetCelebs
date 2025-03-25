@@ -13,7 +13,7 @@
     <div id="app" class="page-content">
         <!-- 顶部导航栏 -->
         <header class="header">
-            <h1 class="page-title">行程列表</h1>
+            <h1 class="page-title">{{ pageTitle }}</h1>
             <div class="search-icon" @click="toggleSearchBar">
                 <i class="bi bi-search"></i>
             </div>
@@ -43,7 +43,7 @@
         </div>
         
         <!-- 即将开始的行程 -->
-        <div v-if="upcomingTrips.length > 0" class="trip-section">
+        <div v-if="upcomingTrips.length > 0 && (source === 'main' || source === 'profile')" class="trip-section">
             <div class="section-header">
                 <h2>即将开始的行程</h2>
             </div>
@@ -71,64 +71,23 @@
                         </div>
                         <div class="trip-stats">
                             <div class="trip-commission">佣金: ¥{{ trip.commission }}</div>
-                            <div class="trip-participants">
+                            <div class="trip-participants" v-if="trip.hasInfluencer">
                                 <span class="current">{{ trip.currentParticipants }}</span>/<span class="max">{{ trip.maxParticipants }}</span>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- 推荐行程 -->
-        <div class="trip-section">
-            <div class="section-header">
-                <h2>推荐行程</h2>
-            </div>
-            <div class="trip-list">
-                <div class="trip-card" v-for="trip in recommendedTrips" :key="trip.id" @click="viewTripDetail(trip.id)">
-                    <div class="trip-image">
-                        <img :src="trip.image" :alt="trip.title">
-                        <div class="trip-status" :class="trip.status.type">{{ trip.status.text }}</div>
-                    </div>
-                    <div class="trip-info">
-                        <div class="trip-title">{{ trip.title }}</div>
-                        <div class="trip-details">
-                            <div class="trip-location">
-                                <i class="bi bi-geo-alt"></i> {{ trip.location }}
-                            </div>
-                            <div class="trip-date">
-                                <i class="bi bi-calendar3"></i> {{ trip.date }}
-                            </div>
-                        </div>
-                        <div class="trip-requirements" v-if="trip.requirements">
-                            <div class="requirement-tag" v-for="req in trip.requirements" :key="req">{{ req }}</div>
-                        </div>
-                        <div class="trip-stats">
-                            <div class="trip-commission">佣金: ¥{{ trip.commission }}</div>
-                            <div class="trip-participants">
-                                <span class="current">{{ trip.currentParticipants }}</span>/<span class="max">{{ trip.maxParticipants }}</span>
+                            <div class="trip-status-text" v-else>
+                                暂无网红报名
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            
-            <!-- 空状态 -->
-            <div class="empty-state" v-if="filteredTrips.length === 0">
-                <div class="empty-icon">
-                    <i class="bi bi-calendar-x"></i>
-                </div>
-                <div class="empty-text">没有找到符合条件的行程</div>
-                <button class="reset-button" @click="resetFilters">重置筛选条件</button>
             </div>
         </div>
     </div>
     
     <!-- 底部导航栏组件 -->
-    <iframe src="../components/bottom-nav.html" class="bottom-nav-container" frameborder="0"></iframe>
+    <iframe v-if="showBottomNav" src="../components/bottom-nav.html" class="bottom-nav-container" frameborder="0"></iframe>
     
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="../libs/vue.global.prod.min.js"></script>
     <script src="../js/trip-list.js"></script>
 </body>
 </html> 

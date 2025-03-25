@@ -1,0 +1,290 @@
+/* 景点行程页面样式 */
+
+/* 景点封面 */
+.destination-cover {
+    position: relative;
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 20px;
+    margin-bottom: 15px;
+}
+
+.cover-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.7));
+    z-index: 1;
+}
+
+.back-button {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    z-index: 2;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 20px;
+}
+
+.destination-info {
+    position: relative;
+    z-index: 2;
+}
+
+.destination-name {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.destination-meta {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 14px;
+}
+
+.destination-meta i {
+    margin-right: 5px;
+}
+
+/* 搜索容器 */
+.search-container {
+    padding: 0 15px;
+    margin-bottom: 15px;
+}
+
+.search-box {
+    position: relative;
+    width: 100%;
+    height: 40px;
+    background-color: #f5f5f5;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+}
+
+.search-icon {
+    color: #888;
+    margin-right: 10px;
+}
+
+.search-input {
+    flex: 1;
+    height: 100%;
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: 14px;
+    color: #333;
+}
+
+.search-clear {
+    color: #888;
+    cursor: pointer;
+}
+
+/* 标签过滤器 */
+.filter-bar {
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 0 15px 10px;
+    margin-bottom: 10px;
+    scrollbar-width: none; /* Firefox */
+}
+
+.filter-bar::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}
+
+.tag {
+    padding: 6px 15px;
+    background-color: #f5f5f5;
+    border-radius: 20px;
+    margin-right: 10px;
+    font-size: 13px;
+    color: #666;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.tag.active {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+/* 景点简介 */
+.destination-intro {
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    margin: 0 15px 20px;
+}
+
+.destination-intro h3 {
+    font-size: 16px;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.destination-intro p {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #666;
+    margin: 0;
+}
+
+/* 行程部分 */
+.trip-section {
+    margin-bottom: 20px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 15px;
+    margin-bottom: 15px;
+}
+
+.section-header h2 {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+
+.trip-count-badge {
+    background-color: #f5f5f5;
+    color: #666;
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 12px;
+}
+
+/* 行程列表 */
+.trip-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 0 15px;
+}
+
+.trip-card {
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease;
+}
+
+.trip-card:active {
+    transform: scale(0.98);
+}
+
+/* 空状态 */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 15px;
+    text-align: center;
+}
+
+.empty-icon {
+    font-size: 50px;
+    color: #ccc;
+    margin-bottom: 15px;
+}
+
+.empty-text {
+    font-size: 14px;
+    color: #999;
+    margin-bottom: 15px;
+}
+
+.reset-button {
+    padding: 8px 20px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+/* 相关景点 */
+.related-destinations {
+    margin-bottom: 30px;
+}
+
+.destination-scroll {
+    display: flex;
+    overflow-x: auto;
+    padding: 0 15px 10px;
+    scrollbar-width: none; /* Firefox */
+}
+
+.destination-scroll::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}
+
+.destination-card {
+    flex: 0 0 auto;
+    width: 140px;
+    margin-right: 12px;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.destination-card .destination-image {
+    width: 100%;
+    height: 100px;
+    overflow: hidden;
+}
+
+.destination-card .destination-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.destination-card .destination-info {
+    padding: 10px;
+}
+
+.destination-card .destination-name {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #333;
+    text-shadow: none;
+}
+
+.destination-card .trip-count {
+    font-size: 12px;
+    color: #999;
+} 

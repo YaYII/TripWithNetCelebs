@@ -1,0 +1,444 @@
+/**
+ * 网红管理列表页样式
+ * @description 定义了网红管理列表页面的所有组件样式
+ */
+
+/* 内容区域 */
+.content-wrapper {
+    padding: 20px;
+}
+
+/* 筛选区域 */
+.filter-section {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px;
+}
+
+.filter-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+}
+
+.filter-item {
+    display: flex;
+    align-items: center;
+}
+
+.filter-item label {
+    margin-right: 8px;
+    color: #555;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.filter-item select {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+    min-width: 120px;
+}
+
+.search-box {
+    flex-grow: 1;
+    position: relative;
+    max-width: 300px;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 8px 40px 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.search-btn {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    border: none;
+    background: none;
+    padding: 0 15px;
+    color: #666;
+    cursor: pointer;
+}
+
+.search-btn:hover {
+    color: #2196f3;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background-color 0.3s, color 0.3s;
+    text-decoration: none;
+}
+
+.btn i {
+    margin-right: 8px;
+    font-size: 16px;
+}
+
+.btn-primary {
+    background-color: #4caf50;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #43a047;
+}
+
+/* 数据表格 */
+.data-table-container {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.data-table th,
+.data-table td {
+    padding: 15px 20px;
+    text-align: left;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.data-table th {
+    background-color: #f9f9f9;
+    font-weight: 600;
+    color: #555;
+}
+
+.data-table tbody tr:hover {
+    background-color: #f9f9f9;
+}
+
+/* 保留其他样式，保持不变 */
+.th-id {
+    width: 80px;
+}
+
+.th-info {
+    width: 25%;
+}
+
+.th-platform {
+    width: 15%;
+}
+
+.th-fans {
+    width: 12%;
+}
+
+.th-trips {
+    width: 10%;
+}
+
+.th-status {
+    width: 10%;
+}
+
+.th-actions {
+    width: 15%;
+}
+
+.td-info {
+    max-width: 300px;
+}
+
+.influencer-info {
+    display: flex;
+    align-items: center;
+}
+
+.avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 15px;
+    flex-shrink: 0;
+}
+
+.avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.details {
+    overflow: hidden;
+}
+
+.nickname {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.real-name {
+    color: #666;
+    font-size: 13px;
+    margin-bottom: 5px;
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.tag {
+    display: inline-block;
+    padding: 3px 8px;
+    background-color: #f0f0f0;
+    color: #666;
+    border-radius: 20px;
+    font-size: 12px;
+}
+
+.platform-icon {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+}
+
+.platform-icon i {
+    margin-right: 8px;
+    font-size: 16px;
+}
+
+.platform-icon.douyin i {
+    color: #000000;
+}
+
+.platform-icon.kuaishou i {
+    color: #ff4e00;
+}
+
+.platform-icon.xiaohongshu i {
+    color: #f40b32;
+}
+
+.platform-icon.bilibili i {
+    color: #fb7299;
+}
+
+.platform-icon.weibo i {
+    color: #e6162d;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    text-align: center;
+}
+
+.status-badge.active {
+    background-color: #e8f5e9;
+    color: #4caf50;
+}
+
+.status-badge.pending {
+    background-color: #fff8e1;
+    color: #ffa000;
+}
+
+.status-badge.rejected {
+    background-color: #ffebee;
+    color: #f44336;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 5px;
+}
+
+.btn-sm {
+    padding: 5px 8px;
+    font-size: 12px;
+}
+
+.btn-info {
+    background-color: #03a9f4;
+}
+
+.btn-info:hover {
+    background-color: #039be5;
+}
+
+.btn-success {
+    background-color: #4caf50;
+}
+
+.btn-success:hover {
+    background-color: #43a047;
+}
+
+.btn-warning {
+    background-color: #ff9800;
+}
+
+.btn-warning:hover {
+    background-color: #f57c00;
+}
+
+.btn-danger {
+    background-color: #f44336;
+}
+
+.btn-danger:hover {
+    background-color: #e53935;
+}
+
+.no-data {
+    text-align: center;
+    padding: 40px 0;
+    color: #999;
+}
+
+.no-data i {
+    font-size: 48px;
+    margin-bottom: 15px;
+    color: #ddd;
+}
+
+.no-data p {
+    font-size: 16px;
+    margin: 0;
+}
+
+/* 分页 */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.prev-btn,
+.next-btn {
+    padding: 8px 15px;
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.3s ease;
+}
+
+.prev-btn:hover:not(:disabled),
+.next-btn:hover:not(:disabled) {
+    background-color: #e0e0e0;
+}
+
+.prev-btn:disabled,
+.next-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.prev-btn i {
+    margin-right: 5px;
+}
+
+.next-btn i {
+    margin-left: 5px;
+}
+
+.page-info {
+    margin: 0 15px;
+    font-size: 14px;
+    color: #666;
+}
+
+.page-info span {
+    color: #2196f3;
+    font-weight: 600;
+}
+
+/* 响应式布局 */
+@media (max-width: 1200px) {
+    .filter-section {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .filter-group {
+        width: 100%;
+    }
+    
+    .filter-group select {
+        flex: 1;
+    }
+    
+    .search-section {
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+    }
+    
+    .search-input {
+        width: 100%;
+    }
+    
+    .action-buttons {
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 768px) {
+    .filter-bar {
+        padding: 15px;
+    }
+    
+    .influencer-list th,
+    .influencer-list td {
+        padding: 10px 15px;
+    }
+    
+    .th-platform,
+    .th-fans,
+    .th-trips {
+        display: none;
+    }
+    
+    .td-info {
+        max-width: 150px;
+    }
+} 

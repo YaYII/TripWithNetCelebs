@@ -212,12 +212,17 @@ createApp({
         
         // 跳转到行程列表
         goToTrips() {
-            window.location.href = 'trip-list.html';
+            window.location.href = 'trip-list.html?source=main';
         },
         
         // 跳转到个人中心
         goToProfile() {
             window.location.href = 'profile.html';
+        },
+        
+        // 继续探索
+        continueExplore() {
+            window.location.href = 'trip-list.html?source=main';
         }
     },
     mounted() {

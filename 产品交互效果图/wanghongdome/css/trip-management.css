@@ -170,6 +170,22 @@
     color: #fa8c16;
 }
 
+/* 新增样式 */
+.trip-status.recruiting {
+    background-color: #f6ffed;
+    color: #52c41a;
+}
+
+.trip-status.ongoing {
+    background-color: #f9f0ff;
+    color: #722ed1;
+}
+
+.trip-status.completed {
+    background-color: #f5f5f5;
+    color: #666666;
+}
+
 .trip-content {
     display: flex;
     padding: 15px;

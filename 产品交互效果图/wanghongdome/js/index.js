@@ -9,11 +9,11 @@ createApp({
                 id: 1,
                 name: '旅行达人小王',
                 avatar: '../img/potato.png',
-                followers: 1560,
-                earnings: 15600,
+                followers: 45,
+                earnings: 45*100,
                 completedTrips: 15,
                 ongoingTrips: 3,
-                totalEarnings: 25680
+                totalEarnings: 45*100
             },
             
             // 未读通知数量
@@ -57,6 +57,7 @@ createApp({
                     commission: '1,280',
                     currentParticipants: 27,
                     maxParticipants: 30,
+                    hasInfluencer: true,
                     status: {
                         type: 'hot',
                         text: '热门'
@@ -71,6 +72,7 @@ createApp({
                     commission: '1,500',
                     currentParticipants: 18,
                     maxParticipants: 25,
+                    hasInfluencer: false,
                     status: {
                         type: 'new',
                         text: '新上线'
@@ -85,6 +87,7 @@ createApp({
                     commission: '980',
                     currentParticipants: 12,
                     maxParticipants: 15,
+                    hasInfluencer: true,
                     status: {
                         type: 'limited',
                         text: '即将满员'
@@ -95,36 +98,42 @@ createApp({
             // 热门目的地
             popularDestinations: [
                 {
-                    id: 1,
+                    id: 'dest1',
                     name: '珠海长隆海洋王国',
                     image: '../img/test.png',
                     tripCount: 12
                 },
                 {
-                    id: 2,
+                    id: 'dest2',
                     name: '珠海外伶仃岛',
                     image: '../img/test.png',
                     tripCount: 8
                 },
                 {
-                    id: 3,
+                    id: 'dest3',
                     name: '珠海情侣路',
                     image: '../img/test.png',
                     tripCount: 10
                 },
                 {
-                    id: 4,
+                    id: 'dest4',
                     name: '珠海圆明新园',
                     image: '../img/test.png',
                     tripCount: 6
                 },
                 {
-                    id: 5,
+                    id: 'dest5',
                     name: '珠海横琴',
                     image: '../img/test.png',
                     tripCount: 9
                 }
-            ]
+            ],
+            
+            // 是否已登录
+            isLoggedIn: false,
+            
+            // 是否加载中
+            isLoading: true
         }
     },
     computed: {
@@ -204,6 +213,7 @@ createApp({
                         commission: '1,180',
                         currentParticipants: 15,
                         maxParticipants: 20,
+                        hasInfluencer: true,
                         status: {
                             type: 'hot',
                             text: '热门'
@@ -218,6 +228,7 @@ createApp({
                         commission: '980',
                         currentParticipants: 8,
                         maxParticipants: 15,
+                        hasInfluencer: false,
                         status: {
                             type: 'new',
                             text: '新上线'
@@ -267,6 +278,11 @@ createApp({
             window.location.href = 'all-trips.html';
         },
         
+        // 跳转到全部目的地页面
+        goToAllDestinations() {
+            window.location.href = 'all-destinations.html';
+        },
+        
         // 前往订单中心页面
         goToOrders() {
             window.location.href = 'orders.html';
@@ -276,6 +292,16 @@ createApp({
         goToEarnings() {
             // 实际项目中应该跳转到收益管理页面
             this.showToast('收益管理功能即将上线');
+        },
+        
+        // 前往服务粉丝列表页面
+        goToFansServed() {
+            window.location.href = 'fans-served.html';
+        },
+        
+        // 前往行程列表页面
+        goToTrips() {
+            window.location.href = 'trip-list-success.html';
         },
         
         // 前往粉丝数据页面
@@ -289,14 +315,50 @@ createApp({
             window.location.href = 'profile.html';
         },
         
-        // 查看行程详情
+        /**
+         * 查看行程详情
+         * @param {string} tripId 行程ID
+         */
         viewTripDetail(tripId) {
-            window.location.href = `trip-detail.html?id=${tripId}`;
+            // 使用AppRouter导航到推荐行程的行程详情页
+            if (window.AppRouter) {
+                // 查找行程，获取推荐原因
+                const trip = this.recommendedTrips.find(trip => trip.id === tripId);
+                let recommendReason = '';
+                
+                if (trip) {
+                    // 根据不同的状态设置不同的推荐原因
+                    if (trip.status.type === 'hot') {
+                        recommendReason = '热门行程，广受网红欢迎';
+                    } else if (trip.status.type === 'new') {
+                        recommendReason = '新上线行程，抢先体验';
+                    } else if (trip.status.type === 'limited') {
+                        recommendReason = '名额有限，赶快报名';
+                    } else {
+                        recommendReason = '根据您的偏好推荐';
+                    }
+                }
+                
+                window.AppRouter.goToTripFromRecommended(tripId, recommendReason);
+                return;
+            }
+            
+            // 兼容旧版：直接导航到行程详情页
+            window.location.href = `trip-detail-success.html?id=${tripId}`;
         },
         
-        // 查看目的地相关行程
+        // 查看全部行程
+        viewAllTrips() {
+            window.location.href = 'trip-list.html?source=main';
+        },
+        
+        /**
+         * 查看景点行程
+         * @param {string} destinationId 景点ID
+         */
         viewDestinationTrips(destinationId) {
-            window.location.href = `trip-list.html?destination=${destinationId}`;
+            // 跳转到目的地详情页
+            window.location.href = `destination-detail.html?id=${destinationId}`;
         },
         
         // 显示提示信息
@@ -319,6 +381,9 @@ createApp({
         
         // 初始化页面
         initPage() {
+            // 检查登录状态
+            this.checkLoginStatus();
+            
             // 从本地存储加载用户数据
             const savedUser = localStorage.getItem('influencer');
             if (savedUser) {
@@ -349,6 +414,28 @@ createApp({
             }
         },
         
+        // 检查登录状态
+        checkLoginStatus() {
+            // 从localStorage获取登录状态
+            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            
+            // 如果未登录，重定向到登录页面
+            if (!isLoggedIn) {
+                window.location.href = 'login.html?redirect=' + encodeURIComponent(window.location.href);
+                return;
+            }
+            
+            // 获取用户信息
+            const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
+            
+            // 更新页面用户信息
+            if (userInfo && userInfo.id) {
+                this.influencer.name = userInfo.name || this.influencer.name;
+                this.influencer.avatar = userInfo.avatar || this.influencer.avatar;
+                this.isLoggedIn = true;
+            }
+        },
+        
         // 加载默认数据（珠海）
         loadDefaultData() {
             // 恢复珠海的原始推荐行程数据
@@ -362,6 +449,7 @@ createApp({
                     commission: '1,280',
                     currentParticipants: 27,
                     maxParticipants: 30,
+                    hasInfluencer: true,
                     status: {
                         type: 'hot',
                         text: '热门'
@@ -376,6 +464,7 @@ createApp({
                     commission: '1,500',
                     currentParticipants: 18,
                     maxParticipants: 25,
+                    hasInfluencer: false,
                     status: {
                         type: 'new',
                         text: '新上线'
@@ -390,6 +479,7 @@ createApp({
                     commission: '980',
                     currentParticipants: 12,
                     maxParticipants: 15,
+                    hasInfluencer: true,
                     status: {
                         type: 'limited',
                         text: '即将满员'

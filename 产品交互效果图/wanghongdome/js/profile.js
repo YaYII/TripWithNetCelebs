@@ -52,7 +52,7 @@ createApp({
                     icon: 'bi-people',
                     title: '我的粉丝',
                     badge: 0,
-                    link: '#'
+                    link: 'fans-served.html'
                 },
                 {
                     id: 'settings',
@@ -124,14 +124,33 @@ createApp({
             window.location.href = 'index.html';
         },
         
-        // 跳转到行程列表
-        goToTrips() {
-            window.location.href = 'trip-list.html';
+        // 查看我的行程
+        viewMyTrips() {
+            window.location.href = 'trip-list.html?source=profile';
         },
         
         // 跳转到订单中心
         goToOrders() {
             window.location.href = 'orders.html';
+        },
+        
+        /**
+         * 退出登录
+         * 清除本地存储的用户信息并跳转到登录页面
+         */
+        logout() {
+            // 清除本地存储中的用户信息
+            localStorage.removeItem('userInfo');
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('loginTimestamp');
+            
+            // 显示退出成功提示
+            this.showToast('退出登录成功');
+            
+            // 延迟跳转到登录页面
+            setTimeout(() => {
+                window.location.href = 'login.html';
+            }, 1500);
         },
         
         // 加载用户数据
@@ -147,6 +166,14 @@ createApp({
             const orderMenuItem = this.menuItems.find(item => item.id === 'orders');
             if (orderMenuItem) {
                 orderMenuItem.badge = pendingOrders;
+            }
+            
+            // 检查用户登录状态
+            const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+            if (userInfo) {
+                // 更新用户信息
+                this.user.name = userInfo.name || this.user.name;
+                this.user.avatar = userInfo.avatar || this.user.avatar;
             }
         }
     },

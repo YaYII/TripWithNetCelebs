@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>珠海景点</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/all-destinations.css">
+    <script src="../libs1/vue.global.min.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- 加载中 -->
+        <div class="loading-overlay" v-if="isLoading">
+            <div class="loading-spinner"></div>
+            <div>加载中...</div>
+        </div>
+        
+        <!-- 页面内容 -->
+        <div class="page-container" v-else>
+            <!-- 顶部导航栏 -->
+            <div class="header">
+                <div class="back-button" @click="goBack">
+                    <i class="bi bi-arrow-left"></i>
+                </div>
+                <h1 class="page-title">{{ pageTitle }}</h1>
+                <div class="placeholder"></div>
+            </div>
+            
+            <!-- 搜索栏 -->
+            <div class="search-container">
+                <div class="search-box">
+                    <i class="bi bi-search search-icon"></i>
+                    <input 
+                        type="text" 
+                        v-model="searchQuery" 
+                        placeholder="搜索珠海景点" 
+                        class="search-input"
+                    >
+                    <i 
+                        class="bi bi-x-circle clear-icon" 
+                        v-if="searchQuery" 
+                        @click="resetSearch"
+                    ></i>
+                </div>
+            </div>
+            
+            <!-- 过滤标签区域 -->
+            <div class="filter-bar">
+                <div v-for="tag in filterTags" 
+                     :key="tag" 
+                     :class="['filter-tag', { active: activeTag === tag }]" 
+                     @click="switchTag(tag)"
+                     :data-tag="tag">
+                    {{ tag }}
+                </div>
+            </div>
+            
+            <!-- 目的地列表 -->
+            <div class="destinations-container">
+                <!-- 景点网格 -->
+                <div class="destinations-grid" v-if="filteredDestinations.length > 0">
+                    <div class="destination-card" 
+                         v-for="destination in filteredDestinations" 
+                         :key="destination.id"
+                         @click="goToDestination(destination.id)">
+                        <div class="destination-image" :style="{ backgroundImage: `url(${destination.image})` }"></div>
+                        <div class="destination-info">
+                            <div class="destination-name">{{ destination.name }}</div>
+                            <div class="destination-meta">
+                                <span class="trip-count">{{ destination.tripCount }}个行程</span>
+                                <span class="commission">赚{{ formatCommission(destination.minCommission) }}-{{ formatCommission(destination.maxCommission) }}</span>
+                            </div>
+                            <div class="destination-description">{{ destination.description }}</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 空状态 -->
+                <div v-else class="empty-state">
+                    <i class="bi bi-map"></i>
+                    <p>没有找到相关景点</p>
+                    <button class="reset-button" @click="activeTag = '全部'; searchQuery = ''">重置筛选条件</button>
+                </div>
+            </div>
+            
+            <!-- 底部导航 -->
+            <!-- @include file="bottom-nav.html" -->
+        </div>
+    </div>
+    
+    <script src="../js/all-destinations.js"></script>
+</body>
+</html> 

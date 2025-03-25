@@ -77,6 +77,7 @@ body {
     padding: 12px 15px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     box-sizing: border-box;
     transition: transform 0.3s ease;
@@ -104,6 +105,28 @@ body {
     font-weight: 600;
     color: white;
     margin-left: 0px;
+    flex: 1;
+    text-align: center;
+}
+
+/* 导航栏中的分享按钮样式 */
+.nav-bar .share-button {
+    width: 32px;
+    height: 32px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: white;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.nav-bar .share-button:active {
+    transform: scale(0.9);
+    background: rgba(255, 255, 255, 0.25);
 }
 
 /* Banner轮播样式 */
@@ -179,6 +202,26 @@ body {
     color: #ff6b6b;
     transition: all 0.3s ease;
     margin-left: 15px;
+}
+
+/* 分享按钮样式 */
+.share-button {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(59, 130, 246, 0.1);
+    border-radius: 50%;
+    cursor: pointer;
+    color: #3b82f6;
+    transition: all 0.3s ease;
+    margin-left: 15px;
+}
+
+.share-button:active {
+    transform: scale(0.9);
+    background: rgba(59, 130, 246, 0.2);
 }
 
 .favorite-button:active {

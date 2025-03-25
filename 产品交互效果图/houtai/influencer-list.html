@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网红管理 - 约旅网红平台后台</title>
+    <link rel="stylesheet" href="css/backend.css">
+    <link rel="stylesheet" href="css/influencer-list.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css">
+    <script src="libs1/vue.global.prod.min.js"></script>
+    <style>
+        /* iframe导航样式 */
+        #nav-frame {
+            width: 240px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            border: none;
+            z-index: 200;
+        }
+        /* 调整主内容区域 */
+        .main-content {
+            margin-left: 240px;
+            padding-top: 70px; /* 为顶部导航栏留出空间 */
+        }
+        
+        /* 顶部导航iframe样式 */
+        #top-nav-frame {
+            height: 70px;
+            width: calc(100% - 240px);
+            position: fixed;
+            top: 0;
+            left: 240px;
+            border: none;
+            z-index: 100;
+        }
+        
+        /* 移动端响应式调整 */
+        @media (max-width: 992px) {
+            #nav-frame {
+                width: 70px;
+            }
+            #top-nav-frame {
+                width: calc(100% - 70px);
+                left: 70px;
+            }
+            .main-content {
+                margin-left: 70px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="app" class="admin-container">
+        <!-- 使用iframe加载侧边导航栏 -->
+        <iframe id="nav-frame" src="components/iframe-sidebar.html" frameborder="0"></iframe>
+        
+        <!-- 使用iframe加载顶部导航栏 -->
+        <iframe id="top-nav-frame" src="components/iframe-topnav.html" frameborder="0"></iframe>
+
+        <!-- 主内容区 -->
+        <div class="main-content">
+            <div class="content-wrapper">
+                <!-- 筛选区 -->
+                <div class="filter-section">
+                    <div class="filter-row">
+                        <div class="filter-item">
+                            <label>网红状态:</label>
+                            <select v-model="filters.status">
+                                <option value="all">全部状态</option>
+                                <option value="active">已认证</option>
+                                <option value="pending">待认证</option>
+                                <option value="rejected">已拒绝</option>
+                                <option value="blocked">已封禁</option>
+                            </select>
+                        </div>
+                        <div class="filter-item">
+                            <label>粉丝数量:</label>
+                            <select v-model="filters.fansCount">
+                                <option value="all">全部</option>
+                                <option value="1000000+">100万以上</option>
+                                <option value="500000-1000000">50-100万</option>
+                                <option value="100000-500000">10-50万</option>
+                                <option value="50000-100000">5-10万</option>
+                                <option value="10000-50000">1-5万</option>
+                                <option value="0-10000">1万以下</option>
+                            </select>
+                        </div>
+                        <div class="filter-item">
+                            <label>平台类型:</label>
+                            <select v-model="filters.platform">
+                                <option value="all">全部平台</option>
+                                <option value="douyin">抖音</option>
+                                <option value="kuaishou">快手</option>
+                                <option value="xiaohongshu">小红书</option>
+                                <option value="weibo">微博</option>
+                                <option value="bilibili">哔哩哔哩</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="filter-row">
+                        <div class="filter-item">
+                            <label>内容类型:</label>
+                            <select v-model="filters.contentType">
+                                <option value="all">全部类型</option>
+                                <option value="travel">旅游</option>
+                                <option value="food">美食</option>
+                                <option value="fashion">时尚</option>
+                                <option value="lifestyle">生活方式</option>
+                                <option value="photography">摄影</option>
+                            </select>
+                        </div>
+                        <div class="filter-item search-box">
+                            <input type="text" v-model="searchTerm" placeholder="搜索网红昵称、真实姓名、ID">
+                            <button @click="searchInfluencers" class="search-btn">
+                                <i class="ri-search-line"></i>
+                            </button>
+                        </div>
+                        <div class="filter-item">
+                            <a href="influencer-create.html" class="btn btn-primary">
+                                <i class="ri-add-line"></i> 添加网红
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 数据表格 -->
+                <div class="data-table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th class="th-id">ID</th>
+                                <th class="th-info">基本信息</th>
+                                <th class="th-platform">主要平台</th>
+                                <th class="th-fans">粉丝数</th>
+                                <th class="th-trips">参与行程</th>
+                                <th class="th-status">状态</th>
+                                <th class="th-actions">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="influencer in filteredInfluencers" :key="influencer.id">
+                                <td>{{ influencer.id }}</td>
+                                <td class="td-info">
+                                    <div class="influencer-info">
+                                        <div class="avatar">
+                                            <img :src="influencer.avatar" :alt="influencer.nickname">
+                                        </div>
+                                        <div class="details">
+                                            <div class="nickname">{{ influencer.nickname }}</div>
+                                            <div class="real-name">{{ influencer.realName }}</div>
+                                            <div class="tags">
+                                                <span v-for="tag in influencer.tags" class="tag">{{ tag }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="platform-icon" :class="influencer.platform">
+                                        <i :class="getPlatformIcon(influencer.platform)"></i>
+                                        {{ getPlatformName(influencer.platform) }}
+                                    </div>
+                                </td>
+                                <td>{{ formatFansCount(influencer.fansCount) }}</td>
+                                <td>{{ influencer.tripCount }}</td>
+                                <td>
+                                    <span class="status-badge" :class="influencer.status">
+                                        {{ getStatusText(influencer.status) }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <a :href="'influencer-detail.html?id=' + influencer.id" class="btn btn-sm btn-info" title="查看详情">
+                                            <i class="ri-eye-line"></i>
+                                        </a>
+                                        <a :href="'influencer-edit.html?id=' + influencer.id" class="btn btn-sm btn-primary" title="编辑">
+                                            <i class="ri-edit-line"></i>
+                                        </a>
+                                        <button v-if="influencer.status === 'pending'" @click="verifyInfluencer(influencer.id)" class="btn btn-sm btn-success" title="认证">
+                                            <i class="ri-check-line"></i>
+                                        </button>
+                                        <button v-if="influencer.status === 'pending'" @click="rejectInfluencer(influencer.id)" class="btn btn-sm btn-warning" title="拒绝">
+                                            <i class="ri-close-line"></i>
+                                        </button>
+                                        <button v-if="influencer.status === 'active'" @click="blockInfluencer(influencer.id)" class="btn btn-sm btn-danger" title="封禁">
+                                            <i class="ri-forbid-line"></i>
+                                        </button>
+                                        <button v-if="influencer.status === 'rejected'" @click="deleteInfluencer(influencer.id)" class="btn btn-sm btn-danger" title="删除">
+                                            <i class="ri-delete-bin-line"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr v-if="filteredInfluencers.length === 0">
+                                <td colspan="7" class="no-data">
+                                    <div>
+                                        <i class="ri-search-line"></i>
+                                        <p>暂无符合条件的网红数据</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- 分页 -->
+                <div class="pagination">
+                    <button class="prev-btn" @click="prevPage" :disabled="currentPage === 1">
+                        <i class="ri-arrow-left-s-line"></i> 上一页
+                    </button>
+                    <div class="page-info">
+                        第 <span>{{ currentPage }}</span> 页 / 共 <span>{{ totalPages }}</span> 页
+                    </div>
+                    <button class="next-btn" @click="nextPage" :disabled="currentPage === totalPages">
+                        下一页 <i class="ri-arrow-right-s-line"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/influencer-list.js"></script>
+</body>
+</html> 

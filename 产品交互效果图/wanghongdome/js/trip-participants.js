@@ -8,63 +8,41 @@ createApp({
             tripId: null,
             
             // 行程详情
-            trip: {
-                id: null,
-                title: '',
-                description: '',
-                destination: '',
-                date: '',
-                duration: '',
-                images: [],
-                currentParticipants: 0,
-                maxParticipants: 0,
-                enrollmentDeadline: ''
-            },
+            trip: null,
+            
+            // 行程是否有网红报名
+            hasInfluencer: false,
             
             // 参与者列表
             participants: [],
             
-            // 是否正在加载
-            loading: true,
+            // 加载状态
+            isLoading: true,
             
-            // 当前选中的标签
-            activeTab: 'all',
+            // 剩余天数
+            remainingDays: 0,
             
-            // 标签列表
-            tabs: [
-                { id: 'all', name: '全部' },
-                { id: 'paid', name: '已支付' },
-                { id: 'pending', name: '待支付' },
-                { id: 'cancelled', name: '已取消' }
-            ]
+            // 筛选状态
+            activeFilter: 'all',
+            
+            // 是否显示筛选标签
+            hasFilters: true,
+            
+            // 用户是否已报名
+            isEnrolled: false,
+            
+            // 已报名行程ID列表
+            enrolledTripIds: []
         }
     },
     computed: {
-        // 已支付的参与者数量
-        paidParticipants() {
-            return this.participants.filter(p => p.status === 'paid').length;
-        },
-        
-        // 距离报名截止还有多少天
-        daysUntilDeadline() {
-            const today = new Date();
-            const deadline = new Date(this.trip.enrollmentDeadline);
-            const diffTime = deadline - today;
-            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-            return diffDays > 0 ? diffDays : 0;
-        },
-        
-        // 根据当前选中的标签过滤参与者
+        // 根据筛选条件过滤参与者列表
         filteredParticipants() {
-            if (this.activeTab === 'all') {
+            if (this.activeFilter === 'all') {
                 return this.participants;
+            } else {
+                return this.participants.filter(p => p.status === this.activeFilter);
             }
-            return this.participants.filter(participant => participant.status === this.activeTab);
-        },
-        
-        // 是否有参与者
-        hasParticipants() {
-            return this.filteredParticipants.length > 0;
         }
     },
     methods: {
@@ -73,65 +51,188 @@ createApp({
             window.history.back();
         },
         
-        // 切换标签
-        switchTab(tabId) {
-            this.activeTab = tabId;
+        // 查看行程详情
+        viewTripDetail() {
+            window.location.href = `trip-detail.html?id=${this.tripId}&source=list`;
         },
         
-        // 获取标签数量
-        getTabCount(tabId) {
-            if (tabId === 'all') {
-                return this.participants.length;
+        // 筛选参与者
+        filterParticipants(filter) {
+            this.activeFilter = filter;
+        },
+        
+        // 格式化手机号码，隐藏中间四位
+        formatPhone(phone) {
+            if (!phone || phone.length !== 11) {
+                return phone;
             }
-            return this.participants.filter(p => p.status === tabId).length;
+            return phone.substr(0, 3) + '****' + phone.substr(7);
         },
         
-        // 获取标签空状态文本
-        getTabEmptyText() {
-            const textMap = {
-                'all': '报名者',
-                'paid': '已支付用户',
-                'pending': '待支付用户',
-                'cancelled': '已取消用户'
-            };
-            return textMap[this.activeTab] || '报名者';
+        // 初始化页面
+        initPage() {
+            // 从URL获取行程ID
+            const urlParams = new URLSearchParams(window.location.search);
+            // 支持两种参数名：tripId 和 id
+            this.tripId = urlParams.get('tripId') || urlParams.get('id');
+            
+            if (this.tripId) {
+                // 加载行程详情和参与者信息
+                this.loadTripData();
+            } else {
+                this.showToast('无效的行程ID');
+                setTimeout(() => {
+                    window.location.href = 'trip-list.html';
+                }, 1500);
+            }
         },
         
-        // 获取状态文本
-        getStatusText(status) {
-            const statusMap = {
-                'paid': '已支付',
-                'pending': '待支付',
-                'cancelled': '已取消'
-            };
-            return statusMap[status] || '未知状态';
+        // 加载行程数据
+        loadTripData() {
+            // 模拟数据加载
+            setTimeout(() => {
+                this.trip = {
+                    id: this.tripId,
+                    title: '珠海长隆海洋王国亲子2日游',
+                    date: '2024-06-15',
+                    image: '../img/test.png',
+                    currentParticipants: 8,
+                    maxParticipants: 20,
+                    enrolledPercentage: 40,
+                    status: {
+                        type: 'hot',
+                        text: '热门'
+                    }
+                };
+                
+                // 首先检查用户是否已报名
+                this.checkEnrollmentStatus();
+                
+                // 根据行程ID设置是否有网红报名
+                if (this.tripId === '101' || this.tripId === '103') {
+                    this.hasInfluencer = true;
+                    
+                    // 只有在用户已报名且有网红报名的情况下才加载参与者数据
+                    if (this.isEnrolled) {
+                        this.loadParticipantsData();
+                    } else {
+                        // 未报名时不显示参与者数据
+                        this.participants = [];
+                    }
+                } else {
+                    // 没有网红报名的情况
+                    this.hasInfluencer = false;
+                    this.participants = [];
+                }
+                
+                // 计算剩余天数
+                const tripDate = new Date(this.trip.date);
+                const currentDate = new Date();
+                const timeDiff = tripDate.getTime() - currentDate.getTime();
+                this.remainingDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+                
+                // 检查是否需要显示筛选标签
+                this.checkFilters();
+                
+                this.isLoading = false;
+            }, 1000);
         },
         
-        // 获取状态类名
-        getStatusClass(status) {
-            return status;
+        // 加载参与者数据
+        loadParticipantsData() {
+            // 模拟参与者数据
+            this.participants = [
+                {
+                    id: 'p001',
+                    name: '张小红',
+                    avatar: '../img/test.png',
+                    phone: '13812345678',
+                    status: 'confirmed',
+                    statusText: '已确认'
+                },
+                {
+                    id: 'p002',
+                    name: '李明',
+                    avatar: '../img/test.png',
+                    phone: '13987654321',
+                    status: 'confirmed',
+                    statusText: '已确认'
+                },
+                {
+                    id: 'p003',
+                    name: '王强',
+                    avatar: '../img/test.png',
+                    phone: '15912345678',
+                    status: 'pending',
+                    statusText: '待确认'
+                },
+                {
+                    id: 'p004',
+                    name: '赵晓',
+                    avatar: '../img/test.png',
+                    phone: '13512345678',
+                    status: 'confirmed',
+                    statusText: '已确认'
+                },
+                {
+                    id: 'p005',
+                    name: '刘芳',
+                    avatar: '../img/test.png',
+                    phone: '18687654321',
+                    status: 'confirmed',
+                    statusText: '已确认'
+                },
+                {
+                    id: 'p006',
+                    name: '陈小明',
+                    avatar: '../img/test.png',
+                    phone: '13798765432',
+                    status: 'cancelled',
+                    statusText: '已取消'
+                },
+                {
+                    id: 'p007',
+                    name: '杨光',
+                    avatar: '../img/test.png',
+                    phone: '15887654321',
+                    status: 'confirmed',
+                    statusText: '已确认'
+                },
+                {
+                    id: 'p008',
+                    name: '林小华',
+                    avatar: '../img/test.png',
+                    phone: '13612345678',
+                    status: 'confirmed',
+                    statusText: '已确认'
+                }
+            ];
         },
         
-        // 掩码手机号
-        maskPhone(phone) {
-            if (!phone) return '';
-            return phone.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2');
+        // 检查用户是否已报名
+        checkEnrollmentStatus() {
+            // 模拟从本地存储获取已报名行程ID列表
+            this.enrolledTripIds = JSON.parse(localStorage.getItem('enrolledTripIds') || '[]');
+            
+            // 也可以使用以下固定列表进行测试
+            const testEnrolledTripIds = ['101', 'trip002'];
+            
+            // 检查当前行程是否在已报名列表中
+            this.isEnrolled = testEnrolledTripIds.includes(this.tripId);
+            
+            // 从URL获取source参数，如果是从行程列表页进入，则视为已报名
+            const urlParams = new URLSearchParams(window.location.search);
+            const source = urlParams.get('source');
+            if (source === 'list') {
+                this.isEnrolled = true;
+            }
         },
         
-        // 联系参与者
-        contactParticipant(participantId) {
-            // 实际项目中应该跳转到聊天页面或显示联系方式
-            this.showToast('聊天功能即将上线');
-        },
-        
-        // 分享行程
-        shareTrip() {
-            this.showToast('分享功能即将上线');
-        },
-        
-        // 通知所有参与者
-        notifyParticipants() {
-            this.showToast('通知功能即将上线');
+        // 检查是否需要显示筛选标签
+        checkFilters() {
+            // 如果有不同状态的参与者，才显示筛选标签
+            const statuses = new Set(this.participants.map(p => p.status));
+            this.hasFilters = statuses.size > 1;
         },
         
         // 显示提示信息
@@ -150,187 +251,6 @@ createApp({
                     }, 300);
                 }, 2000);
             }, 100);
-        },
-        
-        // 加载行程详情
-        loadTripDetail(tripId) {
-            // 实际项目中应该从API获取数据
-            // 这里使用模拟数据
-            const tripData = {
-                101: {
-                    id: 101,
-                    title: '珠海长隆海洋王国亲子2日游',
-                    description: '跟随网红达人小丽一起探索珠海长隆海洋王国的奇妙世界，近距离接触海洋生物，观看精彩表演，体验刺激游乐设施。适合亲子家庭，将为您的孩子带来难忘的海洋探索之旅。',
-                    destination: '珠海长隆海洋王国',
-                    date: '2024-06-15',
-                    duration: '2天1晚',
-                    images: ['../img/test.png', '../img/test.png', '../img/test.png'],
-                    currentParticipants: 27,
-                    maxParticipants: 30,
-                    enrollmentDeadline: '2024-06-10',
-                    status: {
-                        type: 'hot',
-                        text: '热门'
-                    },
-                    isFull: false
-                },
-                102: {
-                    id: 102,
-                    title: '珠海外伶仃岛探险之旅',
-                    description: '跟随探险家小美一起探索珠海最美海岛——外伶仃岛。体验海岛风光，参与各种户外活动，拍摄精彩内容。适合户外探险爱好者和自然风光摄影师。',
-                    destination: '珠海外伶仃岛',
-                    date: '2024-06-22',
-                    duration: '3天2晚',
-                    images: ['../img/test.png', '../img/test.png', '../img/test.png'],
-                    currentParticipants: 18,
-                    maxParticipants: 25,
-                    enrollmentDeadline: '2024-06-15',
-                    status: {
-                        type: 'new',
-                        text: '新上线'
-                    },
-                    isFull: false
-                },
-                103: {
-                    id: 103,
-                    title: '珠海情侣路摄影之旅',
-                    description: '跟随摄影师阿杰探索珠海最浪漫的情侣路，捕捉日落、海景和城市风光。适合摄影爱好者和风光类内容创作者，将为您提供专业的摄影指导和创作建议。',
-                    destination: '珠海情侣路',
-                    date: '2024-06-19',
-                    duration: '1天',
-                    images: ['../img/test.png', '../img/test.png', '../img/test.png'],
-                    currentParticipants: 12,
-                    maxParticipants: 15,
-                    enrollmentDeadline: '2024-06-15',
-                    status: {
-                        type: 'limited',
-                        text: '即将满员'
-                    },
-                    isFull: false
-                },
-                105: {
-                    id: 105,
-                    title: '珠海海泉湾温泉度假体验',
-                    description: '跟随生活方式博主小雨一起探索珠海海泉湾度假区，体验世界级温泉SPA，享受高端度假服务，拍摄精美内容。适合生活方式、旅行和度假类内容创作者。',
-                    destination: '珠海海泉湾',
-                    date: '2024-07-12',
-                    duration: '3天2晚',
-                    images: ['../img/test.png', '../img/test.png', '../img/test.png'],
-                    currentParticipants: 8,
-                    maxParticipants: 20,
-                    enrollmentDeadline: '2024-07-05',
-                    status: {
-                        type: 'new',
-                        text: '新上线'
-                    },
-                    isFull: false
-                }
-            };
-            
-            // 获取行程数据
-            const trip = tripData[tripId];
-            
-            if (trip) {
-                this.trip = trip;
-                this.loadParticipants(tripId);
-            } else {
-                this.showToast('未找到行程信息');
-                setTimeout(() => {
-                    window.location.href = 'trip-management.html';
-                }, 1500);
-            }
-        },
-        
-        // 加载参与者数据
-        loadParticipants(tripId) {
-            // 实际项目中应该从API获取数据
-            // 这里使用模拟数据
-            setTimeout(() => {
-                // 生成模拟参与者数据
-                const participantsData = [];
-                
-                // 根据行程的当前参与者数量生成模拟数据
-                const totalParticipants = this.trip.currentParticipants;
-                
-                // 已支付的参与者（约70%）
-                const paidCount = Math.floor(totalParticipants * 0.7);
-                for (let i = 0; i < paidCount; i++) {
-                    participantsData.push({
-                        id: 10000 + i,
-                        name: `用户${10000 + i}`,
-                        avatar: '../img/avatar.png',
-                        phone: `1${Math.floor(Math.random() * 9 + 1)}${Math.floor(Math.random() * 10000000 + 10000000)}`,
-                        status: 'paid',
-                        enrollTime: this.getRandomDate()
-                    });
-                }
-                
-                // 待支付的参与者（约20%）
-                const pendingCount = Math.floor(totalParticipants * 0.2);
-                for (let i = 0; i < pendingCount; i++) {
-                    participantsData.push({
-                        id: 20000 + i,
-                        name: `用户${20000 + i}`,
-                        avatar: '../img/avatar.png',
-                        phone: `1${Math.floor(Math.random() * 9 + 1)}${Math.floor(Math.random() * 10000000 + 10000000)}`,
-                        status: 'pending',
-                        enrollTime: this.getRandomDate()
-                    });
-                }
-                
-                // 已取消的参与者（约10%）
-                const cancelledCount = totalParticipants - paidCount - pendingCount;
-                for (let i = 0; i < cancelledCount; i++) {
-                    participantsData.push({
-                        id: 30000 + i,
-                        name: `用户${30000 + i}`,
-                        avatar: '../img/avatar.png',
-                        phone: `1${Math.floor(Math.random() * 9 + 1)}${Math.floor(Math.random() * 10000000 + 10000000)}`,
-                        status: 'cancelled',
-                        enrollTime: this.getRandomDate()
-                    });
-                }
-                
-                // 按报名时间排序
-                this.participants = participantsData.sort((a, b) => {
-                    return new Date(b.enrollTime) - new Date(a.enrollTime);
-                });
-                
-                this.loading = false;
-            }, 800);
-        },
-        
-        // 生成随机日期（最近30天内）
-        getRandomDate() {
-            const now = new Date();
-            const daysAgo = Math.floor(Math.random() * 30);
-            const randomDate = new Date(now.getTime() - daysAgo * 24 * 60 * 60 * 1000);
-            
-            return randomDate.toLocaleString('zh-CN', {
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit'
-            });
-        },
-        
-        // 初始化页面
-        initPage() {
-            // 从URL获取行程ID
-            const urlParams = new URLSearchParams(window.location.search);
-            this.tripId = parseInt(urlParams.get('id'));
-            
-            if (this.tripId) {
-                // 加载行程详情
-                this.loadTripDetail(this.tripId);
-            } else {
-                this.showToast('行程ID无效');
-                setTimeout(() => {
-                    window.location.href = 'trip-management.html';
-                }, 1500);
-            }
         }
     },
     mounted() {

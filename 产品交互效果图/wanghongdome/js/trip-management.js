@@ -25,32 +25,56 @@ createApp({
     computed: {
         // 根据当前选中的标签过滤行程
         filteredTrips() {
-            if (this.activeTab === 'all') {
-                return this.trips;
-            }
-            
             const today = new Date();
+            let result = [];
             
-            return this.trips.filter(trip => {
+            // 根据选择的标签过滤行程并更新状态
+            this.trips.forEach(trip => {
                 const tripDate = new Date(trip.date);
                 const endDate = new Date(tripDate);
                 
                 // 根据行程时长计算结束日期
-                if (trip.duration.includes('天')) {
+                if (typeof trip.duration === 'string' && trip.duration.includes('天')) {
                     const days = parseInt(trip.duration);
                     endDate.setDate(endDate.getDate() + days - 1);
                 }
                 
-                if (this.activeTab === 'upcoming') {
-                    return tripDate > today;
-                } else if (this.activeTab === 'ongoing') {
-                    return tripDate <= today && endDate >= today;
-                } else if (this.activeTab === 'completed') {
-                    return endDate < today;
+                // 创建行程副本，以便修改状态
+                const tripCopy = { ...trip };
+                
+                // 根据时间确定行程状态类型
+                if (tripDate > today) {
+                    // 即将开始的行程
+                    tripCopy.timeStatus = 'upcoming';
+                    
+                    // 根据报名情况设置状态显示
+                    const ratio = tripCopy.currentParticipants / tripCopy.maxParticipants;
+                    if (ratio === 1) {
+                        tripCopy.status = { type: 'hot', text: '名额已满' };
+                    } else if (ratio >= 0.8) {
+                        tripCopy.status = { type: 'hot', text: '即将满员' };
+                    } else if (tripCopy.currentParticipants < 3) {
+                        tripCopy.status = { type: 'new', text: '新上线' };
+                    } else {
+                        tripCopy.status = { type: 'recruiting', text: '报名中' };
+                    }
+                } else if (endDate >= today) {
+                    // 进行中的行程
+                    tripCopy.timeStatus = 'ongoing';
+                    tripCopy.status = { type: 'ongoing', text: '进行中' };
+                } else {
+                    // 已结束的行程
+                    tripCopy.timeStatus = 'completed';
+                    tripCopy.status = { type: 'completed', text: '已结束' };
                 }
                 
-                return true;
+                // 根据当前选择的标签过滤行程
+                if (this.activeTab === 'all' || tripCopy.timeStatus === this.activeTab) {
+                    result.push(tripCopy);
+                }
             });
+            
+            return result;
         },
         
         // 是否有行程
@@ -162,7 +186,7 @@ createApp({
                         enrollmentDeadline: '2024-06-10',
                         status: {
                             type: 'hot',
-                            text: '热门'
+                            text: '即将满员'
                         },
                         isFull: false
                     },
@@ -230,9 +254,29 @@ createApp({
                 
                 this.loading = false;
             }, 500);
+        },
+        
+        /**
+         * 检查用户登录状态
+         * 未登录则重定向到登录页面
+         */
+        checkLoginStatus() {
+            // 检查是否已登录
+            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            
+            if (!isLoggedIn) {
+                // 保存当前页面URL作为重定向目标
+                const currentUrl = window.location.href;
+                
+                // 跳转到登录页面，并带上重定向参数
+                window.location.href = `login.html?redirect=${encodeURIComponent(currentUrl)}`;
+            }
         }
     },
     mounted() {
+        // 检查用户登录状态
+        this.checkLoginStatus();
+        
         // 加载行程数据
         this.loadTrips();
     }

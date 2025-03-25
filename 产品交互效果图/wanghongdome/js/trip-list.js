@@ -19,6 +19,15 @@ createApp({
             // 用户已报名的行程ID列表
             enrolledTripIds: [101, 105], // 模拟数据，实际应从API获取
             
+            // 页面标题
+            pageTitle: '行程列表',
+            
+            // 页面来源
+            source: 'main', // 可能的值: 'main'(主页面), 'destination'(目的地), 'profile'(个人中心)
+            
+            // 是否显示底部导航栏
+            showBottomNav: true,
+            
             // 行程列表
             trips: [
                 {
@@ -30,6 +39,7 @@ createApp({
                     commission: '1,280',
                     currentParticipants: 27,
                     maxParticipants: 30,
+                    hasInfluencer: true,
                     requirements: ['粉丝数10万+', '亲子类内容创作者优先'],
                     tags: ['热门', '亲子'],
                     status: {
@@ -47,6 +57,7 @@ createApp({
                     commission: '1,500',
                     currentParticipants: 18,
                     maxParticipants: 25,
+                    hasInfluencer: false,
                     requirements: ['粉丝数8万+', '擅长户外探险内容创作'],
                     tags: ['高佣金', '探险'],
                     status: {
@@ -151,10 +162,72 @@ createApp({
                         text: '限量'
                     }
                 }
-            ]
+            ],
+            
+            // 已结束行程数据
+            completedTrips: [
+                {
+                    id: "trip101",
+                    title: "厦门鼓浪屿3日游",
+                    location: "厦门",
+                    date: "2023-07-10",
+                    image: "../img/test.png",
+                    commission: 2200,
+                    participants: 18,
+                    maxParticipants: 20,
+                    rating: 4.8,
+                    content: 15,
+                    status: "completed"
+                },
+                {
+                    id: "trip102",
+                    title: "成都大熊猫基地体验",
+                    location: "成都",
+                    date: "2023-06-25",
+                    image: "../img/test.png",
+                    commission: 1800,
+                    participants: 12,
+                    maxParticipants: 15,
+                    rating: 4.6,
+                    content: 10,
+                    status: "completed"
+                },
+                {
+                    id: "trip103",
+                    title: "黄山日出摄影行",
+                    location: "黄山",
+                    date: "2023-05-15",
+                    image: "../img/test.png",
+                    commission: 3200,
+                    participants: 8,
+                    maxParticipants: 10,
+                    rating: 4.9,
+                    content: 25,
+                    status: "completed"
+                },
+                {
+                    id: "trip104",
+                    title: "青岛啤酒节狂欢之旅",
+                    location: "青岛",
+                    date: "2023-07-28",
+                    image: "../images/trips/qingdao.jpg",
+                    commission: 2500,
+                    participants: 22,
+                    maxParticipants: 25,
+                    rating: 4.7,
+                    content: 18,
+                    status: "completed"
+                }
+            ],
+
+            // 已结束行程展示相关
+            showAllCompletedTrips: false,
+            completedTripsLimit: 2
         }
     },
     computed: {
+
+        
         // 即将开始的行程（用户已报名的行程）
         upcomingTrips() {
             return this.trips.filter(trip => 
@@ -191,9 +264,21 @@ createApp({
                 
                 return matchesSearch && matchesTag;
             });
+        },
+
+        // 展示的已结束行程
+        displayedCompletedTrips() {
+            return this.showAllCompletedTrips ? 
+                this.completedTrips : 
+                this.completedTrips.slice(0, this.completedTripsLimit);
         }
     },
     methods: {
+
+        // 返回上一页
+        goBack() {
+            window.history.back();
+        },
         // 切换搜索区域显示/隐藏
         toggleSearchBar() {
             this.isSearchVisible = !this.isSearchVisible;
@@ -222,9 +307,69 @@ createApp({
             this.selectedTag = tag;
         },
         
-        // 查看行程详情
-        viewTripDetail(tripId) {
-            window.location.href = `trip-detail.html?id=${tripId}`;
+        /**
+         * 查看行程详情
+         * @param {string} tripId 行程ID
+         * @param {number} index 行程在列表中的索引
+         */
+        viewTripDetail(tripId, index) {
+            // 使用AppRouter导航到列表相关的行程详情页
+            if (window.AppRouter) {
+                // 获取当前应用的筛选条件
+                const filters = [];
+                
+                // 如果有搜索关键词
+                if (this.searchQuery) {
+                    filters.push({
+                        name: '搜索',
+                        value: this.searchQuery
+                    });
+                }
+                
+                // 如果选择了标签
+                if (this.selectedTag && this.selectedTag !== '全部') {
+                    filters.push({
+                        name: '标签',
+                        value: this.selectedTag
+                    });
+                }
+                
+                // 如果选择了排序方式
+                if (this.sortBy !== 'default') {
+                    const sortNames = {
+                        'date': '日期优先',
+                        'commission': '佣金优先',
+                        'popularity': '热度优先'
+                    };
+                    
+                    filters.push({
+                        name: '排序',
+                        value: sortNames[this.sortBy] || this.sortBy
+                    });
+                }
+                
+                window.AppRouter.goToTripFromList(
+                    tripId,
+                    index || this.trips.findIndex(trip => trip.id === tripId),
+                    this.trips.length,
+                    filters
+                );
+                return;
+            }
+            
+            // 判断行程是否已完成
+            const completedTrip = this.completedTrips.find(trip => trip.id === tripId);
+            if (completedTrip) {
+                // 如果是已完成的行程，跳转到行程记录页面
+                this.viewTripRecord(tripId);
+                return;
+            }
+            
+            // 检查是否已报名
+            const isEnrolled = this.enrolledTripIds.includes(tripId);
+            
+            // 兼容旧版：直接导航到行程详情页，添加source=list参数
+            window.location.href = `trip-detail.html?id=${tripId}&source=list`;
         },
         
         // 重置筛选条件
@@ -264,15 +409,40 @@ createApp({
             // 检查URL参数
             const urlParams = new URLSearchParams(window.location.search);
             const destinationId = urlParams.get('destination');
+            const destinationName = urlParams.get('destinationName');
+            const source = urlParams.get('source');
+            
+            // 根据source参数设置页面来源
+            if (source) {
+                this.source = source;
+                
+                // 如果来源不是主页面，则不显示底部导航栏
+                if (source !== 'main') {
+                    this.showBottomNav = false;
+                }
+            }
             
             if (destinationId) {
                 // 如果有目的地ID参数，根据目的地ID过滤行程
                 // 实际项目中应该从API获取数据
-                // 这里简单模拟，根据目的地ID设置搜索关键词
-                const destination = this.getDestinationById(destinationId);
-                if (destination) {
-                    this.searchQuery = destination.name;
+                
+                // 如果URL提供了目的地名称，直接使用
+                if (destinationName) {
+                    this.searchQuery = destinationName;
+                    this.pageTitle = destinationName + ' - 行程';
                     this.isSearchVisible = true; // 如果有搜索参数，显示搜索区域
+                    this.source = 'destination'; // 设置来源为目的地
+                    this.showBottomNav = false; // 来自目的地的不显示底部导航
+                } else {
+                    // 否则尝试从本地数据获取目的地名称
+                    const destination = this.getDestinationById(destinationId);
+                    if (destination) {
+                        this.searchQuery = destination.name;
+                        this.pageTitle = destination.name + ' - 行程';
+                        this.isSearchVisible = true; // 如果有搜索参数，显示搜索区域
+                        this.source = 'destination'; // 设置来源为目的地
+                        this.showBottomNav = false; // 来自目的地的不显示底部导航
+                    }
                 }
             }
             
@@ -285,6 +455,30 @@ createApp({
             
             // 添加滚动事件监听
             window.addEventListener('scroll', this.handleScroll);
+            
+            // 调整显示内容
+            this.adjustContentBySource();
+        },
+        
+        // 根据来源调整页面内容
+        adjustContentBySource() {
+            // 根据来源调整页面内容
+            if (this.source === 'profile') {
+                // 个人中心只显示用户已报名的行程
+                this.pageTitle = '我的行程';
+                // 不显示推荐行程
+                // 这里不直接操作DOM，而是通过条件渲染控制
+            } else if (this.source === 'destination') {
+                // 目的地页面显示筛选后的行程
+                // 不显示底部导航栏
+                this.showBottomNav = false;
+            }
+            
+            // 如果底部导航栏需要隐藏，移除iframe
+            if (!this.showBottomNav) {
+                // 通过Vue的响应式系统控制显示/隐藏
+                // 实际渲染由HTML模板控制
+            }
         },
         
         // 根据ID获取目的地信息
