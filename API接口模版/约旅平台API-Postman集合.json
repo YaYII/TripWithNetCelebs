@@ -1,0 +1,881 @@
+{
+  "info": {
+    "name": "约旅平台API接口集合",
+    "description": "约旅平台前后端API接口测试集合",
+    "version": "1.0.0",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{access_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "https://api.yuelu.com",
+      "type": "string"
+    },
+    {
+      "key": "dev_base_url",
+      "value": "https://dev-api.yuelu.com",
+      "type": "string"
+    },
+    {
+      "key": "access_token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "user_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "celebrity_id",
+      "value": "2001",
+      "type": "string"
+    },
+    {
+      "key": "booking_id",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. 认证接口",
+      "item": [
+        {
+          "name": "用户登录",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phone\": \"13800138000\",\n  \"password\": \"123456\",\n  \"type\": \"user\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "auth", "login"]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    if (response.code === 200) {",
+                  "        pm.collectionVariables.set('access_token', response.data.access_token);",
+                  "        pm.collectionVariables.set('user_id', response.data.user_info.id);",
+                  "        pm.test('登录成功', function () {",
+                  "            pm.expect(response.data.access_token).to.not.be.empty;",
+                  "        });",
+                  "    }",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "微信登录",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"wx_login_code_here\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/auth/wx-login",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "auth", "wx-login"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "刷新Token",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refresh_token\": \"{{refresh_token}}\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/auth/refresh",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "auth", "refresh"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "2. 用户管理",
+      "item": [
+        {
+          "name": "用户注册",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phone\": \"13800138001\",\n  \"password\": \"123456\",\n  \"sms_code\": \"123456\",\n  \"nickname\": \"新用户\",\n  \"gender\": 1,\n  \"birthday\": \"1990-01-01\",\n  \"city\": \"北京市\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/users/register",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "users", "register"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "获取用户信息",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/users/profile",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "users", "profile"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "更新用户信息",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nickname\": \"更新昵称\",\n  \"avatar\": \"https://cdn.yuelu.com/avatar/new.jpg\",\n  \"city\": \"上海市\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/users/profile",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "users", "profile"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "发送短信验证码",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phone\": \"13800138000\",\n  \"type\": \"register\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/users/send-sms",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "users", "send-sms"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "3. 网红管理",
+      "item": [
+        {
+          "name": "网红列表",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/celebrities?page=1&page_size=10&city=北京市&category=美食&sort=rating&order=desc",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "celebrities"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "page_size",
+                  "value": "10"
+                },
+                {
+                  "key": "city",
+                  "value": "北京市"
+                },
+                {
+                  "key": "category",
+                  "value": "美食"
+                },
+                {
+                  "key": "sort",
+                  "value": "rating"
+                },
+                {
+                  "key": "order",
+                  "value": "desc"
+                }
+              ]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    if (response.code === 200 && response.data.list.length > 0) {",
+                  "        pm.collectionVariables.set('celebrity_id', response.data.list[0].id);",
+                  "    }",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "网红详情",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/celebrities/{{celebrity_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "celebrities", "{{celebrity_id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "网红服务项目",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/celebrities/{{celebrity_id}}/services",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "celebrities", "{{celebrity_id}}", "services"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "网红可预约时间",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/celebrities/{{celebrity_id}}/schedule?date=2024-01-25",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "celebrities", "{{celebrity_id}}", "schedule"],
+              "query": [
+                {
+                  "key": "date",
+                  "value": "2024-01-25"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "4. 旅行服务",
+      "item": [
+        {
+          "name": "创建预订",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"celebrity_id\": {{celebrity_id}},\n  \"service_id\": 3001,\n  \"booking_date\": \"2024-01-25\",\n  \"booking_time\": \"09:00-13:00\",\n  \"people_count\": 2,\n  \"contact_name\": \"张三\",\n  \"contact_phone\": \"13800138000\",\n  \"special_requirements\": \"希望多介绍一些历史文化\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/bookings",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "bookings"]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    if (response.code === 200) {",
+                  "        pm.collectionVariables.set('booking_id', response.data.booking_id);",
+                  "    }",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "预订列表",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/bookings?page=1&page_size=20&status=all",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "bookings"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "page_size",
+                  "value": "20"
+                },
+                {
+                  "key": "status",
+                  "value": "all"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "预订详情",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/bookings/{{booking_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "bookings", "{{booking_id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "取消预订",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"行程变更\",\n  \"description\": \"临时有事无法出行\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/bookings/{{booking_id}}/cancel",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "bookings", "{{booking_id}}", "cancel"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "改期预订",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"new_date\": \"2024-01-28\",\n  \"new_time\": \"14:00-18:00\",\n  \"reason\": \"时间冲突\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/bookings/{{booking_id}}/reschedule",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "bookings", "{{booking_id}}", "reschedule"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "5. 支付接口",
+      "item": [
+        {
+          "name": "创建支付订单",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"booking_id\": \"{{booking_id}}\",\n  \"payment_method\": \"wechat_pay\",\n  \"client_type\": \"miniprogram\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/payments/create",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "payments", "create"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "支付状态查询",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/payments/{{payment_id}}/status",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "payments", "{{payment_id}}", "status"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "支付回调处理",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"payment_id\": \"{{payment_id}}\",\n  \"transaction_id\": \"wx20240120164500001\",\n  \"status\": \"paid\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/payments/callback",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "payments", "callback"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "6. 评价系统",
+      "item": [
+        {
+          "name": "提交评价",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"booking_id\": \"{{booking_id}}\",\n  \"celebrity_id\": {{celebrity_id}},\n  \"service_id\": 3001,\n  \"rating\": 5,\n  \"content\": \"非常棒的体验，网红很专业，推荐的美食都很好吃！\",\n  \"tags\": [\"专业\", \"热情\", \"准时\"]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/reviews",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "reviews"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "评价列表",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/reviews?celebrity_id={{celebrity_id}}&page=1&page_size=20",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "reviews"],
+              "query": [
+                {
+                  "key": "celebrity_id",
+                  "value": "{{celebrity_id}}"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "page_size",
+                  "value": "20"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "评价详情",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/reviews/{{review_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "reviews", "{{review_id}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "7. 消息通知",
+      "item": [
+        {
+          "name": "消息列表",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/notifications?type=all&status=all&page=1&page_size=20",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "notifications"],
+              "query": [
+                {
+                  "key": "type",
+                  "value": "all"
+                },
+                {
+                  "key": "status",
+                  "value": "all"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "page_size",
+                  "value": "20"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "标记已读",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"notification_ids\": [6001, 6002]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/notifications/mark-read",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "notifications", "mark-read"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "未读消息数量",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/notifications/unread-count",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "notifications", "unread-count"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "8. 数据统计",
+      "item": [
+        {
+          "name": "首页统计数据",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/statistics/dashboard",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "statistics", "dashboard"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "用户统计数据",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/statistics/user",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "statistics", "user"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "网红统计数据",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/statistics/celebrity/{{celebrity_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "statistics", "celebrity", "{{celebrity_id}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "9. 文件上传",
+      "item": [
+        {
+          "name": "上传头像",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": []
+                },
+                {
+                  "key": "type",
+                  "value": "avatar",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/upload/image",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "upload", "image"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "上传评价图片",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": []
+                },
+                {
+                  "key": "type",
+                  "value": "review",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/upload/image",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "upload", "image"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "10. 系统接口",
+      "item": [
+        {
+          "name": "获取城市列表",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/system/cities",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "system", "cities"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "获取分类列表",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/system/categories",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "system", "categories"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "系统配置",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/system/config",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "system", "config"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "版本检查",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/system/version?platform=miniprogram&version=1.0.0",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "system", "version"],
+              "query": [
+                {
+                  "key": "platform",
+                  "value": "miniprogram"
+                },
+                {
+                  "key": "version",
+                  "value": "1.0.0"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// 自动添加时间戳",
+          "pm.request.headers.add({",
+          "    key: 'X-Timestamp',",
+          "    value: Date.now().toString()",
+          "});",
+          "",
+          "// 自动添加请求ID",
+          "pm.request.headers.add({",
+          "    key: 'X-Request-ID',",
+          "    value: pm.variables.replaceIn('{{$randomUUID}}')",
+          "});"
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// 通用测试脚本",
+          "pm.test('响应状态码为200', function () {",
+          "    pm.response.to.have.status(200);",
+          "});",
+          "",
+          "pm.test('响应时间小于2000ms', function () {",
+          "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+          "});",
+          "",
+          "pm.test('响应格式为JSON', function () {",
+          "    pm.response.to.be.json;",
+          "});",
+          "",
+          "// 检查业务状态码",
+          "if (pm.response.code === 200) {",
+          "    const response = pm.response.json();",
+          "    pm.test('业务状态码正确', function () {",
+          "        pm.expect(response.code).to.be.oneOf([200, 201]);",
+          "    });",
+          "    ",
+          "    if (response.code !== 200) {",
+          "        console.log('业务错误:', response.message);",
+          "    }",
+          "}"
+        ]
+      }
+    }
+  ]
+} 
